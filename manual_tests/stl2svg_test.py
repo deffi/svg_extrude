@@ -38,7 +38,8 @@ with open(scad_file_name, "w") as file:
 
     for polygon in polygons:
         points_name = f"{polygon.name}_points"
-        scad_file.output(s.Assignment(points_name, polygon.points))
+        #scad_file.output(s.Assignment(points_name, polygon.points))
+        scad_file.assignment(points_name, polygon.points)
 
         for index, path in enumerate(polygon.paths):
             path_name = f"{polygon.name}_path_{index}"
@@ -66,5 +67,8 @@ with open(scad_file_name, "w") as file:
         instance = s.Instance(f"{polygon.name}_only")
         extrude = s.Extrude(thickness, instance)
         translate = s.Translate((0, 0, 0 * index * thickness), extrude)
-        o = s.Color(color, translate)
-        scad_file.output(o)
+        # o = s.Color(color, translate)
+        # scad_file.output(o)
+        
+        with scad_file.color(color) as color:
+            color.output(translate)
