@@ -31,35 +31,19 @@ class Polygon:
         index_list = [self._point_index(p) for p in points]
         self._paths.append(index_list)
 
-    def to_scad(self):
+    def render_lines(self, depth = 0):
         def path_string(path):
             return ", ".join(f"{index}" for index in path)
 
         points_string = ", ".join(p.to_scad() for p in self._point_indices)
 
-        if self.color is None:
-            color_string = ""
-        else:
-            color_string = f"color([{self.color.r}, {self.color.g}, {self.color.b}]) "
-
-        if self.offset:
-            offset_string = f"translate([0, 0, {self.offset}]) "
-        else:
-            offset_string = ""
-
-        extrude_string = f"linear_extrude({self.thickness}) "
-
-        lines = list()
-
-        # paths_string = "\n".join(f"[    {path_string}]" for path_string in path_strings)
-        lines.append(f"{color_string}{offset_string}{extrude_string}polygon(")
-        lines.append(f"    [{points_string}],")
-        lines.append(f"    [")
-        lines.append(",\n".join(f"     [{path_string(path)}]" for path in self._paths))
-        lines.append(f"    ]")
-        # lines.append(f"    [{paths_string}]]")
-        lines.append(f");")
-        return "\n".join(lines)
+        yield f"polygon(", depth
+        yield f"[{points_string}],", depth + 1
+        yield f"[", depth + 1
+        for path in self._paths:
+            yield f"[{path_string(path)}],", depth + 2
+        yield f"]", depth + 1
+        yield f");", depth
 
 
 if __name__ == "__main__":

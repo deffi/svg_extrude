@@ -32,3 +32,7 @@ class Color:
         if s is None: s = random.uniform(0, 1)
         if v is None: v = random.uniform(0, 1)
         return cls.from_hsv(h, s, v)
+
+    def to_scad(self):
+        components = (f"{c}" for c in self.rgb())
+        return f'[{", ".join(components)}]'
