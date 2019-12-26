@@ -26,6 +26,9 @@ class File:
     def assignment(self, name, value):
         self.print(f"{name} = {render(value)};")
 
+    def instance(self, name):
+        self.print(f"{name} ();")
+
     @contextmanager
     def color(self, color):
         self.print(f"color ({render(color.rgb())}) {{")
