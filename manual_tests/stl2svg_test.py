@@ -70,5 +70,5 @@ with open(scad_file_name, "w") as file:
         # o = s.Color(color, translate)
         # scad_file.output(o)
         
-        with scad_file.color(color) as color:
-            color.output(translate)
+        with scad_file.color(color):
+            scad_file.output(translate)

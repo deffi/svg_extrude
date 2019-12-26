@@ -5,6 +5,7 @@ class Color:
         self.color = color
         self.target = target
 
+    # TODO remove when no longer needed
     def render_lines(self, depth = 0):
         yield f"color ({render(self.color.rgb())}) {{", depth
         yield from self.target.render_lines(depth + 1)
