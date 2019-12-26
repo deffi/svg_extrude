@@ -1,12 +1,10 @@
 import cjlano_svg as svg
 from os import path
 
-from svg2stl.model import Polygon, Point, Color
+from svg2stl.model import Polygon, Point
 import svg2stl.scad as s
 from svg2stl.util import filter_repetition
-
-import tinycss2 as css
-import tinycss2.ast
+from svg2stl.css import extract_color
 
 px = 25.4 / 96
 
@@ -21,21 +19,12 @@ svg_paths = svg_picture.flatten()
 precision=1
 thickness=1
 
-def extract_color(svg_object):
-    style = svg_object.style
-    declarations = css.parse_declaration_list(style)
-    for declaration in declarations:
-        if isinstance(declaration, css.ast.Declaration):
-            if declaration.lower_name == "fill":
-                value = declaration.value[0]
-                if isinstance(value, css.ast.HashToken):
-                    return Color.from_html(value.value)
-    return None
-
 # Create the polygons
 polygons=list()
 for index, path in enumerate(svg_paths):
     polygon = Polygon(path.id)
+    # TODO color should not be part of the polygon - create a shape class that
+    # has the object names, the color, the polygon
     polygon.color = extract_color(path)
     for subpath in path.segments(precision):
         polygon.add_subpolygon((Point(p.x, -p.y) for p in filter_repetition(subpath)))
