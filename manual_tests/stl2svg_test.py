@@ -49,10 +49,17 @@ with open(scad_file_name, "w") as file:
         print(render(module), file=file)
 
     print(file=file)
+    for index in range(len(polygons)):
+        difference = s.Difference((s.Instance(p.name) for p in polygons[index:]))
+        name = f"{polygons[index].name}_only"
+        module = s.Module(name, [difference])
+        print(render(module), file=file)
+
+    print(file=file)
     for index, polygon in enumerate(polygons):
         color = Color.from_hsv(index / len(polygons), 1, 1)
-        instance = s.Line(f"{polygon.name} ();")
+        instance = s.Instance(f"{polygon.name}_only")
         extrude = s.Extrude(thickness, instance)
-        translate = s.Translate((0, 0, index * thickness), extrude)
+        translate = s.Translate((0, 0, 0 * index * thickness), extrude)
         o = s.Color(color, translate)
         print(render(o), file=file)
