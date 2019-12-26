@@ -32,3 +32,10 @@ class File:
         with self.indented():
             yield
         self.print("}")
+
+    @contextmanager
+    def translate(self, vector):
+        self.print(f"translate ({render(vector)}) {{")
+        with self.indented():
+            yield
+        self.print("}")
