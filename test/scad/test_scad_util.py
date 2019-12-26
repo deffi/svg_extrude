@@ -1,7 +1,7 @@
 import unittest
 
 from svg2stl.model import Point
-from svg2stl.scad.util import render
+from svg2stl.scad import render
 
 
 class TestScadUtil(unittest.TestCase):

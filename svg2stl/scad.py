@@ -1,6 +1,27 @@
 from contextlib import contextmanager
+from numbers import Number
 
-from svg2stl.scad import render
+
+def render(value):
+    """Renders a value to OpenSCAD representation
+
+    The following types are supported:
+      * numbers.Number - rendered as literal
+      * list and tuple - rendered recursively as vectors
+      * model.Point - by virtue of being a (named)tuple
+
+    Other types raise a ValueError.
+    """
+
+    if isinstance(value, Number):
+        return f"{value}"
+    elif isinstance(value, (list, tuple)):
+        return f'[{", ".join(render(v) for v in value)}]'
+    elif isinstance(value, str):
+        # TODO do we need an Identifier class? A Text class with escaping?
+        return value
+    else:
+        raise ValueError(f"Don't know how to render {value!r}")
 
 
 class File:
@@ -11,11 +32,6 @@ class File:
 
     def print(self, *args):
         print(self._indent * self._depth + str(args[0]), *args[1:], file=self._file)
-
-    # TODO remove when no longer needed
-    def output(self, target):
-        for line, depth in target.render_lines():
-            self.print(self._indent * depth + line)
 
     @contextmanager
     def indented(self):
@@ -70,7 +86,7 @@ class File:
             yield
 
     def polygon(self, polygon, points, paths):
-        points = points or render(self._polygon.points)
+        points = points or render(polygon.points)
         short_paths = (paths is not None)
         paths = paths or list(map(render, polygon.paths))
 
