@@ -49,3 +49,23 @@ class File:
         with self.indented():
             yield
         self.print("}")
+
+    @contextmanager
+    def module(self, name):
+        self.print(f"module {name} () {{")
+        with self.indented():
+            yield
+        self.print("}")
+
+    @contextmanager
+    def csg(self, type):
+        self.print(f"{type} () {{")
+        with self.indented():
+            yield
+        self.print("}")
+
+    @contextmanager
+    def difference(self):
+        with self.csg("difference"):
+            yield
+

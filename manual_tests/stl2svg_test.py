@@ -49,15 +49,17 @@ with open(scad_file_name, "w") as file:
         points_name = f"{polygon.name}_points"
         path_names = (f"{polygon.name}_path_{index}" for index, path in enumerate(polygon.paths))
         poly = s.Polygon(polygon, points_name, path_names)
-        module = s.Module(polygon.name, [poly])
-        scad_file.output(module)
+        with scad_file.module(polygon.name):
+            scad_file.output(poly)
 
     print(file=file)
     for index in range(len(polygons)):
         difference = s.Difference((s.Instance(p.name) for p in polygons[index:]))
         name = f"{polygons[index].name}_only"
-        module = s.Module(name, [difference])
-        scad_file.output(module)
+        # module = s.Module(name, [difference])
+        #scad_file.output(module)
+        with scad_file.module(name):
+            scad_file.output(difference)
 
     print(file=file)
     for index, polygon in enumerate(polygons):
