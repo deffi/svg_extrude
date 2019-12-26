@@ -3,7 +3,7 @@ from os import path
 
 from svg2stl.model import Polygon, Point, Color
 import svg2stl.scad as s
-from svg2stl.util import filter_repetition, render_lines
+from svg2stl.util import filter_repetition
 
 import tinycss2 as css
 import tinycss2.ast
@@ -42,18 +42,18 @@ for index, path in enumerate(svg_paths):
     polygons.append(polygon)
 
 
-def render(target):
-    return render_lines(target.render_lines(), "", "    ")
 
 
 with open(scad_file_name, "w") as file:
+    scad_file = s.File(file)
+
     for polygon in polygons:
         points_name = f"{polygon.name}_points"
-        print(render(s.Assignment(points_name, polygon.points)), file=file)
+        scad_file.output(s.Assignment(points_name, polygon.points))
 
         for index, path in enumerate(polygon.paths):
             path_name = f"{polygon.name}_path_{index}"
-            print(render(s.Assignment(path_name, path)), file=file)
+            scad_file.output(s.Assignment(path_name, path))
 
     print(file=file)
     for index, polygon in enumerate(polygons):
@@ -61,14 +61,14 @@ with open(scad_file_name, "w") as file:
         path_names = (f"{polygon.name}_path_{index}" for index, path in enumerate(polygon.paths))
         poly = s.Polygon(polygon, points_name, path_names)
         module = s.Module(polygon.name, [poly])
-        print(render(module), file=file)
+        scad_file.output(module)
 
     print(file=file)
     for index in range(len(polygons)):
         difference = s.Difference((s.Instance(p.name) for p in polygons[index:]))
         name = f"{polygons[index].name}_only"
         module = s.Module(name, [difference])
-        print(render(module), file=file)
+        scad_file.output(module)
 
     print(file=file)
     for index, polygon in enumerate(polygons):
@@ -78,4 +78,4 @@ with open(scad_file_name, "w") as file:
         extrude = s.Extrude(thickness, instance)
         translate = s.Translate((0, 0, 0 * index * thickness), extrude)
         o = s.Color(color, translate)
-        print(render(o), file=file)
+        scad_file.output(o)

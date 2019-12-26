@@ -9,3 +9,4 @@ from .module import Module
 from .translate import Translate
 from .csg import Csg, Difference
 from .instance import Instance
+from .file import File

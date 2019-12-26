@@ -1,5 +1,4 @@
 Implementation:
-  * Use an ScadFile class
   * Potentially replace the Scad classes with ScadFile methods
   * Potentially use Cadlib instead
 
