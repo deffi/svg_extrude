@@ -8,6 +8,8 @@ class Polygon:
         self._points = points
         self._paths = paths
 
+        self.color = None
+
     def render_lines(self, depth = 0):
         if self._points:
             points = self._points

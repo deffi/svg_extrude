@@ -8,6 +8,9 @@ class Color:
         self._g = 0
         self._b = 0
 
+    def __repr__(self):
+        return f"Color.from_rgb({self._r}, {self._g}, {self._b})"
+
     def rgb(self):
         return (self._r, self._g, self._b)
 
@@ -25,6 +28,17 @@ class Color:
     @classmethod
     def from_hsv(cls, h, s, v):
         return cls.from_rgb(*colorsys.hsv_to_rgb(h, s, v))
+
+    @classmethod
+    def from_html(cls, html):
+        if len(html) != 6:
+            raise ValueError(f"Unrecognized HTML color: {html}")
+
+        r = int(html[0:2], 16)
+        g = int(html[2:4], 16)
+        b = int(html[4:6], 16)
+
+        return cls.from_rgb(r/255, g/255, b/255)
 
     @classmethod
     def random_hsv(cls, *, h = None, s = None, v = None):
