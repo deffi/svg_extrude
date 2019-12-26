@@ -1,3 +1,3 @@
 [submodule "3rdparty/cjlano_svg"]
 	path = 3rdparty/cjlano_svg
-	url = https://github.com/cjlano/svg.git
+	url = https://github.com/deffi/cjlano_svg.git
