@@ -1,0 +1,11 @@
+Implementation:
+  * Use an ScadFile class
+  * Potentially replace the Scad classes with ScadFile methods
+  * Potentially use Cadlib instead
+
+Functionality:
+  * Group and colorize by SVG color
+  * Export individual color groups to Scad/STL files
+
+Organization:
+  * Make SvgToScad usable on its own
