@@ -19,10 +19,10 @@ class Polygon:
         else:
             paths = map(render, self._polygon.paths)
 
-        yield f"polygon (", depth
-        yield f"{points},", depth + 1
-        yield f"[", depth + 1
-        for path in paths:
-            yield f"{path},", depth + 2
-        yield f"]", depth + 1
-        yield f");", depth
+        if self._paths:
+            yield(f"polygon ({points}, {render(list(self._paths))});"), depth
+        else:
+            yield f"polygon ({points}, [", depth
+            for path in self._polygon.paths:
+               yield f"{render(path)},", depth + 1
+            yield f"]);", depth

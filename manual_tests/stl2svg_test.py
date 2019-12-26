@@ -33,13 +33,20 @@ def render(target):
 
 with open(scad_file_name, "w") as file:
     for polygon in polygons:
-        print(render(s.Line(f"{polygon.name}_points = {s.render(polygon.points)};")), file=file)
+        points_name = f"{polygon.name}_points"
+        print(render(s.Assignment(points_name, polygon.points)), file=file)
+
+        for index, path in enumerate(polygon.paths):
+            path_name = f"{polygon.name}_path_{index}"
+            print(render(s.Assignment(path_name, path)), file=file)
 
     print(file=file)
 
     for index, polygon in enumerate(polygons):
         color = Color.from_hsv(index / len(polygons), 1, 1)
-        poly = s.Polygon(polygon, f"{polygon.name}_points", None)
+        points_name = f"{polygon.name}_points"
+        path_names = (f"{polygon.name}_path_{index}" for index, path in enumerate(polygon.paths))
+        poly = s.Polygon(polygon, points_name, path_names)
         extrude = s.Extrude(thickness, poly)
         o = s.Color(color, extrude)
         print(render(o), file=file)

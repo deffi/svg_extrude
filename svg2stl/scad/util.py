@@ -17,5 +17,8 @@ def render(value):
         return f"{value}"
     elif isinstance(value, (list, tuple)):
         return f'[{", ".join(render(v) for v in value)}]'
+    elif isinstance(value, str):
+        # TODO do we need an Identifier class? A Text class with escaping?
+        return value
     else:
         raise ValueError(f"Don't know how to render {value!r}")
