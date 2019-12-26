@@ -38,12 +38,11 @@ with open(scad_file_name, "w") as file:
 
     for polygon in polygons:
         points_name = f"{polygon.name}_points"
-        #scad_file.output(s.Assignment(points_name, polygon.points))
         scad_file.assignment(points_name, polygon.points)
 
         for index, path in enumerate(polygon.paths):
             path_name = f"{polygon.name}_path_{index}"
-            scad_file.output(s.Assignment(path_name, path))
+            scad_file.assignment(path_name, path)
 
     print(file=file)
     for index, polygon in enumerate(polygons):
