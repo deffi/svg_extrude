@@ -54,12 +54,10 @@ with open(scad_file_name, "w") as file:
 
     print(file=file)
     for index in range(len(polygons)):
-        difference = s.Difference((s.Instance(p.name) for p in polygons[index:]))
-        name = f"{polygons[index].name}_only"
-        # module = s.Module(name, [difference])
-        #scad_file.output(module)
-        with scad_file.module(name):
-            scad_file.output(difference)
+        with scad_file.module(f"{polygons[index].name}_only"):
+            with scad_file.difference():
+                for p in polygons[index:]:
+                    scad_file.instance(p.name)
 
     print(file=file)
     for index, polygon in enumerate(polygons):
