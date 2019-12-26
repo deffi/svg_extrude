@@ -39,3 +39,10 @@ class File:
         with self.indented():
             yield
         self.print("}")
+
+    @contextmanager
+    def extrude(self, thickness):
+        self.print(f"linear_extrude ({render(thickness)}) {{")
+        with self.indented():
+            yield
+        self.print("}")

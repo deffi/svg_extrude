@@ -64,11 +64,12 @@ with open(scad_file_name, "w") as file:
         #color = Color.from_hsv(index / len(polygons), 1, 1)
         color = polygon.color
         instance = s.Instance(f"{polygon.name}_only")
-        extrude = s.Extrude(thickness, instance)
+        # extrude = s.Extrude(thickness, instance)
         # translate = s.Translate((0, 0, 0 * index * thickness), extrude)
         # o = s.Color(color, translate)
         # scad_file.output(o)
         
         with scad_file.color(color):
             with scad_file.translate((0, 0, index * thickness)):
-                scad_file.output(extrude)
+                with scad_file.extrude(thickness):
+                    scad_file.output(instance)
