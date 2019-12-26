@@ -69,3 +69,16 @@ class File:
         with self.csg("difference"):
             yield
 
+    def polygon(self, polygon, points, paths):
+        points = points or render(self._polygon.points)
+        short_paths = (paths is not None)
+        paths = paths or list(map(render, polygon.paths))
+
+        if short_paths:
+            self.print(f"polygon ({points}, {render(list(paths))});")
+        else:
+            self.print(f"polygon ({points}, [")
+            with self.indented():
+                for path in paths:
+                   self.print(f"{render(path)},")
+            self.print("]);")

@@ -48,9 +48,8 @@ with open(scad_file_name, "w") as file:
     for index, polygon in enumerate(polygons):
         points_name = f"{polygon.name}_points"
         path_names = (f"{polygon.name}_path_{index}" for index, path in enumerate(polygon.paths))
-        poly = s.Polygon(polygon, points_name, path_names)
         with scad_file.module(polygon.name):
-            scad_file.output(poly)
+            scad_file.polygon(polygon, points_name, path_names)
 
     print(file=file)
     for index in range(len(polygons)):
