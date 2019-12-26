@@ -9,7 +9,7 @@ px = 25.4 / 96
 
 datapath = path.join("..", "testdata")
 outputpath = path.join(datapath, "output")
-svg_file_name = path.join(datapath, "test.svg")
+svg_file_name = path.join(datapath, "test2.svg")
 scad_file_name = path.join(outputpath, "output.scad")
 
 svg_picture = svg.parse(svg_file_name)
@@ -41,12 +41,18 @@ with open(scad_file_name, "w") as file:
             print(render(s.Assignment(path_name, path)), file=file)
 
     print(file=file)
-
     for index, polygon in enumerate(polygons):
-        color = Color.from_hsv(index / len(polygons), 1, 1)
         points_name = f"{polygon.name}_points"
         path_names = (f"{polygon.name}_path_{index}" for index, path in enumerate(polygon.paths))
         poly = s.Polygon(polygon, points_name, path_names)
-        extrude = s.Extrude(thickness, poly)
-        o = s.Color(color, extrude)
+        module = s.Module(polygon.name, [poly])
+        print(render(module), file=file)
+
+    print(file=file)
+    for index, polygon in enumerate(polygons):
+        color = Color.from_hsv(index / len(polygons), 1, 1)
+        instance = s.Line(f"{polygon.name} ();")
+        extrude = s.Extrude(thickness, instance)
+        translate = s.Translate((0, 0, index * thickness), extrude)
+        o = s.Color(color, translate)
         print(render(o), file=file)
