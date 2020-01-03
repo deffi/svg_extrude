@@ -1,3 +1,6 @@
+Tests:
+  * Not all tests are executed (?)
+
 Functionality:
   * Group and colorize by SVG color
   * Export individual color groups to Scad/STL files
