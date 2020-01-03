@@ -2,15 +2,10 @@ from svg2stl.model import Point
 
 
 class Polygon:
-    def __init__(self, name):
-        self.name = name
-
+    def __init__(self):
         self._points = list()
         self._paths = list()
         self._point_indices = dict()
-
-    def __repr__(self):
-        return f"Polygon({self.name})"
 
     def _point_index(self, point):
         # If we haven't seen the point yet, add it to the list
