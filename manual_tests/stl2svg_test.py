@@ -54,9 +54,9 @@ with open(scad_file_name, "w") as file:
     scad_file.blank_link()
     for group in groups:
         with scad_file.define_module(group.name):
-            with scad_file.union():
-                for shape in group.shapes:
-                    scad_file.instance(shape.module_only_name())
+            # Implicit union
+            for shape in group.shapes:
+                scad_file.instance(shape.module_only_name())
 
     # Instantiate the groups with their respective color
     scad_file.blank_link()
