@@ -50,7 +50,7 @@ class Color:
         return cls.from_rgb(r/255, g/255, b/255)
 
     def to_html(self):
-        return "xxyyzz"
+        return "".join(f"{round(x*255):02X}" for x in self.rgb())
 
     @classmethod
     def random_hsv(cls, *, h = None, s = None, v = None):

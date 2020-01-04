@@ -50,11 +50,17 @@ with open(scad_file_name, "w") as file:
                 scad_file.instance(shape.name)
                 scad_file.instances(s.name for s in remaining)
 
-    # Create the groups with their respective color, instantiating all shapes
+    # Create modules for the individual color groups
+    scad_file.blank_link()
+    for group in groups:
+        with scad_file.define_module(group.name):
+            with scad_file.union():
+                for shape in group.shapes:
+                    scad_file.instance(shape.module_only_name())
+
+    # Instantiate the groups with their respective color
     scad_file.blank_link()
     for group in groups:
         with scad_file.color(group.color):
             with scad_file.extrude(thickness):
-                with scad_file.union():
-                    for shape in group.shapes:
-                        scad_file.instance(shape.module_only_name())
+                scad_file.instance(group.name)
