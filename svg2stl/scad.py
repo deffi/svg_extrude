@@ -2,13 +2,26 @@ from contextlib import contextmanager
 from numbers import Number
 
 
+class StringLiteral(str):
+    pass
+
+
+class Identifier(str):
+    pass
+
+
 def render(value):
     """Renders a value to OpenSCAD representation
 
-    The following types are supported:
+    The following types are supported explicitly:
       * numbers.Number - rendered as literal
       * list and tuple - rendered recursively as vectors
-      * model.Point - by virtue of being a (named)tuple
+      * StringLiteral - rendered as string literal with quoting and escaping
+        (not implemented)
+      * Identifier - rendered as identifier without quoting or escaping
+
+    Also supported:
+      * model.Point - by virtue of being a (named)tuple of numbers
 
     Other types raise a ValueError.
     """
@@ -17,9 +30,12 @@ def render(value):
         return f"{value}"
     elif isinstance(value, (list, tuple)):
         return f'[{", ".join(render(v) for v in value)}]'
-    elif isinstance(value, str):
-        # TODO do we need an Identifier class? A Text class with escaping?
+    elif isinstance(value, Identifier):
         return value
+    elif isinstance(value, StringLiteral):
+        raise NotImplementedError("String escaping not implemented")
+    elif isinstance(value, str):
+        raise ValueError("Interpretation of str value is ambiguous. Use Identifier or StringLiteral class.")
     else:
         raise ValueError(f"Don't know how to render {value!r}")
 
@@ -101,7 +117,7 @@ class File:
         paths = paths or list(map(render, polygon.paths))
 
         if short_paths:
-            self.print(f"polygon ({points}, {render(list(paths))});")
+            self.print(f"polygon ({points}, {render(list(map(Identifier, paths)))});")
         else:
             self.print(f"polygon ({points}, [")
             with self.indented():
