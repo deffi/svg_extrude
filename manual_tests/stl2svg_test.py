@@ -3,6 +3,7 @@ from os import path
 
 from svg2stl.model import Shape
 from svg2stl.scad import File as ScadFile
+from svg2stl.util import with_remaining
 
 px = 25.4 / 96
 
@@ -32,15 +33,15 @@ with open(scad_file_name, "w") as file:
 
     scad_file.blank_link()
     for index, shape in enumerate(shapes):
-        with scad_file.module(shape.name):
+        with scad_file.define_module(shape.name):
             scad_file.polygon(shape.polygon, shape.points_name(), shape.path_names())
 
     scad_file.blank_link()
-    for index in range(len(shapes)):
-        with scad_file.module(shapes[index].module_only_name()):
+    for shape, remaining in with_remaining(shapes):
+        with scad_file.define_module(shape.module_only_name()):
             with scad_file.difference():
-                for s in shapes[index:]:
-                    scad_file.instance(s.name)
+                scad_file.instance(shape.name)
+                scad_file.instances(s.name for s in remaining)
 
     scad_file.blank_link()
     for index, shape in enumerate(shapes):

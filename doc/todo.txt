@@ -3,8 +3,9 @@ Tests:
 
 Functionality:
   * Group and colorize by SVG color
-  * Export individual color groups to Scad/STL files
-  * Allow
+  * Export individual color groups to Scad files
+  * Use OpenSCAD to create STL files
+  * Allow rounding off to specified color list
 
 Organization:
   * Make SvgToScad usable on its own

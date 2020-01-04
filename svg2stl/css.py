@@ -9,7 +9,8 @@ def extract_color(svg_object):
     for declaration in declarations:
         if isinstance(declaration, css.ast.Declaration):
             if declaration.lower_name == "fill":
-                value = declaration.value[0]
-                if isinstance(value, css.ast.HashToken):
-                    return Color.from_html(value.value)
+                if declaration.value:
+                    value = declaration.value[0]
+                    if isinstance(value, css.ast.HashToken):
+                        return Color.from_html(value.value)
     return None

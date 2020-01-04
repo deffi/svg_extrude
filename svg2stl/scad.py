@@ -51,6 +51,10 @@ class File:
     def instance(self, name):
         self.print(f"{name} ();")
 
+    def instances(self, names):
+        for name in names:
+            self.instance(name)
+
     @contextmanager
     def color(self, color):
         self.print(f"color ({render(color.rgb())}) {{")
@@ -73,7 +77,7 @@ class File:
         self.print("}")
 
     @contextmanager
-    def module(self, name):
+    def define_module(self, name):
         self.print(f"module {name} () {{")
         with self.indented():
             yield
@@ -102,5 +106,5 @@ class File:
             self.print(f"polygon ({points}, [")
             with self.indented():
                 for path in paths:
-                   self.print(f"{render(path)},")
+                    self.print(f"{render(path)},")
             self.print("]);")
