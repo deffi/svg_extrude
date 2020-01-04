@@ -2,7 +2,7 @@ from os import path
 
 import cjlano_svg as svg
 
-from svg2stl.model import Shape, Group
+from svg2stl.model import Shape, Group, Color
 from svg2stl.scad import File as ScadFile
 from svg2stl.util import with_remaining, groupby
 
@@ -19,11 +19,14 @@ svg_paths = svg_picture.flatten()
 precision=1
 thickness=1
 
+available_colors = [Color.from_hsv(i/6, 1, 1) for i in range(6)]
+
 
 # Create the shapes
 shapes = [Shape.from_svg_path(path, precision) for path in svg_paths]
 
 # Group the shapes by color
+# groups = Group.by_color(shapes, colormap=lambda color: color.closest_hsv(available_colors))
 groups = Group.by_color(shapes)
 
 print(f"Writing to {scad_file_name}")

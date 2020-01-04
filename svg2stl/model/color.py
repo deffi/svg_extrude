@@ -2,6 +2,9 @@ import colorsys
 import random
 
 
+from svg2stl.util import closest
+
+
 class Color:
     def __init__(self):
         self._r = 0
@@ -58,3 +61,17 @@ class Color:
         if s is None: s = random.uniform(0, 1)
         if v is None: v = random.uniform(0, 1)
         return cls.from_hsv(h, s, v)
+
+    def invert(self):
+        return Color.from_rgb(1 - self._r, 1 - self._g, 1 - self._b)
+
+    def closest_hsv(self, available):
+        def d_squared(a: Color, b: Color):
+            a = a.hsv()
+            b = b.hsv()
+            dh = 0.5 - abs(b[0] - a[0] - 0.5)  # Wrapping; TODO MH test
+            ds = b[1] - a[1]
+            dv = b[2] - a[2]
+            return dh**2 + ds**2 + dv**2
+
+        return closest(available, self, d_squared)

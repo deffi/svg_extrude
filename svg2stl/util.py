@@ -21,3 +21,19 @@ def groupby(items, key):
     for item in items:
         result[key(item)].append(item)
     return result
+
+# TODO default distance function
+def closest(candidates, value, distance):
+    if not candidates:
+        return None
+
+    closest = candidates[0]
+    closest_dist = distance(closest, value)
+
+    for candidate in candidates[1:]:
+        dist = distance(candidate, value)
+        if dist < closest_dist:
+            closest = candidate
+            closest_dist = dist
+
+    return closest

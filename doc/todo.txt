@@ -2,11 +2,10 @@ Tests:
   * Not all tests are executed (?)
 
 Functionality:
-  * Group and colorize by SVG color
-  * Export individual color groups to Scad files
   * Use OpenSCAD to create STL files
-  * Allow rounding off to specified color list
   * Warning if a polygon does not have evenodd fill rule
+  * Rounding colors with name, use name in file name and optionally in group
+    name
 
 Organization:
   * Make SvgToScad usable on its own
