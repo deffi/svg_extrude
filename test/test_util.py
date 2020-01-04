@@ -1,6 +1,6 @@
 import unittest
 
-from svg2stl.util import filter_repetition, with_remaining
+from svg2stl.util import filter_repetition, with_remaining, groupby
 
 
 class TestUtil(unittest.TestCase):
@@ -17,6 +17,14 @@ class TestUtil(unittest.TestCase):
             (3, [4]),
             (4, []),
         ])
+
+    def test_groupby(self):
+        self.assertEqual(groupby([1, 2, 3, 4, 5, 6, 10, 11, 12, 13], lambda x: x%3),
+                         {
+                             0: [3, 6, 12],
+                             1: [1, 4, 10, 13],
+                             2: [2, 5, 11],
+                         })
 
 
 if __name__ == '__main__':

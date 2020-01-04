@@ -11,6 +11,15 @@ class Color:
     def __repr__(self):
         return f"Color.from_rgb({self._r}, {self._g}, {self._b})"
 
+    def __hash__(self):
+        return hash(self.rgb())
+
+    def __eq__(self, other):
+        return (isinstance(other, Color)
+            and other._r == self._r
+            and other._g == self._g
+            and other._b == self._b)
+
     def rgb(self):
         return (self._r, self._g, self._b)
 

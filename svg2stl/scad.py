@@ -111,6 +111,17 @@ class File:
         with self.csg("difference"):
             yield
 
+    @contextmanager
+    def union(self):
+        with self.csg("union"):
+            yield
+
+    @contextmanager
+    def intersection(self):
+        with self.csg("intersection"):
+            yield
+
+
     def polygon(self, polygon, points, paths):
         points = points or render(polygon.points)
         short_paths = (paths is not None)
