@@ -1,10 +1,8 @@
 import cjlano_svg as svg
 from os import path
 
-from svg2stl.model import Shape, Point
+from svg2stl.model import Shape
 from svg2stl.scad import File as ScadFile
-from svg2stl.util import filter_repetition
-from svg2stl.css import extract_color
 
 px = 25.4 / 96
 
@@ -19,44 +17,34 @@ svg_paths = svg_picture.flatten()
 precision=1
 thickness=1
 
+
 # Create the shapes
-shapes=list()
-for index, path in enumerate(svg_paths):
-    shape = Shape(path.id)
-    shape.color = extract_color(path)
-    for subpath in path.segments(precision):
-        shape.polygon.add_subpolygon((Point(p.x, -p.y) for p in filter_repetition(subpath)))
-    shapes.append(shape)
+shapes = [Shape.from_svg_path(path, precision) for path in svg_paths]
 
 print(f"Writing to {scad_file_name}")
 with open(scad_file_name, "w") as file:
     scad_file = ScadFile(file)
 
     for shape in shapes:
-        points_name = f"{shape.name}_points"
-        scad_file.assignment(points_name, shape.polygon.points)
-
+        scad_file.assignment(shape.points_name(), shape.polygon.points)
         for index, path in enumerate(shape.polygon.paths):
-            path_name = f"{shape.name}_path_{index}"
-            scad_file.assignment(path_name, path)
+            scad_file.assignment(shape.path_name(index), path)
 
-    print(file=file)
+    scad_file.blank_link()
     for index, shape in enumerate(shapes):
-        points_name = f"{shape.name}_points"
-        path_names = (f"{shape.name}_path_{index}" for index, path in enumerate(shape.polygon.paths))
         with scad_file.module(shape.name):
-            scad_file.polygon(shape.polygon, points_name, path_names)
+            scad_file.polygon(shape.polygon, shape.points_name(), shape.path_names())
 
-    print(file=file)
+    scad_file.blank_link()
     for index in range(len(shapes)):
-        with scad_file.module(f"{shapes[index].name}_only"):
+        with scad_file.module(shapes[index].module_only_name()):
             with scad_file.difference():
                 for s in shapes[index:]:
                     scad_file.instance(s.name)
 
-    print(file=file)
+    scad_file.blank_link()
     for index, shape in enumerate(shapes):
         with scad_file.color(shape.color):
             with scad_file.translate((0, 0, index * thickness)):
                 with scad_file.extrude(thickness):
-                    scad_file.instance(f"{shape.name}_only")
+                    scad_file.instance(shape.module_only_name())

@@ -31,13 +31,19 @@ class File:
         self._depth = depth
 
     def print(self, *args):
-        print(self._indent * self._depth + str(args[0]), *args[1:], file=self._file)
+        if len(args):
+            print(self._indent * self._depth + str(args[0]), *args[1:], file=self._file)
+        else:
+            print(file=self._file)
 
     @contextmanager
     def indented(self):
         self._depth += 1
         yield
         self._depth -= 1
+
+    def blank_link(self):
+        self.print()
 
     def assignment(self, name, value):
         self.print(f"{name} = {render(value)};")
