@@ -49,6 +49,9 @@ class Color:
 
         return cls.from_rgb(r/255, g/255, b/255)
 
+    def to_html(self):
+        return "xxyyzz"
+
     @classmethod
     def random_hsv(cls, *, h = None, s = None, v = None):
         if h is None: h = random.uniform(0, 1)
