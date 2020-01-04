@@ -73,7 +73,8 @@ class File:
 
     @contextmanager
     def color(self, color):
-        self.print(f"color ({render(color.rgb())}) {{")
+        # TODO not really an identifier
+        self.print(f"color (\"#{render(Identifier(color.to_html()))}\") {{")
         with self.indented():
             yield
         self.print("}")
@@ -120,7 +121,6 @@ class File:
     def intersection(self):
         with self.csg("intersection"):
             yield
-
 
     def polygon(self, polygon, points, paths):
         points = points or render(polygon.points)
