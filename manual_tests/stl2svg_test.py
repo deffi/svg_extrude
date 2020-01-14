@@ -10,7 +10,7 @@ px = 25.4 / 96
 
 datapath = path.join("..", "testdata")
 outputpath = path.join(datapath, "output")
-svg_file_name = path.join(datapath, "test3.svg")
+svg_file_name = path.join(datapath, "test2.svg")
 scad_file_name = path.join(outputpath, "output.scad")
 
 svg_picture = svg.parse(svg_file_name)
@@ -63,7 +63,8 @@ with open(scad_file_name, "w") as file:
 
     # Instantiate the groups with their respective color
     scad_file.blank_link()
-    for group in groups:
+    for index, group in enumerate(groups):
         with scad_file.color(group.color):
-            with scad_file.extrude(thickness):
-                scad_file.instance(group.name)
+            with scad_file.translate([0, 0, 0*index]):
+                with scad_file.extrude(thickness):
+                    scad_file.instance(group.name)
