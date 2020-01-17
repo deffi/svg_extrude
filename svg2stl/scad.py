@@ -1,6 +1,8 @@
 from contextlib import contextmanager
 from numbers import Number
-
+from tempfile import mkstemp
+import os
+import subprocess
 
 class StringLiteral(str):
     pass
@@ -135,3 +137,19 @@ class File:
                 for path in paths:
                     self.print(f"{render(path)},")
             self.print("]);")
+
+
+@contextmanager
+def render_file(output_file_name):
+    # Create a temporary file
+    handle, path = mkstemp(suffix=".scad")
+
+    try:
+        with os.fdopen(handle, "w") as scad_file:
+            yield scad_file
+
+        # Call OpenSCAD
+        command = ["openscad", "-o", output_file_name, path]
+        subprocess.run(command, capture_output=True, check=True)
+    finally:
+        os.remove(path)

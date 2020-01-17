@@ -2,10 +2,16 @@ Tests:
   * Not all tests are executed (?)
 
 Functionality:
-  * Use OpenSCAD to create STL files
   * Warning if a polygon does not have evenodd fill rule
   * Rounding colors with name, use name in file name and optionally in group
     name
+  * Output to current directory, not to input file directory
+  * Allow specifying output directory
+  * Allow specifying output base name
+  * Allow (or require) specifying thickness
+  * Allow specifying precision
+  * Render to a file for that supports multiple objects? AMF?
+  * Allow scaling
 
 Organization:
   * Make SvgToScad usable on its own
