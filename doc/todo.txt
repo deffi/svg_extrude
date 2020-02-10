@@ -5,6 +5,7 @@ Functionality:
   * Warning if a polygon does not have evenodd fill rule
   * Rounding colors with name, use name in file name and optionally in group
     name
+  * In ScadFile, define colors like `red = "#ff0000";`
   * Output to current directory, not to input file directory
   * Allow specifying output directory
   * Allow specifying output base name
