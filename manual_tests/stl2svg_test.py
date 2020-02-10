@@ -38,8 +38,7 @@ with open(scad_file_name, "w") as file:
     OutputFile(file).write(shapes, groups, thickness)
 
 for index, group in enumerate(groups):
-    svg_file_name = path.join(datapath, "test2.svg")
-    stl_file_name = f"{base_name}_{index}_{group.color.to_html()}.stl"
+    stl_file_name = f"{base_name}_{index}_{group.color.to_html()}.amf"
     print(f"Rendering to {stl_file_name}")
     with render_file(stl_file_name) as file:
         OutputFile(file).write(shapes, [group], thickness)
