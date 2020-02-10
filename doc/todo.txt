@@ -1,25 +1,32 @@
 Tests:
   * Not all tests are executed (?)
 
-Functionality:
+Reading:
   * Warning if a polygon does not have evenodd fill rule
-  * Rounding colors with name, use name in file name and optionally in group
-    name
-  * In ScadFile, define colors like `red = "#ff0000";`
+
+Geometry:
+  * Allow scaling
+
+Interface:
+  * Make SvgToScad usable on its own
   * Output to current directory, not to input file directory
   * Allow specifying output directory
   * Allow specifying output base name
   * Allow (or require) specifying thickness
   * Allow specifying precision
+
+Rendering:
   * Render to a file for that supports multiple objects? AMF?
-  * Allow scaling
   * Use customizer to select groups instead of writing different SCAD files?
 
-Organization:
-  * Make SvgToScad usable on its own
+Colors:
+  * Rounding colors with name, use name in file name and optionally in group
+    name
+  * In ScadFile, define colors like `red = "#ff0000";`
+  * Use ΔE for color difference
+  * Allow specifying colors by CSS specification
 
 Future work:
   * Operate without OpenSCAD
-      * Internal difference, triangulization, STL generation
+      * Internal CSG difference, triangulization, STL generation
       * But keep the SVG to SCAD part
-  * Move SVG import functionality to OpenSCAD and simply use that
