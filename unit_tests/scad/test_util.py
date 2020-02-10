@@ -4,7 +4,7 @@ from svg2fff.model import Point
 from svg2fff.scad import render
 
 
-class TestScadUtil(unittest.TestCase):
+class TestUtil(unittest.TestCase):
     def test_render(self):
         self.assertEqual(render(42), "42")
         self.assertEqual(render(42.0), "42.0")
