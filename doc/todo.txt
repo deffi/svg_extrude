@@ -12,6 +12,7 @@ Functionality:
   * Allow specifying precision
   * Render to a file for that supports multiple objects? AMF?
   * Allow scaling
+  * Use customizer to select groups instead of writing different SCAD files?
 
 Organization:
   * Make SvgToScad usable on its own
