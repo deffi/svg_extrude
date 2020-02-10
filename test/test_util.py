@@ -1,6 +1,6 @@
 import unittest
 
-from svg2stl.util import filter_repetition, with_remaining, groupby
+from svg2fff.util import filter_repetition, with_remaining, groupby
 
 
 class TestUtil(unittest.TestCase):

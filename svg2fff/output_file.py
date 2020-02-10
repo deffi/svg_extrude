@@ -1,5 +1,5 @@
-from svg2stl.scad import File as ScadFile
-from svg2stl.util import with_remaining
+from svg2fff.scad import File as ScadFile
+from svg2fff.util import with_remaining
 
 
 class OutputFile:

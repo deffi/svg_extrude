@@ -1,4 +1,4 @@
-from svg2stl.model import Point
+from svg2fff.model import Point
 
 
 class Polygon:

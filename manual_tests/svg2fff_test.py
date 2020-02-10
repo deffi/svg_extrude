@@ -3,9 +3,9 @@ import re
 
 import cjlano_svg as svg
 
-from svg2stl.model import Shape, Group, Color
-from svg2stl import OutputFile
-from svg2stl.scad import render_file
+from svg2fff.model import Shape, Group, Color
+from svg2fff import OutputFile
+from svg2fff.scad import render_file
 
 px = 25.4 / 96
 

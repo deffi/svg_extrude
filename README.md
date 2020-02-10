@@ -1,4 +1,4 @@
-# svg2stl
+# svg2fff
 Converts SVG images to multiple STL files for 3D printing
 
 ## Installation

@@ -1,6 +1,6 @@
 import unittest
 
-from svg2stl.model import Color
+from svg2fff.model import Color
 
 
 class ColorTest(unittest.TestCase):

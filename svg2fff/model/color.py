@@ -2,7 +2,7 @@ import colorsys
 import random
 
 
-from svg2stl.util import closest
+from svg2fff.util import closest
 
 
 class Color:

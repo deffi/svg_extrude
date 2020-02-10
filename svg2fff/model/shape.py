@@ -1,6 +1,6 @@
-from svg2stl.model import Polygon, Point
-from svg2stl.util import filter_repetition
-from svg2stl.css import extract_color
+from svg2fff.model import Polygon, Point
+from svg2fff.util import filter_repetition
+from svg2fff.css import extract_color
 
 
 class Shape:

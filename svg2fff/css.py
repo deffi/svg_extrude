@@ -1,6 +1,6 @@
 import tinycss2 as css
 
-from svg2stl.model import Color
+from svg2fff.model import Color
 
 
 def extract_color(svg_object):

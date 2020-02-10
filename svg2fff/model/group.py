@@ -1,4 +1,4 @@
-from svg2stl.util import groupby
+from svg2fff.util import groupby
 
 class Group:
     def __init__(self, name, color, shapes):
