@@ -3,22 +3,14 @@ Output:
   * single-3mf
   * additional y, with optional color selection
 
+Implementation:
+  * Type annotations
+  * Dataclasses
+
 Reading:
   * Warning if a polygon does not have evenodd fill rule
 
-Geometry:
-  * Allow scaling
-
-Interface:
-  * Make SvgToScad usable on its own
-  * Output to current directory, not to input file directory
-  * Allow specifying output directory
-  * Allow specifying output base name
-  * Allow (or require) specifying thickness
-  * Allow specifying precision
-
 Rendering:
-  * Render to a file for that supports multiple objects? AMF?
   * Use customizer to select groups instead of writing different SCAD files?
 
 Colors:
@@ -28,7 +20,11 @@ Colors:
   * Use ΔE for color difference
   * Allow specifying colors by CSS specification
 
+Documentation:
+  * Meaning of precision
+
 Future work:
   * Operate without OpenSCAD
-      * Internal CSG difference, triangulization, STL generation
-      * But keep the SVG to SCAD part
+      * CSG difference
+      * Triangulation
+      * Output file (STL, 3MF, potentially others) generation
