@@ -3,7 +3,7 @@ from numbers import Number
 from svg2fff.scad.types import StringLiteral, Identifier
 
 
-def render(value):
+def render(value) -> str:
     """Renders a value to OpenSCAD representation
 
     The following types are supported explicitly:

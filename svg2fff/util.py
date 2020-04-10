@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+# TODO type hints
+
 def filter_repetition(items):
     if items:
         i = items[0]

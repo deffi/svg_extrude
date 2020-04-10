@@ -1,9 +1,11 @@
+from typing import Optional
+
 import tinycss2 as css
 
 from svg2fff.model import Color
 
 
-def extract_color(svg_object):
+def extract_color(svg_object) -> Optional[Color]:
     style = svg_object.style
     declarations = css.parse_declaration_list(style)
     for declaration in declarations:

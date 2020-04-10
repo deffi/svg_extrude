@@ -1,19 +1,21 @@
+from typing import Iterable
 from contextlib import contextmanager
 from tempfile import mkstemp
 import os
 import subprocess
+from io import IOBase
 
 from svg2fff.scad.util import Identifier
 from svg2fff.scad.util import render
 
 
 class File:
-    def __init__(self, file, *, indent="    ", depth=0):
-        self._file = file
-        self._indent = indent
-        self._depth = depth
+    def __init__(self, file: IOBase, *, indent: str = "    ", depth: int = 0):
+        self._file: IOBase = file
+        self._indent: str = indent
+        self._depth: int = depth
 
-    def print(self, *args):
+    def print(self, *args) -> None:
         if len(args):
             print(self._indent * self._depth + str(args[0]), *args[1:], file=self._file)
         else:
@@ -25,21 +27,23 @@ class File:
         yield
         self._depth -= 1
 
-    def blank_link(self):
+    def blank_link(self) -> None:
         self.print()
 
-    def assignment(self, name, value):
+    def assignment(self, name: str, value) -> None:
         self.print(f"{name} = {render(value)};")
 
-    def instance(self, name):
+    def instance(self, name: str) -> None:
         self.print(f"{name} ();")
 
-    def instances(self, names):
+    def instances(self, names: Iterable[str]) -> None:
         for name in names:
             self.instance(name)
 
+    # TODO many similar methods here, factor out block()?
+
     @contextmanager
-    def color(self, color):
+    def color(self, color) -> None:  # TODO type - depend on sfg2fff.model? If so, explicitly handle model classes in render() and use frozen dataclasses.
         # TODO not really an identifier
         self.print(f"color (\"#{render(Identifier(color.to_html()))}\") {{")
         with self.indented():
@@ -47,49 +51,49 @@ class File:
         self.print("}")
 
     @contextmanager
-    def translate(self, vector):
+    def translate(self, vector) -> None:  # TODO class?
         self.print(f"translate ({render(vector)}) {{")
         with self.indented():
             yield
         self.print("}")
 
     @contextmanager
-    def extrude(self, thickness):
+    def extrude(self, thickness: float) -> None:
         self.print(f"linear_extrude ({render(thickness)}) {{")
         with self.indented():
             yield
         self.print("}")
 
     @contextmanager
-    def define_module(self, name):
+    def define_module(self, name: str) -> None:
         self.print(f"module {name} () {{")
         with self.indented():
             yield
         self.print("}")
 
     @contextmanager
-    def csg(self, type):
+    def csg(self, type: str) -> None:
         self.print(f"{type} () {{")
         with self.indented():
             yield
         self.print("}")
 
     @contextmanager
-    def difference(self):
+    def difference(self) -> None:
         with self.csg("difference"):
             yield
 
     @contextmanager
-    def union(self):
+    def union(self) -> None:
         with self.csg("union"):
             yield
 
     @contextmanager
-    def intersection(self):
+    def intersection(self) -> None:
         with self.csg("intersection"):
             yield
 
-    def polygon(self, polygon, points, paths):
+    def polygon(self, polygon, points, paths) -> None:  # TODO types
         points = points or render(polygon.points)
         short_paths = (paths is not None)
         paths = paths or list(map(render, polygon.paths))
@@ -105,7 +109,7 @@ class File:
 
 
 @contextmanager
-def render_file(output_file_name):
+def render_file(output_file_name: str) -> None:
     # Create a temporary file
     handle, path = mkstemp(suffix=".scad")
 

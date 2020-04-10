@@ -4,8 +4,8 @@ Output:
   * additional y, with optional color selection
 
 Implementation:
-  * Type annotations
-  * Dataclasses
+  * Type annotations (-> TODO)
+  * Should context managers be annotated with -> Generator[...] (type hints)?
 
 Cleanup:
   * remove Color.invert

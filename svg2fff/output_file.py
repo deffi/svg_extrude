@@ -1,12 +1,17 @@
+from typing import List
+from io import IOBase
+
+from svg2fff.model import Shape, Group
 from svg2fff.scad import File as ScadFile
 from svg2fff.util import with_remaining
 
 
 class OutputFile:
-    def __init__(self, file):
+    def __init__(self, file: IOBase):
         self.file = file
 
-    def write(self, shapes, groups, thickness):
+    def write(self, shapes: List[Shape], groups: List[Group], thickness: float) -> None:
+        # TODO this method is a bit on the long side
         scad_file = ScadFile(self.file)
 
         # Define the points and paths for all shapes
