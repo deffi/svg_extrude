@@ -1,7 +1,11 @@
+TODOs
+
 Output:
   * json
   * single-3mf
-  * additional y, with optional color selection
+  * additional geometry on top (configurable height), with optional color selection
+  * Status message: groups, each with number of polygons and number of points
+  * Remove prints in cjlano-svg
 
 Implementation:
   * Type annotations (-> TODO)
