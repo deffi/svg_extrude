@@ -1,6 +1,7 @@
+from typing import Tuple, Optional, List
+
 import colorsys
 import random
-
 
 from svg2fff.util import closest
 
@@ -23,26 +24,26 @@ class Color:
             and other._g == self._g
             and other._b == self._b)
 
-    def rgb(self):
+    def rgb(self) -> Tuple[float, float, float]:
         return (self._r, self._g, self._b)
 
     def hsv(self):
         return colorsys.rgb_to_hsv(*self.rgb())
 
     @classmethod
-    def from_rgb(cls, r, g, b):
-        color=cls()
+    def from_rgb(cls, r: float, g: float, b: float) -> "Color":
+        color = cls()
         color._r = r
         color._g = g
         color._b = b
         return color
 
     @classmethod
-    def from_hsv(cls, h, s, v):
+    def from_hsv(cls, h: float, s: float, v: float) -> "Color":
         return cls.from_rgb(*colorsys.hsv_to_rgb(h, s, v))
 
     @classmethod
-    def from_html(cls, html):
+    def from_html(cls, html: str) -> "Color":
         if len(html) != 6:
             raise ValueError(f"Unrecognized HTML color: {html}")
 
@@ -52,20 +53,20 @@ class Color:
 
         return cls.from_rgb(r/255, g/255, b/255)
 
-    def to_html(self):
+    def to_html(self) -> str:
         return "".join(f"{round(x*255):02X}" for x in self.rgb())
 
     @classmethod
-    def random_hsv(cls, *, h = None, s = None, v = None):
+    def random_hsv(cls, *, h: Optional[float] = None, s: Optional[float] = None, v :Optional[float] = None) -> "Color":
         if h is None: h = random.uniform(0, 1)
         if s is None: s = random.uniform(0, 1)
         if v is None: v = random.uniform(0, 1)
         return cls.from_hsv(h, s, v)
 
-    def invert(self):
+    def invert(self) -> "Color":
         return Color.from_rgb(1 - self._r, 1 - self._g, 1 - self._b)
 
-    def closest_hsv(self, available):
+    def closest_hsv(self, available: List["Color"]) -> "Color":
         def d_squared(a: Color, b: Color):
             a = a.hsv()
             b = b.hsv()
