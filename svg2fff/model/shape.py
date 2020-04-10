@@ -1,4 +1,4 @@
-from typing import Generator
+from typing import Iterable
 
 from svg2fff.model import Polygon, Point, Color
 from svg2fff.util import filter_repetition
@@ -28,7 +28,7 @@ class Shape:
     def path_name(self, index: int) -> str:
         return f"{self.name}_path_{index}"
 
-    def path_names(self) -> Generator[str]:
+    def path_names(self) -> Iterable[str]:
         return (f"{self.name}_path_{index}" for index in range(len(self.polygon.paths)))
 
     def module_name(self) -> str:
