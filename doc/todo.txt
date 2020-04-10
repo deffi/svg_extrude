@@ -7,6 +7,10 @@ Implementation:
   * Type annotations
   * Dataclasses
 
+Cleanup:
+  * remove Color.invert
+  * Clean up method order in classes
+
 Reading:
   * Warning if a polygon does not have evenodd fill rule
 

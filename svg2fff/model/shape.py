@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 from typing import Iterable
 
 from svg2fff.model import Polygon, Point, Color
@@ -5,11 +6,11 @@ from svg2fff.util import filter_repetition
 from svg2fff.css import extract_color
 
 
+@dataclass()
 class Shape:
-    def __init__(self, name: str, color: Color):
-        self.name: str = name
-        self.color: Color = color
-        self.polygon: Polygon = Polygon()
+    name: str
+    color: Color
+    polygon: Polygon = field(default_factory=Polygon)
 
     @classmethod
     def from_svg_path(cls, svg_path, precision: float) -> "Shape":

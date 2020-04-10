@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Tuple, Optional, List
 
 import colorsys
@@ -6,11 +7,14 @@ import random
 from svg2fff.util import closest
 
 
+@dataclass()
 class Color:
+    _r: float = 0
+    _g: float = 0
+    _b: float = 0
+
     def __init__(self):
-        self._r = 0
-        self._g = 0
-        self._b = 0
+        pass
 
     def __repr__(self):
         return f"Color.from_rgb({self._r}, {self._g}, {self._b})"

@@ -1,13 +1,14 @@
+from dataclasses import dataclass
 from typing import List
 
 from svg2fff.model import Color, Shape
 from svg2fff.util import groupby
 
+@dataclass()
 class Group:
-    def __init__(self, name: str, color: Color, shapes: List[Shape]):
-        self.name: str = name
-        self.color: Color = color
-        self.shapes: List[Shape] = shapes
+    name: str
+    color: Color
+    shapes: List[Shape]
 
     @classmethod
     def by_color(cls, shapes: List[Shape], *, colormap=lambda c: c) -> List["Group"]:

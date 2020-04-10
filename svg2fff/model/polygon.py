@@ -1,13 +1,14 @@
+from dataclasses import dataclass, field
 from typing import List, Dict, Iterable
 
 from svg2fff.model import Point
 
 
+@dataclass()
 class Polygon:
-    def __init__(self):
-        self._points: List[Point] = list()
-        self._paths: List[List[int]] = list()
-        self._point_indices: Dict[Point, int] = dict()
+    _points: List[Point] = field(default_factory=list)
+    _paths: List[List[int]] = field(default_factory=list)
+    _point_indices: Dict[Point, int] = field(default_factory=dict)
 
     def _point_index(self, point: Point) -> int:
         # If we haven't seen the point yet, add it to the list
