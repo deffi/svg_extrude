@@ -1,3 +1,8 @@
+Output:
+  * json
+  * single-3mf
+  * additional y, with optional color selection
+
 Reading:
   * Warning if a polygon does not have evenodd fill rule
 
