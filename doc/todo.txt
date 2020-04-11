@@ -6,7 +6,6 @@ Output:
   * Remove prints in cjlano-svg
 
 Cleanup:
-  * remove Color.invert
   * Clean up method order in classes
 
 Reading:

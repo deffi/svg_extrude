@@ -61,14 +61,11 @@ class Color:
         return "".join(f"{round(x*255):02X}" for x in self.rgb())
 
     @classmethod
-    def random_hsv(cls, *, h: Optional[float] = None, s: Optional[float] = None, v :Optional[float] = None) -> "Color":
+    def random_hsv(cls, *, h: Optional[float] = None, s: Optional[float] = None, v: Optional[float] = None) -> "Color":
         if h is None: h = random.uniform(0, 1)
         if s is None: s = random.uniform(0, 1)
         if v is None: v = random.uniform(0, 1)
         return cls.from_hsv(h, s, v)
-
-    def invert(self) -> "Color":
-        return Color.from_rgb(1 - self._r, 1 - self._g, 1 - self._b)
 
     def closest_hsv(self, available: List["Color"]) -> "Color":
         def d_squared(a: Color, b: Color):
