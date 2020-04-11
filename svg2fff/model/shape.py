@@ -1,10 +1,12 @@
+import logging
 from dataclasses import dataclass, field
 from typing import Iterable
 
 from svg2fff.model import Polygon, Point, Color
 from svg2fff.util import filter_repetition
-from svg2fff.css import extract_color
+from svg2fff.css import extract_color, extract_fill_rule
 
+logger = logging.getLogger(__name__)
 
 @dataclass()
 class Shape:
@@ -14,6 +16,12 @@ class Shape:
 
     @classmethod
     def from_svg_path(cls, svg_path, precision: float) -> "Shape":
+        fill_rule = extract_fill_rule(svg_path)
+        if fill_rule is None:
+            logger.warning("%s: fill rule not set, assuming evenodd", svg_path.id)
+        elif fill_rule != "evenodd":
+            logger.warning("%s: fill rule %s not supported, using evenodd instead", svg_path.id, fill_rule)
+
         shape = Shape(svg_path.id, extract_color(svg_path))
         for subpath in svg_path.segments(precision):
             shape.polygon.add_subpolygon((Point(p.x, -p.y) for p in filter_repetition(subpath)))
