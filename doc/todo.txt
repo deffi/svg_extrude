@@ -1,16 +1,13 @@
+Name: it's not limited to FFF.
+
 Code TODOs
 
-Reading:
-  * Coordinates? OpenSCAD file has negative y. Document it.
-
 Rendering:
-  * Use customizer to select groups instead of writing different SCAD files?
-  * Flipping
+  * Configurable flipping: x (default), y, none, both
 
 Colors:
   * Rounding colors with name, use name in file name and optionally in group
     name
-  * In ScadFile, define colors like `red = "#ff0000";`
   * Use ΔE for color difference
   * Allow specifying colors by CSS specification
 
@@ -40,3 +37,11 @@ Future work:
     optional color selection (default: color of the back-most shape)
   * Status message: groups, each with number of shapes and number of points
     OTOH, that's not really relevant because in does not consider clipping.
+  * When using OpenSCAD for rendering, use OpenSCAD customizer to select groups
+    instead of writing different SCAD files? This would allow rendering from the
+    same file as written with --scad.
+  * In ScadFile, define colors like `red = "#ff0000";`
+  * Allow specifying the orgin, e. g. "bottom left" so it looks like in
+    inkscape.
+  * Do not subtract disjoint paths to reduce the number of difference CSG
+    operations.

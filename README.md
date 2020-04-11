@@ -1,5 +1,35 @@
-# svg2fff
-Converts SVG images to multiple STL files for 3D printing
+svg2fff
+=======
+
+Converts SVG images to 3D models.
+
+
+Invocation
+----------
+
+
+SVG file preparation
+--------------------
+
+Paths may overlap. Paths will be clipped according to their Z order.
+
+It is recommended to avoid coincident paths. Paths may be sampled at different
+positions, which can cause small gaps.
+
+
+### Coordinate system
+
+The coordinate system used by sgv2fff is x right, y up. 
+
+The SVG origin is at the upper left corner of the page (note that Inkscape uses
+a different coordinate system with the origin at the lower left). The SVG origin
+will be mapped to the coordinate origin. To preserve handedness, the y axis is
+inverted. Work to be done.
+
+ 
+
+
+
 
 ## Installation
 
@@ -11,6 +41,9 @@ Required packages:
 
 All polygons will be rendered using evenodd fill rule, even if set
 to nonzero.
+
+SVG viewbox may not work as expected.
+
 
 ## Slicer notes
 
