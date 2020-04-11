@@ -1,7 +1,6 @@
 Code TODOs
 
 Colors:
-  * Use ΔE for color difference
   * Implement explicitly listed colors
       * By css name
       * By HTML spec with optional name
@@ -44,3 +43,4 @@ Future work:
   * Configurable flipping: x (default), y, none, both
   * Reading available colors from JSON file
   * Option: file and group names use numeric colors, even if a name is defined
+  * Consider using OpenSCAD primitives: cube, circle, text

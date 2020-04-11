@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Tuple, Optional, List
-
 import colorsys
 import random
+from math import sqrt
 
 from svg2fff.util import closest
 
@@ -17,7 +17,7 @@ class Color:
         pass
 
     def __repr__(self):
-        return f"Color.from_rgb({self._r}, {self._g}, {self._b})"
+        return f"Color.from_rgb({self._r}, {self._g}, {self._b}, {self._name!r})"
 
     def __hash__(self):
         return hash(self.rgb())
@@ -44,6 +44,52 @@ class Color:
 
     def hsv(self):
         return colorsys.rgb_to_hsv(*self.rgb())
+
+    def xyz(self):
+        def linear(v):
+            if v <= 0.04045:
+                return v / 12.92
+            else:
+                return ((v + 0.055) / 1.055) ** 2.4
+
+        lr = linear(self._r)
+        lg = linear(self._g)
+        lb = linear(self._b)
+
+        x = 0.412424  * lr + 0.357579 * lg + 0.180464  * lb
+        y = 0.212656  * lr + 0.715158 * lg + 0.0721856 * lb
+        z = 0.0193324 * lr + 0.119193 * lg + 0.950444  * lb
+
+        return (x, y, z)
+
+    def lab(self, observer=10):
+        def root(v):
+            if v < 216/24389:
+                # From Wikipedia TODO
+                # return (24389/27 * v + 16) / 116
+                # From colormath
+                return (7.787 * v) + (16 / 116)
+            else:
+                return v ** (1 / 3)
+
+        if observer == 2:
+            xn, yn, zn = 0.95047, 1.00000, 1.08883  # 2°, D65
+        elif observer == 10:
+            xn, yn, zn = 0.94811, 1.00000, 1.07304  # 10°, D65
+        else:
+            raise ValueError(f"Invalid observer: {observer}°")
+
+        x, y, z = self.xyz()
+
+        rootx = root(x/xn)
+        rooty = root(y/yn)
+        rootz = root(z/zn)
+
+        L = 116 * rooty - 16
+        a = 500 * (rootx - rooty)
+        b = 200 * (rooty - rootz)
+
+        return (L, a, b)
 
     @classmethod
     def from_rgb(cls, r: float, g: float, b: float, name: Optional[str]) -> "Color":
@@ -79,7 +125,21 @@ class Color:
         if v is None: v = random.uniform(0, 1)
         return cls.from_hsv(h, s, v)
 
+    def closest(self, available: List["Color"]) -> "Color":
+        """Finds the closest color according to color distance ΔE"""
+
+        def delta_e(a: Color, b: Color):
+            a = a.lab()
+            b = b.lab()
+            dl = b[0] - a[0]
+            da = b[1] - a[1]
+            db = b[2] - a[2]
+            return sqrt(dl**2 + da**2 + db**2)
+
+        return closest(available, self, delta_e)
+
     def closest_hsv(self, available: List["Color"]) -> "Color":
+        # TODO yeah, this sucks. It makes an arbitrary choice of weighting H, S, and V
         def d_squared(a: Color, b: Color):
             a = a.hsv()
             b = b.hsv()

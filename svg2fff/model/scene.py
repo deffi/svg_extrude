@@ -38,7 +38,7 @@ class Scene:
 
         # Create the color mapping
         if available_colors:
-            color_mapping = lambda color: color.closest_hsv(available_colors)
+            color_mapping = lambda color: color.closest(available_colors)
         else:
             color_mapping = lambda color: color
 
