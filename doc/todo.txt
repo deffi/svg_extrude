@@ -1,15 +1,7 @@
 Code TODOs
 
-Output:
-  * additional geometry on top (configurable height), with optional color selection
-  * Status message: groups, each with number of polygons and number of points
-  * Remove prints in cjlano-svg
-
-Cleanup:
-  * Clean up method order in classes
-
 Reading:
-  * Warning if a polygon does not have evenodd fill rule
+  * Warning if stroke is not "none"
   * Coordinates? OpenSCAD file has negative y. Document it.
 
 Rendering:
@@ -27,10 +19,14 @@ Misc:
   * Are all SVG IDs OK for creating OpenSCAD identifiers?
   * Make sure we can't get collisions: an "outer" shape will currently create an
     "outer_only" module which will collide with an "outer_only" shape.
+  * Use logger instead of print
 
+Cleanup:
+  * Clean up method order in classes
 
 Documentation:
   * Meaning of precision
+
 
 Future work:
   * Single 3MF file with multiple objects
@@ -42,3 +38,7 @@ Future work:
       * Output file (STL, 3MF, potentially others) generation
   * Read SVG <desc> and/or <title> and write them as comments to the OpenSCAD
     file
+  * Additional geometry on top of everything (configurable height), with
+    optional color selection (default: color of the back-most shape)
+  * Status message: groups, each with number of shapes and number of points
+    OTOH, that's not really relevant because in does not consider clipping.
