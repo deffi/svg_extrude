@@ -1,10 +1,10 @@
 Code TODOs
 
 Colors:
-  * Rounding colors with name, use name in file name and optionally in group
-    name
   * Use ΔE for color difference
-  * Allow specifying colors by CSS specification
+  * Implement explicitly listed colors
+      * By css name
+      * By HTML spec with optional name
 
 Misc:
   * Are all SVG IDs OK for creating OpenSCAD identifiers?
@@ -42,3 +42,5 @@ Future work:
     operations.
   * Configurable coordinate origin?
   * Configurable flipping: x (default), y, none, both
+  * Reading available colors from JSON file
+  * Option: file and group names use numeric colors, even if a name is defined

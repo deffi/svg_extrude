@@ -36,6 +36,7 @@ class Shape:
     def __repr__(self):
         return f"Shape({self.name})"
 
+    # TODO all of these names are output specific and should be in OutputFile
     def points_name(self) -> str:
         return f"{self.name}_points"
 

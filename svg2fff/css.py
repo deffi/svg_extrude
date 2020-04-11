@@ -38,5 +38,5 @@ def extract_color(svg_object) -> Optional[Color]:
                 if declaration.value:
                     value = declaration.value[0]
                     if isinstance(value, css.ast.HashToken):
-                        return Color.from_html(value.value)
+                        return Color.from_html(value.value, None)
     return None

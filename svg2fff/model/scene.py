@@ -1,7 +1,7 @@
-from typing import List
+from typing import List, Optional
 from dataclasses import dataclass
 
-from svg2fff.model import Shape, Group
+from svg2fff.model import Shape, Group, Color
 
 import cjlano_svg as svg
 
@@ -23,7 +23,7 @@ class Scene:
     groups: List[Group]
 
     @classmethod
-    def from_svg(cls, file_name: str, precision: float):
+    def from_svg(cls, file_name: str, *, precision: float, available_colors: Optional[List[Color]]):
         # Read the SVG file
         svg_picture: svg.Svg = svg.parse(file_name)
 
@@ -36,8 +36,13 @@ class Scene:
         # Create the shapes
         shapes = [Shape.from_svg_path(path, precision) for path in svg_paths]
 
+        # Create the color mapping
+        if available_colors:
+            color_mapping = lambda color: color.closest_hsv(available_colors)
+        else:
+            color_mapping = lambda color: color
+
         # Group the shapes by color
-        groups = Group.by_color(shapes)
-        # groups = Group.by_color(shapes, colormap=lambda color: color.closest_hsv(available_colors)) # TODO
+        groups = Group.by_color(shapes, color_mapping=color_mapping)
 
         return cls(shapes=shapes, groups=groups)
