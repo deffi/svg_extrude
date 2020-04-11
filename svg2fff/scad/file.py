@@ -40,57 +40,47 @@ class File:
         for name in names:
             self.instance(name)
 
-    # TODO many similar methods here, factor out block()?
+    @contextmanager
+    def block(self, statement: str) -> None:
+        self.print(f"{statement} {{")
+        with self.indented():
+            yield
+        self.print("}")
 
     @contextmanager
     def color(self, color) -> None:  # TODO type - depend on sfg2fff.model? If so, explicitly handle model classes in render() and use frozen dataclasses.
         # TODO not really an identifier
-        self.print(f"color (\"#{render(Identifier(color.to_html()))}\") {{")
-        with self.indented():
+        with self.block(f"color (\"#{render(Identifier(color.to_html()))}\")"):
             yield
-        self.print("}")
 
     @contextmanager
     def translate(self, vector) -> None:  # TODO class?
-        self.print(f"translate ({render(vector)}) {{")
-        with self.indented():
+        with self.block(f"translate ({render(vector)})"):
             yield
-        self.print("}")
 
     @contextmanager
     def extrude(self, thickness: float) -> None:
-        self.print(f"linear_extrude ({render(thickness)}) {{")
-        with self.indented():
+        with self.block(f"linear_extrude ({render(thickness)})"):
             yield
-        self.print("}")
 
     @contextmanager
     def define_module(self, name: str) -> None:
-        self.print(f"module {name} () {{")
-        with self.indented():
+        with self.block(f"module {name} ()"):
             yield
-        self.print("}")
-
-    @contextmanager
-    def csg(self, type: str) -> None:
-        self.print(f"{type} () {{")
-        with self.indented():
-            yield
-        self.print("}")
 
     @contextmanager
     def difference(self) -> None:
-        with self.csg("difference"):
+        with self.block(f"difference ()"):
             yield
 
     @contextmanager
     def union(self) -> None:
-        with self.csg("union"):
+        with self.block("union ()"):
             yield
 
     @contextmanager
     def intersection(self) -> None:
-        with self.csg("intersection"):
+        with self.block("intersection ()"):
             yield
 
     def polygon(self, polygon, points, paths) -> None:  # TODO types
