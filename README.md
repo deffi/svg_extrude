@@ -19,16 +19,12 @@ positions, which can cause small gaps.
 
 ### Coordinate system
 
-The coordinate system used by sgv2fff is x right, y up. 
+The SVG X axis (right) is mapped to the OpenSCAD X axis (right) and the SVG Y
+axis (down) is mapped to the OpenSCAD Y axis (front to back). This means that
+the image will be reproduced correctly when view from below (-Z). If you want to
+view the image from above, flip either the SVG file or the 3D model as required.
 
-The SVG origin is at the upper left corner of the page (note that Inkscape uses
-a different coordinate system with the origin at the lower left). The SVG origin
-will be mapped to the coordinate origin. To preserve handedness, the y axis is
-inverted. Work to be done.
-
- 
-
-
+The SVG origin (upper left corner of the page) is mapped to the OpenSCAD origin.
 
 
 ## Installation

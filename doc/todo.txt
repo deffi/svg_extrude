@@ -1,9 +1,4 @@
-Name: it's not limited to FFF.
-
 Code TODOs
-
-Rendering:
-  * Configurable flipping: x (default), y, none, both
 
 Colors:
   * Rounding colors with name, use name in file name and optionally in group
@@ -45,3 +40,5 @@ Future work:
     inkscape.
   * Do not subtract disjoint paths to reduce the number of difference CSG
     operations.
+  * Configurable coordinate origin?
+  * Configurable flipping: x (default), y, none, both

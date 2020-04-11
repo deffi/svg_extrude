@@ -29,7 +29,7 @@ class Shape:
             # 1 px is 1/96 inch; we use mm
             # TODO use mm, but we need to convert it to mm when writing the SCAD file.
             px = 25.4/96
-            shape.polygon.add_subpolygon((Point(p.x*px, -p.y*px) for p in filter_repetition(subpath)))
+            shape.polygon.add_subpolygon((Point(p.x*px, p.y*px) for p in filter_repetition(subpath)))
 
         return shape
 
