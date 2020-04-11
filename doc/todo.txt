@@ -18,10 +18,11 @@ Cleanup:
 
 Reading:
   * Warning if a polygon does not have evenodd fill rule
-  * Flipping
+  * SVG description
 
 Rendering:
   * Use customizer to select groups instead of writing different SCAD files?
+  * Flipping
 
 Colors:
   * Rounding colors with name, use name in file name and optionally in group
