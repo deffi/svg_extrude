@@ -6,6 +6,7 @@ Output:
   * additional geometry on top (configurable height), with optional color selection
   * Status message: groups, each with number of polygons and number of points
   * Remove prints in cjlano-svg
+  * Comments in scad file
 
 Implementation:
   * Type annotations (-> TODO)
@@ -17,6 +18,7 @@ Cleanup:
 
 Reading:
   * Warning if a polygon does not have evenodd fill rule
+  * Flipping
 
 Rendering:
   * Use customizer to select groups instead of writing different SCAD files?
