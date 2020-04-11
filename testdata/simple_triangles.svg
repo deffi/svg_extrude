@@ -63,7 +63,7 @@
      id="layer1"
      transform="translate(3.3333335e-8,-282)">
     <path
-       style="opacity:1;vector-effect:none;fill:#ff8282;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;vector-effect:none;fill:#ff8080;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="M -3.3333335e-8,297 0,282 20,297 Z"
        id="outer"
        inkscape:connector-curvature="0"

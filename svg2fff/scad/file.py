@@ -21,14 +21,12 @@ class File:
         else:
             print(file=self._file)
 
-    @contextmanager
-    def indented(self):
-        self._depth += 1
-        yield
-        self._depth -= 1
-
-    def blank_link(self) -> None:
+    def blank_line(self) -> None:
         self.print()
+
+    def comment(self, text: str) -> None:
+        for line in text.splitlines():
+            self.print(f"// {line}")
 
     def assignment(self, name: str, value) -> None:
         self.print(f"{name} = {render(value)};")
@@ -39,6 +37,12 @@ class File:
     def instances(self, names: Iterable[str]) -> None:
         for name in names:
             self.instance(name)
+
+    @contextmanager
+    def indented(self):
+        self._depth += 1
+        yield
+        self._depth -= 1
 
     @contextmanager
     def block(self, statement: str) -> None:
