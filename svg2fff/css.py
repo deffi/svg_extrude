@@ -6,13 +6,24 @@ from svg2fff.model import Color
 
 # TODO code duplication
 
+# opacity:1;vector-effect:none;fill:#000cff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.66145831;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1
+
 def extract_fill_rule(svg_path) -> Optional[str]:
-    """opacity:1;vector-effect:none;fill:#000cff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.66145831;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"""
     style = svg_path.style
     declarations = css.parse_declaration_list(style)
     for declaration in declarations:
         if isinstance(declaration, css.ast.Declaration):
             if declaration.lower_name == "fill-rule":
+                if declaration.value:
+                    return declaration.value[0].value
+    return None
+
+def extract_stroke(svg_path) -> Optional[str]:
+    style = svg_path.style
+    declarations = css.parse_declaration_list(style)
+    for declaration in declarations:
+        if isinstance(declaration, css.ast.Declaration):
+            if declaration.lower_name == "stroke":
                 if declaration.value:
                     return declaration.value[0].value
     return None

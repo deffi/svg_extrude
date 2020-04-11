@@ -1,7 +1,6 @@
 Code TODOs
 
 Reading:
-  * Warning if stroke is not "none"
   * Coordinates? OpenSCAD file has negative y. Document it.
 
 Rendering:
@@ -19,7 +18,6 @@ Misc:
   * Are all SVG IDs OK for creating OpenSCAD identifiers?
   * Make sure we can't get collisions: an "outer" shape will currently create an
     "outer_only" module which will collide with an "outer_only" shape.
-  * Use logger instead of print
 
 Cleanup:
   * Clean up method order in classes
