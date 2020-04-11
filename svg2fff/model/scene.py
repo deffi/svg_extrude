@@ -13,7 +13,10 @@ class Scene:
     The list of shapes is ordered from back to front; i. e., shapes are clipped
     by shapes that appear later in the list.
 
-    The groups contain references to shapes.
+    A group can contain shapes that are not adjacent in the Z order. For
+    example, the list of shapes might be [A, B, C], with group 1 [A, C] and
+    group 2 [B]. In this case, shape B will clip shape A, but will be clipped by
+    shape C.
     """
 
     shapes: List[Shape]
