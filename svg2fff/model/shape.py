@@ -17,9 +17,7 @@ class Shape:
     @classmethod
     def from_svg_path(cls, svg_path, precision: float) -> "Shape":
         fill_rule = extract_fill_rule(svg_path)
-        if fill_rule is None:
-            logger.warning("%s: fill rule not set. Assuming evenodd.", svg_path.id)
-        elif fill_rule != "evenodd":
+        if not (fill_rule is None or fill_rule == "evenodd"):
             logger.warning("%s: fill rule %s not supported. Using evenodd instead.", svg_path.id, fill_rule)
 
         stroke = extract_stroke(svg_path)
