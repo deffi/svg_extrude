@@ -1,16 +1,9 @@
-TODOs
+Code TODOs
 
 Output:
-  * json
-  * single-3mf
   * additional geometry on top (configurable height), with optional color selection
   * Status message: groups, each with number of polygons and number of points
   * Remove prints in cjlano-svg
-  * Comments in scad file
-
-Implementation:
-  * Type annotations (-> TODO)
-  * Should context managers be annotated with -> Generator[...] (type hints)?
 
 Cleanup:
   * remove Color.invert
@@ -18,7 +11,6 @@ Cleanup:
 
 Reading:
   * Warning if a polygon does not have evenodd fill rule
-  * SVG description
   * Coordinates? OpenSCAD file has negative y. Document it.
 
 Rendering:
@@ -42,7 +34,12 @@ Documentation:
   * Meaning of precision
 
 Future work:
+  * Single 3MF file with multiple objects
+  * Output JSON
+    This allows further processing by other tools without parsing the SCAD file.
   * Operate without OpenSCAD
       * CSG difference
       * Triangulation
       * Output file (STL, 3MF, potentially others) generation
+  * Read SVG <desc> and/or <title> and write them as comments to the OpenSCAD
+    file

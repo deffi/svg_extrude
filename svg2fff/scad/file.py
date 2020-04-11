@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, Iterator
 from contextlib import contextmanager
 from tempfile import mkstemp
 import os
@@ -39,51 +39,51 @@ class File:
             self.instance(name)
 
     @contextmanager
-    def indented(self):
+    def indented(self) -> Iterator[None]:
         self._depth += 1
         yield
         self._depth -= 1
 
     @contextmanager
-    def block(self, statement: str) -> None:
+    def block(self, statement: str) -> Iterator[None]:
         self.print(f"{statement} {{")
         with self.indented():
             yield
         self.print("}")
 
     @contextmanager
-    def color(self, color) -> None:  # TODO type - depend on sfg2fff.model? If so, explicitly handle model classes in render() and use frozen dataclasses.
+    def color(self, color) -> Iterator[None]:  # TODO type - depend on sfg2fff.model? If so, explicitly handle model classes in render() and use frozen dataclasses.
         # TODO not really an identifier
         with self.block(f"color (\"#{render(Identifier(color.to_html()))}\")"):
             yield
 
     @contextmanager
-    def translate(self, vector) -> None:  # TODO class?
+    def translate(self, vector) -> Iterator[None]:  # TODO class?
         with self.block(f"translate ({render(vector)})"):
             yield
 
     @contextmanager
-    def extrude(self, thickness: float) -> None:
+    def extrude(self, thickness: float) -> Iterator[None]:
         with self.block(f"linear_extrude ({render(thickness)})"):
             yield
 
     @contextmanager
-    def define_module(self, name: str) -> None:
+    def define_module(self, name: str) -> Iterator[None]:
         with self.block(f"module {name} ()"):
             yield
 
     @contextmanager
-    def difference(self) -> None:
+    def difference(self) -> Iterator[None]:
         with self.block(f"difference ()"):
             yield
 
     @contextmanager
-    def union(self) -> None:
+    def union(self) -> Iterator[None]:
         with self.block("union ()"):
             yield
 
     @contextmanager
-    def intersection(self) -> None:
+    def intersection(self) -> Iterator[None]:
         with self.block("intersection ()"):
             yield
 
@@ -103,7 +103,7 @@ class File:
 
 
 @contextmanager
-def render_file(output_file_name: str) -> None:
+def render_file(output_file_name: str) -> Iterator[None]:
     # Create a temporary file
     handle, path = mkstemp(suffix=".scad")
 
