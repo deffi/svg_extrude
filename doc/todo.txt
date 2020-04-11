@@ -19,6 +19,7 @@ Cleanup:
 Reading:
   * Warning if a polygon does not have evenodd fill rule
   * SVG description
+  * Coordinates? OpenSCAD file has negative y. Document it.
 
 Rendering:
   * Use customizer to select groups instead of writing different SCAD files?
@@ -30,6 +31,9 @@ Colors:
   * In ScadFile, define colors like `red = "#ff0000";`
   * Use ΔE for color difference
   * Allow specifying colors by CSS specification
+
+Misc:
+  * Are all SVG IDs OK for creating OpenSCAD identifiers?
 
 Documentation:
   * Meaning of precision
