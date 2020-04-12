@@ -1,10 +1,5 @@
 Code TODOs
 
-Misc:
-  * Are all SVG IDs OK for creating OpenSCAD identifiers?
-  * Make sure we can't get collisions: an "outer" shape will currently create an
-    "outer_only" module which will collide with an "outer_only" shape.
-
 Cleanup:
   * Clean up method order in classes
   * Freeze dataclasses where appropriate
