@@ -139,18 +139,6 @@ class Color:
 
         return closest(available, self, delta_e)
 
-    def closest_hsv(self, available: List["Color"]) -> "Color":
-        # TODO yeah, this sucks. It makes an arbitrary choice of weighting H, S, and V
-        def d_squared(a: Color, b: Color):
-            a = a.hsv()
-            b = b.hsv()
-            dh = 0.5 - abs(b[0] - a[0] - 0.5)  # Wrapping; TODO MH test
-            ds = b[1] - a[1]
-            dv = b[2] - a[2]
-            return dh**2 + ds**2 + dv**2
-
-        return closest(available, self, d_squared)
-
 # TODO move out
 # CSS colors from https://www.w3.org/TR/css-color-3/
 css_default = {
