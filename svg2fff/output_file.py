@@ -1,7 +1,9 @@
 from typing import List
 from io import IOBase
+from itertools import count
 
 from svg2fff.model import Shape, Group
+from svg2fff.util import factorydict
 from svg2fff.scad import File as ScadFile
 from svg2fff.scad.util import identifier_part
 from svg2fff.util import with_remaining
@@ -20,9 +22,31 @@ class GroupNames:
         self.group = f"group_{name}"  # TODO potential collision with shapes
 
 
+# TODO factor out
+class Namespace:
+    def __init__(self):
+        self._map = factorydict(self.build)
+
+    def get(self, name: str) -> str:
+        return self._map[name]
+
+    def build(self, name: str) -> str:
+        def candidates():
+            identifier = identifier_part(name)
+            yield identifier
+            for i in count(1):
+                yield f"{identifier}_{i}"
+
+        existing = set(self._map.values())
+        for candidate in candidates():
+            if candidate not in existing:
+                return candidate
+
+
 class OutputFile:
     def __init__(self, file: IOBase):
         self.scad_file = ScadFile(file)
+        self._namespace = Namespace()
         self._shape_names = dict()
         self._group_names = dict()
 
@@ -30,7 +54,7 @@ class OutputFile:
     def shape_names(self, shape: Shape) -> ShapeNames:
         key = id(shape)
         if key not in self._shape_names:
-            name = identifier_part(shape.name)
+            name = self._namespace.get(shape.name)
             path_count = len(shape.polygon.paths)
             self._shape_names[key] = ShapeNames(name, path_count)
 
@@ -39,7 +63,7 @@ class OutputFile:
     def group_names(self, group: Group) -> GroupNames:
         key = id(group)
         if key not in self._group_names:
-            name = identifier_part(group.color.display_name())
+            name = self._namespace.get(group.color.display_name())
             self._group_names[key] = GroupNames(name)
 
         return self._group_names[key]
@@ -58,6 +82,7 @@ class OutputFile:
         self.scad_file.comment("Shapes")
 
         for index, shape in enumerate(shapes):
+            self.scad_file.comment(f"{shape.name}")
             names = self.shape_names(shape)
             with self.scad_file.define_module(names.shape):
                 self.scad_file.polygon(shape.polygon, names.points, names.paths)

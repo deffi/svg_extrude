@@ -1,5 +1,13 @@
 Code TODOs
 
+Handle names:
+  * OpenSCAD reserved words
+  * Disallowed characters in id
+  * Duplicates after replacing disallowed characters
+  * Collisions with suffix
+  * Collisions between shapes and groups
+  * Separate namspaces for shapes and groups?
+
 Colors:
   * Implement explicitly listed colors
       * By name or HTML spec: ff8000, darkred
@@ -29,7 +37,7 @@ Future work:
       * Triangulation
       * Output file (STL, 3MF, potentially others) generation
   * Read SVG <desc> and/or <title> and write them as comments to the OpenSCAD
-    file
+    file. Also the original SVG element ID.
   * Additional geometry on top of everything (configurable height), with
     optional color selection (default: color of the back-most shape)
   * Status message: groups, each with number of shapes and number of points
