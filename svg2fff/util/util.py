@@ -1,8 +1,8 @@
+from typing import Iterable, Generator, Sequence
 from collections import defaultdict
 
-# TODO type hints
 
-def filter_repetition(items):
+def filter_repetition(items: Sequence) -> Generator:
     if items:
         i = items[0]
         yield i
@@ -13,27 +13,33 @@ def filter_repetition(items):
                 yield i
 
 
-def with_remaining(items):
+def with_remaining(items: Sequence):
+    """For each items, yields a tuple with (a) that item, and (b) a slice of the
+    original sequence containing all items after that item."""
     for index in range(len(items)):
         yield items[index], items[index+1:]
 
 
-def groupby(items, key):
+def groupby(items: Iterable, key_function) -> dict:
+    """Returns a dict where the keys are determined by calling key_function with
+    an item and the values are lists of items that resulted in that key."""
     result = defaultdict(list)
     for item in items:
-        result[key(item)].append(item)
+        result[key_function(item)].append(item)
     return result
 
 
-# TODO default distance function
-def closest(candidates, value, distance):
-    closest = None
+def closest(candidates: Iterable, value, distance=lambda x, y: abs(x-y)):
+    """Returns the value from candidates that is closest to value, according to
+    the specified distance function. The distance function should be commutative
+    and is called once for each candidate."""
+    closest_candidate = None
     closest_dist = None
 
     for candidate in candidates:
         dist = distance(candidate, value)
         if closest_dist is None or dist < closest_dist:
-            closest = candidate
+            closest_candidate = candidate
             closest_dist = dist
 
-    return closest
+    return closest_candidate
