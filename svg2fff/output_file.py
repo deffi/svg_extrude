@@ -3,7 +3,7 @@ from io import IOBase
 import re
 
 from svg2fff.model import Shape, Group
-from svg2fff.scad import File as ScadFile
+from svg2fff.scad import Writer as ScadWriter
 from svg2fff.util import with_remaining, factorydict
 
 # Identifiers are generated from SVG element IDs.
@@ -27,9 +27,6 @@ from svg2fff.util import with_remaining, factorydict
 
 
 def sanitize_identifier(identifier: str):
-    # TODO unicode characters? Center dot might be legal according to the spec,
-    # although Inkscape refuses it.
-
     def repl(match):
         text = match.group(0)
         assert len(text) == 1
@@ -58,65 +55,65 @@ class GroupNames:
         name = sanitize_identifier(group.color.display_name())
         self.group = f"group_{name}"
 
-
+# TODO rename OutputWriter?
 class OutputFile:
     def __init__(self, file: IOBase):
-        self.scad_file = ScadFile(file)
+        self.scad_writer = ScadWriter(file)
         self._shape_names = factorydict(ShapeNames)
         self._group_names = factorydict(GroupNames)
 
     def write_points_and_paths(self, shapes: List[Shape]):
-        self.scad_file.blank_line()
-        self.scad_file.comment("Points and paths for each shape")
+        self.scad_writer.blank_line()
+        self.scad_writer.comment("Points and paths for each shape")
 
         for shape in shapes:
-            self.scad_file.assignment(self._shape_names[shape].points, shape.polygon.points)
+            self.scad_writer.assignment(self._shape_names[shape].points, shape.polygon.points)
             for index, path in enumerate(shape.polygon.paths):
-                self.scad_file.assignment(self._shape_names[shape].paths[index], path)
+                self.scad_writer.assignment(self._shape_names[shape].paths[index], path)
 
     def write_shapes(self, shapes: List[Shape]):
-        self.scad_file.blank_line()
-        self.scad_file.comment("Shapes")
+        self.scad_writer.blank_line()
+        self.scad_writer.comment("Shapes")
 
         for index, shape in enumerate(shapes):
-            self.scad_file.comment(f"{shape.name}")
+            self.scad_writer.comment(f"{shape.name}")
             names = self._shape_names[shape]
-            with self.scad_file.define_module(names.shape):
-                self.scad_file.polygon(shape.polygon, names.points, names.paths)
+            with self.scad_writer.define_module(names.shape):
+                self.scad_writer.polygon(shape.polygon, names.points, names.paths)
 
     def write_clipped_shapes(self, shapes: List[Shape]):
-        self.scad_file.blank_line()
-        self.scad_file.comment("Clipped shapes")
+        self.scad_writer.blank_line()
+        self.scad_writer.comment("Clipped shapes")
 
         for shape, remaining in with_remaining(shapes):
             names = self._shape_names[shape]
-            with self.scad_file.define_module(names.clipped_shape):
-                with self.scad_file.difference():
-                    self.scad_file.instance(names.shape)
-                    self.scad_file.instances(self._shape_names[s].shape for s in remaining)
+            with self.scad_writer.define_module(names.clipped_shape):
+                with self.scad_writer.difference():
+                    self.scad_writer.instance(names.shape)
+                    self.scad_writer.instances(self._shape_names[s].shape for s in remaining)
 
     def write_groups(self, groups: List[Group]):
-        self.scad_file.blank_line()
-        self.scad_file.comment("Groups")
+        self.scad_writer.blank_line()
+        self.scad_writer.comment("Groups")
 
         for group in groups:
-            with self.scad_file.define_module(self._group_names[group].group):
+            with self.scad_writer.define_module(self._group_names[group].group):
                 # Implicit union
                 for shape in group.shapes:
                     shape_names = self._shape_names[shape]
-                    self.scad_file.instance(shape_names.clipped_shape)
+                    self.scad_writer.instance(shape_names.clipped_shape)
 
     def instantiate_groups(self, groups: List[Group], thickness: float):
-        self.scad_file.blank_line()
-        self.scad_file.comment("Extrude groups")
+        self.scad_writer.blank_line()
+        self.scad_writer.comment("Extrude groups")
 
         for index, group in enumerate(groups):
-            with self.scad_file.color(group.color):
-                with self.scad_file.extrude(thickness):
-                    self.scad_file.instance(self._group_names[group].group)
+            with self.scad_writer.color(group.color):
+                with self.scad_writer.extrude(thickness):
+                    self.scad_writer.instance(self._group_names[group].group)
 
     def write(self, shapes: List[Shape], groups: List[Group], thickness: float) -> None:
-        self.scad_file.comment("Written by svg2fff")
+        self.scad_writer.comment("Written by svg2fff")
         self.write_points_and_paths(shapes)
         self.write_shapes(shapes)
         self.write_clipped_shapes(shapes)

@@ -1,16 +1,12 @@
 from typing import Iterable, Iterator
 from contextlib import contextmanager
-from tempfile import mkstemp
-import os
-import subprocess
 from io import IOBase
 
 from svg2fff.scad.util import Identifier
 from svg2fff.scad.util import render
 
-# TODO File should be scad.Writer, and render_file should be Renderer
 
-class File:
+class Writer:
     def __init__(self, file: IOBase, *, indent: str = "    ", depth: int = 0):
         self._file: IOBase = file
         self._indent: str = indent
@@ -101,19 +97,3 @@ class File:
                 for path in paths:
                     self.print(f"{render(path)},")
             self.print("]);")
-
-
-@contextmanager
-def render_file(output_file_name: str) -> Iterator[None]:
-    # Create a temporary file
-    handle, path = mkstemp(suffix=".scad")
-
-    try:
-        with os.fdopen(handle, "w") as scad_file:
-            yield scad_file
-
-        # Call OpenSCAD
-        command = ["openscad", "-o", output_file_name, path]
-        subprocess.run(command, capture_output=True, check=True)
-    finally:
-        os.remove(path)

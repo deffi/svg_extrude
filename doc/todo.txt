@@ -40,6 +40,7 @@ Future work:
   * Configurable flipping: x (default), y, none, both
   * Reading available colors from JSON file (name and color, which can be a
     named color (defining an alias))
+  * Reading available colors from environment variable
   * Option: file and group names use numeric colors, even if a name is defined
   * Consider using OpenSCAD primitives: cube, circle, text
   * Layer for ignored elements (for comments)? Layer classes?
@@ -50,3 +51,5 @@ Future work:
     3rdparty)? Move up? Use package that is in PyPI?
   * Proper error handling if the fill style is not a simple color
   * We might be able to do outlines by minkowski-ing with a circle
+  * Allow configuring the OpenSCAD executable: PATH, environment variable,
+    command line

@@ -11,7 +11,7 @@ from svg2fff.model import Shape, Group, Color, Scene
 from svg2fff.model.color import svg as default_colors, css_default as basic_colors
 from svg2fff.model.color_set import parse as parse_color_set
 from svg2fff import OutputFile
-from svg2fff.scad import render_file as render_scad_file
+from svg2fff.scad import Renderer as ScadRenderer
 
 
 def write_scad_file(base_name, scene: Scene, height):
@@ -25,8 +25,8 @@ def render_file(base_name, format, scene, height):
     for group in scene.groups:
         file_name = f"{base_name}_{group.color.display_name()}.{format}"
         print(f"Rendering to {file_name}")
-        with render_scad_file(file_name) as file:
-            OutputFile(file).write(scene.shapes, [group], height)
+        with ScadRenderer.render_file(file_name) as scad_file:
+            OutputFile(scad_file).write(scene.shapes, [group], height)
 
 
 def svg2fff(args):
