@@ -1,42 +1,14 @@
 from typing import Optional
 
 import tinycss2 as css
+import tinycss2.ast
 
-from svg2fff.model import Color
 
-# TODO code duplication
-
-# opacity:1;vector-effect:none;fill:#000cff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.66145831;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1
-
-def extract_fill_rule(svg_path) -> Optional[str]:
-    style = svg_path.style
+def extract_value(style, name: str) -> Optional[str]:
     declarations = css.parse_declaration_list(style)
     for declaration in declarations:
         if isinstance(declaration, css.ast.Declaration):
-            if declaration.lower_name == "fill-rule":
+            if declaration.lower_name == name.lower():
                 if declaration.value:
                     return declaration.value[0].value
-    return None
-
-def extract_stroke(svg_path) -> Optional[str]:
-    style = svg_path.style
-    declarations = css.parse_declaration_list(style)
-    for declaration in declarations:
-        if isinstance(declaration, css.ast.Declaration):
-            if declaration.lower_name == "stroke":
-                if declaration.value:
-                    return declaration.value[0].value
-    return None
-
-
-def extract_color(svg_object) -> Optional[Color]:
-    style = svg_object.style
-    declarations = css.parse_declaration_list(style)
-    for declaration in declarations:
-        if isinstance(declaration, css.ast.Declaration):
-            if declaration.lower_name == "fill":
-                if declaration.value:
-                    value = declaration.value[0]
-                    if isinstance(value, css.ast.HashToken):
-                        return Color.from_html(value.value, None)
     return None

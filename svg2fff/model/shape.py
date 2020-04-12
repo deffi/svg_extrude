@@ -4,7 +4,7 @@ from typing import Iterable
 
 from svg2fff.model import Polygon, Point, Color
 from svg2fff.util import filter_repetition
-from svg2fff.css import extract_color, extract_fill_rule, extract_stroke
+from svg2fff.css import extract_value
 
 logger = logging.getLogger(__name__)
 
@@ -16,15 +16,18 @@ class Shape:
 
     @classmethod
     def from_svg_path(cls, svg_path, precision: float) -> "Shape":
-        fill_rule = extract_fill_rule(svg_path)
+        fill_rule = extract_value(svg_path.style, "fill-rule")
         if not (fill_rule is None or fill_rule == "evenodd"):
             logger.warning("%s: fill rule %s not supported. Using evenodd instead.", svg_path.id, fill_rule)
 
-        stroke = extract_stroke(svg_path)
+        stroke = extract_value(svg_path.style, "stroke")
         if not (stroke is None or stroke == "none"):
             logger.warning("%s: stroked paths are not supported. Ignoring stroke.", svg_path.id)
 
-        shape = Shape(svg_path.id, extract_color(svg_path))
+        fill = extract_value(svg_path.style, "fill")
+        if fill:
+            fill = Color.from_html(fill, None)
+        shape = Shape(svg_path.id, fill)
         for subpath in svg_path.segments(precision):
             # 1 px is 1/96 inch; we use mm
             # TODO use m, but we need to convert it to mm when writing the SCAD file.

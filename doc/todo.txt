@@ -48,3 +48,5 @@ Future work:
   * Rounding of coordinates, because Inkscape values are often off by epsilon
   * Better handling of 3rdparty/cjlano_svg? Import explicitly (requires renaming
     3rdparty)? Move up? Use package that is in PyPI?
+  * Proper error handling if the fill style is not a simple color
+  * We might be able to do outlines by minkowski-ing with a circle
