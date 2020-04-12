@@ -1,9 +1,6 @@
 Code TODOs
 
 Handle names:
-  * OpenSCAD reserved words
-  * Disallowed characters in id
-  * Duplicates after replacing disallowed characters
   * Collisions with suffix
   * Collisions between shapes and groups
   * Separate namspaces for shapes and groups?
