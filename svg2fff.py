@@ -1,5 +1,11 @@
 import argparse
 import re
+import sys
+from os import path
+
+path_3rdparty = path.join(path.dirname(__file__), "3rdparty")
+if path_3rdparty not in sys.path:
+    sys.path.append(path_3rdparty)
 
 from svg2fff.model import Shape, Group, Color, Scene
 from svg2fff.model.color import svg as default_colors, css_default as basic_colors

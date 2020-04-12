@@ -46,3 +46,5 @@ Future work:
   * Merging groups?
   * Create Scad.Identifier which also checks validity
   * Rounding of coordinates, because Inkscape values are often off by epsilon
+  * Better handling of 3rdparty/cjlano_svg? Import explicitly (requires renaming
+    3rdparty)? Move up? Use package that is in PyPI?
