@@ -4,6 +4,7 @@ Cleanup:
   * Clean up method order in classes
   * Freeze dataclasses where appropriate
   * Use Iterable in type hints instead of List
+  * Inspections
 
 Documentation:
   * Meaning of precision
