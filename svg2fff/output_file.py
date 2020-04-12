@@ -63,7 +63,7 @@ class OutputFile:
 
     # TODO clean up mechanism
     def shape_names(self, shape: Shape) -> ShapeNames:
-        key = id(shape)
+        key = shape
         if key not in self._shape_names:
             name = sanitize_identifier(shape.name)
             path_count = len(shape.polygon.paths)
@@ -72,7 +72,7 @@ class OutputFile:
         return self._shape_names[key]
 
     def group_names(self, group: Group) -> GroupNames:
-        key = id(group)
+        key = group
         if key not in self._group_names:
             name = sanitize_identifier(group.color.display_name())
             self._group_names[key] = GroupNames(name)

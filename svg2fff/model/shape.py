@@ -8,7 +8,7 @@ from svg2fff.css import extract_color, extract_fill_rule, extract_stroke
 
 logger = logging.getLogger(__name__)
 
-@dataclass()
+@dataclass(frozen=True)
 class Shape:
     name: str
     color: Color
