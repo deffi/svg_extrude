@@ -1,10 +1,5 @@
 Code TODOs
 
-Colors:
-  * Implement explicitly listed colors
-      * By name or HTML spec: ff8000, darkred
-      * Optionally specifying a name: orange:ff8000, cherryred:darkred
-
 Misc:
   * Are all SVG IDs OK for creating OpenSCAD identifiers?
   * Make sure we can't get collisions: an "outer" shape will currently create an
@@ -55,3 +50,4 @@ Future work:
   * Layer for ignored elements (for comments)? Layer classes?
   * Merging groups?
   * Create Scad.Identifier which also checks validity
+  * Rounding of coordinates, because Inkscape values are often off by epsilon

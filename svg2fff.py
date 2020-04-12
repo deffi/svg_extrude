@@ -3,6 +3,7 @@ import re
 
 from svg2fff.model import Shape, Group, Color, Scene
 from svg2fff.model.color import svg as default_colors, css_default as basic_colors
+from svg2fff.model.color_set import parse as parse_color_set
 from svg2fff import OutputFile
 from svg2fff.scad import render_file as render_scad_file
 
@@ -29,9 +30,9 @@ def svg2fff(args):
 
         # Create the colors
         if   args.colors == "all":     colors = None
-        elif args.colors == "basic":   colors = basic_colors  # TODO replace
+        elif args.colors == "basic":   colors = basic_colors
         elif args.colors == "default": colors = default_colors
-        else: raise NotImplementedError # TODO
+        else: colors = parse_color_set(args.colors, available=default_colors)
 
         # Read the scene from the SVG file
         scene: Scene = Scene.from_svg(svg_file, precision=args.precision, available_colors=colors)

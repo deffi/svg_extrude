@@ -24,17 +24,15 @@ def groupby(items, key):
         result[key(item)].append(item)
     return result
 
+
 # TODO default distance function
 def closest(candidates, value, distance):
-    if not candidates:
-        return None
+    closest = None
+    closest_dist = None
 
-    closest = candidates[0]
-    closest_dist = distance(closest, value)
-
-    for candidate in candidates[1:]:
+    for candidate in candidates:
         dist = distance(candidate, value)
-        if dist < closest_dist:
+        if closest_dist is None or dist < closest_dist:
             closest = candidate
             closest_dist = dist
 

@@ -22,11 +22,13 @@ class Color:
     def __hash__(self):
         return hash(self.rgb())
 
+    # TODO from dataclass?
     def __eq__(self, other):
         return (isinstance(other, Color)
             and other._r == self._r
             and other._g == self._g
-            and other._b == self._b)
+            and other._b == self._b
+            and other._name == self._name)
 
     # TODO can dataclass do this?
     @property
@@ -151,7 +153,7 @@ class Color:
 
 # TODO move out
 # CSS colors from https://www.w3.org/TR/css-color-3/
-css_default = [
+css_default = {
     Color.from_html("000000", "black"),
     Color.from_html("C0C0C0", "silver"),
     Color.from_html("808080", "gray"),
@@ -168,9 +170,9 @@ css_default = [
     Color.from_html("0000FF", "blue"),
     Color.from_html("008080", "teal"),
     Color.from_html("00FFFF", "aqua"),
-]
+}
 
-svg = [
+svg = {
     Color.from_html("f0f8ff", "aliceblue"),
     Color.from_html("faebd7", "antiquewhite"),
     Color.from_html("00ffff", "aqua"),
@@ -318,4 +320,4 @@ svg = [
     Color.from_html("f5f5f5", "whitesmoke"),
     Color.from_html("ffff00", "yellow"),
     Color.from_html("9acd32", "yellowgreen"),
-]
+}
