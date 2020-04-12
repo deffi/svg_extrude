@@ -17,15 +17,14 @@ from svg2fff.util import with_remaining
 
 class ShapeNames:
     def __init__(self, name: str, path_count: int):
-        self.points = f"{name}_points"
-        self.paths = [f"{name}_path_{index}" for index in range(path_count)]
-        self.shape = f"{name}"  # TODO potential collision
-        self.clipped_shape = f"{name}_clipped"
-
+        self.points = f"points_{name}"
+        self.paths = [f"path_{name}_{index}" for index in range(path_count)]
+        self.shape = f"shape_{name}"
+        self.clipped_shape = f"clipped_{name}"
 
 class GroupNames:
     def __init__(self, name: str):
-        self.group = f"group_{name}"  # TODO potential collision with shapes
+        self.group = f"group_{name}"
 
 
 # TODO factor out

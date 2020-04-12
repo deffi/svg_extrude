@@ -1,10 +1,5 @@
 Code TODOs
 
-Handle names:
-  * Collisions with suffix
-  * Collisions between shapes and groups
-  * Separate namspaces for shapes and groups?
-
 Colors:
   * Implement explicitly listed colors
       * By name or HTML spec: ff8000, darkred
