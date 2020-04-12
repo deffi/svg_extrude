@@ -37,6 +37,7 @@ Future work:
     file. Also the original SVG element ID.
   * Additional geometry on top of everything (configurable height), with
     optional color selection (default: color of the back-most shape)
+    Use union of all shapes or a separate shape (or a layer?)
   * Status message: groups, each with number of shapes and number of points
     OTOH, that's not really relevant because in does not consider clipping.
   * When using OpenSCAD for rendering, use OpenSCAD customizer to select groups
@@ -53,3 +54,5 @@ Future work:
     named color (defining an alias))
   * Option: file and group names use numeric colors, even if a name is defined
   * Consider using OpenSCAD primitives: cube, circle, text
+  * Layer for ignored elements (for comments)? Layer classes?
+  * Merging groups?
