@@ -1,5 +1,7 @@
 Code TODOs
 
+Unicode characters in id
+
 Colors:
   * Implement explicitly listed colors
       * By name or HTML spec: ff8000, darkred
@@ -51,3 +53,4 @@ Future work:
   * Consider using OpenSCAD primitives: cube, circle, text
   * Layer for ignored elements (for comments)? Layer classes?
   * Merging groups?
+  * Create Scad.Identifier which also checks validity
