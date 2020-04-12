@@ -1,7 +1,5 @@
 Code TODOs
 
-Unicode characters in id
-
 Colors:
   * Implement explicitly listed colors
       * By name or HTML spec: ff8000, darkred
@@ -21,6 +19,7 @@ Documentation:
   * Meaning of precision
 
 Test:
+  * Write unit tests
   * SVG IDs: leading digits, all-digits, empty, invalid characters only,
     OpenSCAD reserved word, space only
 
