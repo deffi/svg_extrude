@@ -2,8 +2,8 @@ Code TODOs
 
 Colors:
   * Implement explicitly listed colors
-      * By css name
-      * By HTML spec with optional name
+      * By name or HTML spec: ff8000, darkred
+      * Optionally specifying a name: orange:ff8000, cherryred:darkred
 
 Misc:
   * Are all SVG IDs OK for creating OpenSCAD identifiers?
@@ -16,6 +16,9 @@ Cleanup:
 Documentation:
   * Meaning of precision
 
+Test:
+  * SVG IDs: leading digits, all-digits, empty, invalid characters only,
+    OpenSCAD reserved word, space only
 
 Future work:
   * Single 3MF file with multiple objects
@@ -41,6 +44,7 @@ Future work:
     operations.
   * Configurable coordinate origin?
   * Configurable flipping: x (default), y, none, both
-  * Reading available colors from JSON file
+  * Reading available colors from JSON file (name and color, which can be a
+    named color (defining an alias))
   * Option: file and group names use numeric colors, even if a name is defined
   * Consider using OpenSCAD primitives: cube, circle, text

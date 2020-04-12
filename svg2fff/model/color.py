@@ -46,6 +46,7 @@ class Color:
         return colorsys.rgb_to_hsv(*self.rgb())
 
     def xyz(self):
+        # TODO verify and add reference
         def linear(v):
             if v <= 0.04045:
                 return v / 12.92
@@ -63,12 +64,10 @@ class Color:
         return (x, y, z)
 
     def lab(self, observer=10):
+        # TODO verify and add reference
         def root(v):
             if v < 216/24389:
-                # From Wikipedia TODO
-                # return (24389/27 * v + 16) / 116
-                # From colormath
-                return (7.787 * v) + (16 / 116)
+                return (24389/27 * v + 16) / 116
             else:
                 return v ** (1 / 3)
 
@@ -126,7 +125,7 @@ class Color:
         return cls.from_hsv(h, s, v)
 
     def closest(self, available: List["Color"]) -> "Color":
-        """Finds the closest color according to color distance ΔE"""
+        """Finds the closest color according to color distance ΔE according to CIE76"""
 
         def delta_e(a: Color, b: Color):
             a = a.lab()
@@ -150,6 +149,7 @@ class Color:
 
         return closest(available, self, d_squared)
 
+# TODO move out
 # CSS colors from https://www.w3.org/TR/css-color-3/
 css_default = [
     Color.from_html("000000", "black"),

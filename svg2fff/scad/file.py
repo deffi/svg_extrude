@@ -8,6 +8,7 @@ from io import IOBase
 from svg2fff.scad.util import Identifier
 from svg2fff.scad.util import render
 
+# TODO File should be scad.Writer, and render_file should be Renderer
 
 class File:
     def __init__(self, file: IOBase, *, indent: str = "    ", depth: int = 0):
