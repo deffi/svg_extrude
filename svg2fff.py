@@ -44,14 +44,16 @@ def svg2fff(args):
         if args.threemf: render_file(base_name, "3mf", scene, args.height)
 
 
-parser = argparse.ArgumentParser(description="Generates 3D models for 3D printing from an SVG file.",
-                                 epilog="Colors can be...") # TODO
+parser = argparse.ArgumentParser(description="Generates 3D models (for 3D printing) from an SVG file.")
 parser.add_argument("--scad", help="Output an OpenSCAD file", action="store_true")
 parser.add_argument("--stl", help="Output STL files, one for each color", action="store_true")
 parser.add_argument("--amf", help="Output AMF files, one for each color", action="store_true")
 parser.add_argument("--3mf", help="Output 3MF files, one for each color", action="store_true", dest="threemf")
 parser.add_argument("--height", help="Extrusion height (thickness)", type=float, default=0.2)
 parser.add_argument("--precision", help="Precision", type=float, default=1)
-parser.add_argument("--colors", help="'default', 'all', 'basic', or comma-separated list of colors", default="default")
-parser.add_argument("svg_files", nargs='*', help="SVG file name")
+parser.add_argument("--colors", help="'default', 'all', 'basic', or comma-separated list of colors. " +
+                                     "Colors can be specified by value (e. g. #4682b4) or CSS name (e. g. steelblue). " +
+                                    "Optionally, a name can be specified (e. g. my_blue:#4682b4 or my_blue:steelblue).",
+                    default="default")
+parser.add_argument("svg_files", nargs='+', help="SVG file name")
 svg2fff(parser.parse_args())
