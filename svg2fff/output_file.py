@@ -4,7 +4,7 @@ import re
 
 from svg2fff.model import Shape, Group
 from svg2fff.scad import File as ScadFile
-from svg2fff.util import with_remaining
+from svg2fff.util import with_remaining, factorydict
 
 # Identifiers are generated from SVG element IDs.
 #   * First, the ID is sanitized. Invalid characters are replaced with an
@@ -44,49 +44,35 @@ def sanitize_identifier(identifier: str):
 
 
 class ShapeNames:
-    def __init__(self, name: str, path_count: int):
+    def __init__(self, shape: Shape):
+        name = sanitize_identifier(shape.name)
+        path_count = len(shape.polygon.paths)
         self.points = f"points_{name}"
         self.paths = [f"path_{name}_{index}" for index in range(path_count)]
         self.shape = f"shape_{name}"
         self.clipped_shape = f"clipped_{name}"
 
+
 class GroupNames:
-    def __init__(self, name: str):
+    def __init__(self, group: Group):
+        name = sanitize_identifier(group.color.display_name())
         self.group = f"group_{name}"
 
 
 class OutputFile:
     def __init__(self, file: IOBase):
         self.scad_file = ScadFile(file)
-        self._shape_names = dict()
-        self._group_names = dict()
-
-    # TODO clean up mechanism
-    def shape_names(self, shape: Shape) -> ShapeNames:
-        key = shape
-        if key not in self._shape_names:
-            name = sanitize_identifier(shape.name)
-            path_count = len(shape.polygon.paths)
-            self._shape_names[key] = ShapeNames(name, path_count)
-
-        return self._shape_names[key]
-
-    def group_names(self, group: Group) -> GroupNames:
-        key = group
-        if key not in self._group_names:
-            name = sanitize_identifier(group.color.display_name())
-            self._group_names[key] = GroupNames(name)
-
-        return self._group_names[key]
+        self._shape_names = factorydict(ShapeNames)
+        self._group_names = factorydict(GroupNames)
 
     def write_points_and_paths(self, shapes: List[Shape]):
         self.scad_file.blank_line()
         self.scad_file.comment("Points and paths for each shape")
 
         for shape in shapes:
-            self.scad_file.assignment(self.shape_names(shape).points, shape.polygon.points)
+            self.scad_file.assignment(self._shape_names[shape].points, shape.polygon.points)
             for index, path in enumerate(shape.polygon.paths):
-                self.scad_file.assignment(self.shape_names(shape).paths[index], path)
+                self.scad_file.assignment(self._shape_names[shape].paths[index], path)
 
     def write_shapes(self, shapes: List[Shape]):
         self.scad_file.blank_line()
@@ -94,7 +80,7 @@ class OutputFile:
 
         for index, shape in enumerate(shapes):
             self.scad_file.comment(f"{shape.name}")
-            names = self.shape_names(shape)
+            names = self._shape_names[shape]
             with self.scad_file.define_module(names.shape):
                 self.scad_file.polygon(shape.polygon, names.points, names.paths)
 
@@ -103,21 +89,21 @@ class OutputFile:
         self.scad_file.comment("Clipped shapes")
 
         for shape, remaining in with_remaining(shapes):
-            names = self.shape_names(shape)
+            names = self._shape_names[shape]
             with self.scad_file.define_module(names.clipped_shape):
                 with self.scad_file.difference():
                     self.scad_file.instance(names.shape)
-                    self.scad_file.instances(self.shape_names(s).shape for s in remaining)
+                    self.scad_file.instances(self._shape_names[s].shape for s in remaining)
 
     def write_groups(self, groups: List[Group]):
         self.scad_file.blank_line()
         self.scad_file.comment("Groups")
 
         for group in groups:
-            with self.scad_file.define_module(self.group_names(group).group):
+            with self.scad_file.define_module(self._group_names[group].group):
                 # Implicit union
                 for shape in group.shapes:
-                    shape_names = self.shape_names(shape)
+                    shape_names = self._shape_names[shape]
                     self.scad_file.instance(shape_names.clipped_shape)
 
     def instantiate_groups(self, groups: List[Group], thickness: float):
@@ -127,7 +113,7 @@ class OutputFile:
         for index, group in enumerate(groups):
             with self.scad_file.color(group.color):
                 with self.scad_file.extrude(thickness):
-                    self.scad_file.instance(self.group_names(group).group)
+                    self.scad_file.instance(self._group_names[group].group)
 
     def write(self, shapes: List[Shape], groups: List[Group], thickness: float) -> None:
         self.scad_file.comment("Written by svg2fff")
