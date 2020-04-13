@@ -2,6 +2,7 @@ from typing import Iterable, Iterator
 from contextlib import contextmanager
 from io import IOBase
 
+from svg2fff.model import Color
 from svg2fff.scad.util import Identifier
 from svg2fff.scad.util import render
 
@@ -49,9 +50,8 @@ class Writer:
         self.print("}")
 
     @contextmanager
-    def color(self, color) -> Iterator[None]:  # TODO type - depend on sfg2fff.model? If so, explicitly handle model classes in render() and use frozen dataclasses.
-        # TODO not really an identifier
-        with self.block(f"color (\"#{render(Identifier(color.html()))}\")"):
+    def color(self, color: Color) -> Iterator[None]:
+        with self.block(f"color ({render(color)})"):
             yield
 
     @contextmanager

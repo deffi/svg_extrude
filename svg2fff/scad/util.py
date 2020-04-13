@@ -1,7 +1,7 @@
 from numbers import Number
 import re
 
-from svg2fff.model import Point
+from svg2fff.model import Point, Color
 from svg2fff.scad.types import StringLiteral, Identifier
 
 
@@ -28,6 +28,9 @@ def render(value) -> str:
         # OpenSCAD uses millimeters
         mm = 1e-3
         return f"[{value.x / mm}, {value.y / mm}]"
+
+    elif isinstance(value, Color):
+        return f"\"#{value.html()}\""
 
     elif isinstance(value, (list, tuple)):
         return f'[{", ".join(render(v) for v in value)}]'
