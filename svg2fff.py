@@ -56,7 +56,7 @@ parser.add_argument("--stl", help="Output STL files, one for each color", action
 parser.add_argument("--amf", help="Output AMF files, one for each color", action="store_true")
 parser.add_argument("--3mf", help="Output 3MF files, one for each color", action="store_true", dest="threemf")
 parser.add_argument("--height", help="Extrusion height (thickness)", type=float, default=0.2)
-parser.add_argument("--precision", help="Precision", type=float, default=1)
+parser.add_argument("--precision", help="Precision for approximating curves; smaller is more precise.", type=float, default=1)
 parser.add_argument("--colors", help="'default', 'all', 'basic', or comma-separated list of colors. " +
                                      "Colors can be specified by value (e. g. #4682b4) or CSS name (e. g. steelblue). " +
                                     "Optionally, a name can be specified (e. g. my_blue:#4682b4 or my_blue:steelblue).",

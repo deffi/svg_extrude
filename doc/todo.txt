@@ -1,20 +1,15 @@
-Code TODOs
-Unit tests
+Freeze dataclasses where appropriate
+Clean up method order in classes
+
+Fix existing unit tests
 Don't inherit Identifier from str
+Use Iterable in type hints instead of List
+More unit tests
 
-Cleanup:
-  * Clean up method order in classes
-  * Freeze dataclasses where appropriate
-  * Use Iterable in type hints instead of List
+Checks:
+  * Code TODOs
   * Inspections
-
-Documentation:
-  * Meaning of precision
-
-Test:
-  * Write unit tests
-  * SVG IDs: leading digits, all-digits, empty, invalid characters only,
-    OpenSCAD reserved word, space only
+  * Run all unit tests
 
 Future work:
   * Single 3MF file with multiple objects
