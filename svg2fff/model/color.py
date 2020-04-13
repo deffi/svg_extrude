@@ -7,6 +7,13 @@ Rgb = namedtuple("Rgb", ["r", "g", "b"])
 Xyz = namedtuple("Xyz", ["x", "y", "z"])
 Lab = namedtuple("Lab", ["l", "a", "b"])
 
+Illuminant = namedtuple("Illuminant", ["xn", "yn", "zn"])
+illuminant_d65 = {
+    # https://en.wikipedia.org/wiki/Illuminant_D65
+    2: Illuminant(0.95047, 1.0000, 1.08883),  # 2° observer
+    10: Illuminant(0.948110, 1.0000, 1.07304),  # 10° observer
+}
+
 
 @dataclass(frozen=True)
 class Color:
@@ -48,47 +55,52 @@ class Color:
         return "".join(f"{round(x*255):02X}" for x in self.rgb())
 
     def xyz(self):
-        # TODO verify and add reference
-        def linear(v):
-            if v <= 0.04045:
-                return v / 12.92
+        """Assumes sRGB"""
+
+        # https://en.wikipedia.org/wiki/SRGB
+
+        def gamma_inv(u):
+            if u <= 0.04045:
+                return 25*u / 323
             else:
-                return ((v + 0.055) / 1.055) ** 2.4
+                return ((200*u + 11) / 211) ** (12/5)
 
-        lr = linear(self.r)
-        lg = linear(self.g)
-        lb = linear(self.b)
+        # Linear values
+        lr = gamma_inv(self.r)
+        lg = gamma_inv(self.g)
+        lb = gamma_inv(self.b)
 
-        x = 0.412424  * lr + 0.357579 * lg + 0.180464  * lb
-        y = 0.212656  * lr + 0.715158 * lg + 0.0721856 * lb
-        z = 0.0193324 * lr + 0.119193 * lg + 0.950444  * lb
+        x = 0.41239080*lr + 0.35758434*lg + 0.18048079*lb
+        y = 0.21263901*lr + 0.71516868*lg + 0.07219232*lb
+        z = 0.01933082*lr + 0.11919478*lg + 0.95053215*lb
 
         return Xyz(x, y, z)
 
-    def lab(self, observer=10):
-        # TODO verify and add reference
-        def root(v):
-            if v < 216/24389:
-                return (24389/27 * v + 16) / 116
-            else:
-                return v ** (1 / 3)
+    def lab(self, observer=None):
+        """Assumes Illuminant D65 because that's what's used for sRGB.
+        Observer can be 2 or 10."""
 
-        if observer == 2:
-            xn, yn, zn = 0.95047, 1.00000, 1.08883  # 2°, D65
-        elif observer == 10:
-            xn, yn, zn = 0.94811, 1.00000, 1.07304  # 10°, D65
-        else:
-            raise ValueError(f"Invalid observer: {observer}°")
+        # https://en.wikipedia.org/wiki/CIELAB_color_space
+
+        observer = observer or 10
+
+        def f(t):
+            delta = 6/29
+            if t > delta**3:
+                return t ** (1 / 3)
+            else:
+                return t / (3 * delta ** 2) + 4 / 29
 
         x, y, z = self.xyz()
+        xn, yn, zn = illuminant_d65[observer]
 
-        rootx = root(x/xn)
-        rooty = root(y/yn)
-        rootz = root(z/zn)
+        fx = f(x/xn)
+        fy = f(y/yn)
+        fz = f(z/zn)
 
-        L = 116 * rooty - 16
-        a = 500 * (rootx - rooty)
-        b = 200 * (rooty - rootz)
+        L = 116 * fy - 16
+        a = 500 * (fx - fy)
+        b = 200 * (fy - fz)
 
         return Lab(L, a, b)
 
@@ -96,10 +108,10 @@ class Color:
     ## Calculation ##
     #################
 
-    def delta_e(self, other: "Color") -> float:
+    def delta_e(self, other: "Color", observer=None) -> float:
         """Color distance ΔE according to CIE76"""
 
-        self_lab = self.lab()
+        self_lab = self.lab(observer=observer)
         other_lab = other.lab()
 
         delta_l = self_lab.l - other_lab.l

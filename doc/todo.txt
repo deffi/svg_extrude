@@ -54,3 +54,4 @@ Future work:
   * We might be able to do outlines by minkowski-ing with a circle
   * Allow configuring the OpenSCAD executable: PATH, environment variable,
     command line
+  * Show a list of color replacements with maximum ΔE (JND ≈ 2.3)

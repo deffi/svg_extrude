@@ -111,23 +111,28 @@ class ColorTest(unittest.TestCase):
         # 0.005, -0.010). Further investigation may be in order.
         # [1] http://colormine.org/convert/rgb-to-lab
 
-        self.assertSequenceAlmostEqual(Lab(  0.000, 0.000,  0.000), Color.from_html("000000").lab(), places=3)
-        self.assertSequenceAlmostEqual(Lab(100.000, 0.414, -0.985), Color.from_html("FFFFFF").lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(  0.000, 0.000,  0.000), Color.from_html("000000").lab(10), places=3)
+        self.assertSequenceAlmostEqual(Lab(100.000, 0.412, -0.990), Color.from_html("FFFFFF").lab(10), places=3)
 
-        self.assertSequenceAlmostEqual(Lab(53.239,  80.404,   66.947), Color.from_html("FF0000").lab(), places=3)
-        self.assertSequenceAlmostEqual(Lab(87.735, -85.884,   82.713), Color.from_html("00FF00").lab(), places=3)
-        self.assertSequenceAlmostEqual(Lab(32.299,  79.430, -108.798), Color.from_html("0000FF").lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(53.237,  80.402,   66.945), Color.from_html("FF0000").lab(10), places=3)
+        self.assertSequenceAlmostEqual(Lab(87.736, -85.884,   82.713), Color.from_html("00FF00").lab(10), places=3)
+        self.assertSequenceAlmostEqual(Lab(32.301,  79.432, -108.802), Color.from_html("0000FF").lab(10), places=3)
 
-        self.assertSequenceAlmostEqual(Lab(55.989, 37.338, 56.410), Color.from_html("d2691e").lab(), places=3)
-        self.assertSequenceAlmostEqual(Lab(67.294, 45.686, 47.020), Color.from_html("ff7f50").lab(), places=3)
-        self.assertSequenceAlmostEqual(Lab(47.035, 71.203, 33.228), Color.from_html("dc143c").lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(55.988, 37.334, 56.408), Color.from_html("d2691e").lab(10), places=3)
+        self.assertSequenceAlmostEqual(Lab(67.293, 45.683, 47.016), Color.from_html("ff7f50").lab(10), places=3)
+        self.assertSequenceAlmostEqual(Lab(47.033, 71.202, 33.224), Color.from_html("dc143c").lab(10), places=3)
 
     def test_delta_e(self):
         colors = {red, yellow, green, Color.from_html("0FF1CE"), Color.from_html("BADA55")}
 
+        # It's symmetric
         for c1 in colors:
             for c2 in colors:
                 self.assertEqual(c1.delta_e(c2), c2.delta_e(c1))
+
+        # Colormine (http://colormine.org/delta-e-calculator) gives 58.9127.
+        # Further investigation may be in order.
+        self.assertAlmostEqual(62.741, Color.from_html("0FF1CE").delta_e(Color.from_html("BADA55")), places=3)
 
     # Needs the colormath package, but note that that pulls in numpy
     # def test_xyz_colormath(self):
