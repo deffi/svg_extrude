@@ -23,7 +23,7 @@ class Scene:
     groups: Tuple[Group, ...]
 
     @classmethod
-    def from_svg(cls, file_name: str, *, precision: float, available_colors: Optional[ColorSet]):
+    def from_svg(cls, file_name: str, *, precision: float, available_colors: Optional[ColorSet], snap: Optional[float]=None):
         # Read the SVG file
         svg_picture: svg.Svg = svg.parse(file_name)
 
@@ -34,7 +34,7 @@ class Scene:
         svg_paths = svg_picture.flatten()
 
         # Create the shapes
-        shapes = tuple(Shape.from_svg_path(path, precision) for path in svg_paths)
+        shapes = tuple(Shape.from_svg_path(path, precision, snap=snap) for path in svg_paths)
 
         # Create the color mapping
         if available_colors:

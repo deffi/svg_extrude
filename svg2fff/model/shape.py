@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Tuple, Optional
 
 from svg2fff.model import Polygon, Point, Color
 from svg2fff.util import filter_repetition
@@ -16,7 +16,7 @@ class Shape:
     polygon: Polygon
 
     @classmethod
-    def from_svg_path(cls, svg_path, precision: float) -> "Shape":
+    def from_svg_path(cls, svg_path, precision: float, *, snap: Optional[float]=None) -> "Shape":
         fill_rule = extract_value(svg_path.style, "fill-rule")
         if not (fill_rule is None or fill_rule == "evenodd"):
             logger.warning("%s: fill rule %s not supported. Using evenodd instead.", svg_path.id, fill_rule)
@@ -32,8 +32,19 @@ class Shape:
         # 1 px (1/96 inch) in m
         px = 25.4e-3 / 96
 
+        def length(v: float) -> float:
+            v = v * px
+            if snap:
+                v = snap * round(v / snap)
+            return v
+
+        def point(svg_point) -> Point:
+            x = length(svg_point.x)
+            y = length(svg_point.y)
+            return Point(x, y)
+
         def path(segment) -> Tuple[Point]:
-            return tuple(Point(p.x*px, p.y*px) for p in filter_repetition(segment))
+            return tuple(point(p) for p in filter_repetition(segment))
         segments = svg_path.segments(precision)
         paths = (path(segment) for segment in segments)
         polygon = Polygon(tuple(paths))

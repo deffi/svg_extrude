@@ -14,7 +14,7 @@ yel = Color(1.0, 1.0, 0.0)
 
 class SceneTest(unittest.TestCase):
     def test_from_svg(self):
-        scene = Scene.from_svg(file_name, precision=1, available_colors=None)
+        scene = Scene.from_svg(file_name, precision=1, available_colors=None, snap=1e-6)
 
         shapes: Dict[str, Shape]   = {shape.name: shape for shape in scene.shapes}
         groups: Dict[Color, Group] = {group.color: group for group in scene.groups}
@@ -27,10 +27,10 @@ class SceneTest(unittest.TestCase):
         self.assertEqual(c1, shapes["one"].color)
         self.assertEqual(c2, shapes["two"].color)
         self.assertEqual(c3, shapes["tre"].color)
-        # Each shape: correct points - we should have this, but the y coordinates are slightly off (also in test_from_svg_with_colors)
-        #self.assertEqual((Point(0.00, 0.01), Point(0.01, 0.01), Point(0.01, 0.00), Point(0.00, 0.00), Point(0.00, 0.01)), shapes["one"].polygon.paths[0])
-        #self.assertEqual((Point(0.01, 0.01), Point(0.02, 0.01), Point(0.02, 0.00), Point(0.01, 0.00), Point(0.01, 0.01)), shapes["two"].polygon.paths[0])
-        #self.assertEqual((Point(0.02, 0.00), Point(0.02, 0.01), Point(0.03, 0.01), Point(0.03, 0.00), Point(0.02, 0.00)), shapes["tre"].polygon.paths[0])
+        # Each shape: correct points
+        self.assertEqual((Point(0.00, 0.01), Point(0.01, 0.01), Point(0.01, 0.00), Point(0.00, 0.00), Point(0.00, 0.01)), shapes["one"].polygon.paths[0])
+        self.assertEqual((Point(0.01, 0.01), Point(0.02, 0.01), Point(0.02, 0.00), Point(0.01, 0.00), Point(0.01, 0.01)), shapes["two"].polygon.paths[0])
+        self.assertEqual((Point(0.02, 0.00), Point(0.02, 0.01), Point(0.03, 0.01), Point(0.03, 0.00), Point(0.02, 0.00)), shapes["tre"].polygon.paths[0])
 
         # Correct number of groups
         self.assertEqual(3, len(groups))
@@ -43,7 +43,7 @@ class SceneTest(unittest.TestCase):
 
     def test_from_svg_with_colors(self):
         colors = ColorSet({red, yel})
-        scene = Scene.from_svg(file_name, precision=1, available_colors=colors)
+        scene = Scene.from_svg(file_name, precision=1, available_colors=colors, snap=1e-6)
 
         shapes: Dict[str, Shape]   = {shape.name: shape for shape in scene.shapes}
         groups: Dict[Color, Group] = {group.color: group for group in scene.groups}
@@ -56,6 +56,10 @@ class SceneTest(unittest.TestCase):
         self.assertEqual(c1, shapes["one"].color)
         self.assertEqual(c2, shapes["two"].color)
         self.assertEqual(c3, shapes["tre"].color)
+        # Each shape: correct points
+        self.assertEqual((Point(0.00, 0.01), Point(0.01, 0.01), Point(0.01, 0.00), Point(0.00, 0.00), Point(0.00, 0.01)), shapes["one"].polygon.paths[0])
+        self.assertEqual((Point(0.01, 0.01), Point(0.02, 0.01), Point(0.02, 0.00), Point(0.01, 0.00), Point(0.01, 0.01)), shapes["two"].polygon.paths[0])
+        self.assertEqual((Point(0.02, 0.00), Point(0.02, 0.01), Point(0.03, 0.01), Point(0.03, 0.00), Point(0.02, 0.00)), shapes["tre"].polygon.paths[0])
 
         # Correct number of groups
         self.assertEqual(2, len(groups))
