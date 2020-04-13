@@ -1,8 +1,3 @@
-from .identifier import Identifier
-from .string_literal import StringLiteral
-from .writer import Writer
-from .renderer import Renderer
-
 # noinspection SpellCheckingInspection
 reserved_words = {
     "abs", "acos", "asin", "assert", "assign", "atan", "atan2", "ceil", "child", "children", "chr",
@@ -17,3 +12,8 @@ reserved_words = {
     "square", "str", "surface", "tan", "text", "translate", "true", "undef", "union", "use",
     "version", "version_num"
 }
+
+from .identifier import Identifier
+from .string_literal import StringLiteral
+from .writer import Writer
+from .renderer import Renderer
