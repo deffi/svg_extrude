@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Tuple, Optional
 from dataclasses import dataclass
 
 from svg2fff.model import Shape, Group, ColorSet
@@ -20,8 +20,8 @@ class Scene:
     shape C.
     """
 
-    shapes: List[Shape]
-    groups: List[Group]
+    shapes: Tuple[Shape]
+    groups: Tuple[Group]
 
     @classmethod
     def from_svg(cls, file_name: str, *, precision: float, available_colors: Optional[ColorSet]):
@@ -35,7 +35,7 @@ class Scene:
         svg_paths = svg_picture.flatten()
 
         # Create the shapes
-        shapes = [Shape.from_svg_path(path, precision) for path in svg_paths]
+        shapes = tuple(Shape.from_svg_path(path, precision) for path in svg_paths)
 
         # Create the color mapping
         if available_colors:
@@ -44,6 +44,6 @@ class Scene:
             color_mapping = identity
 
         # Group the shapes by color
-        groups = Group.by_color(shapes, color_mapping=color_mapping)
+        groups = tuple(Group.by_color(shapes, color_mapping=color_mapping))
 
         return cls(shapes=shapes, groups=groups)
