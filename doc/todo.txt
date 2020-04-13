@@ -1,6 +1,4 @@
 Clean up method order in classes
-
-Fix existing unit tests
 Don't inherit Identifier from str
 Use Iterable in type hints instead of List
 More unit tests
