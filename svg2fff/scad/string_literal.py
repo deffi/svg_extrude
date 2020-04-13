@@ -1,2 +1,6 @@
-class StringLiteral(str):
-    pass
+from dataclasses import dataclass
+
+
+@dataclass()
+class StringLiteral:
+    value: str
