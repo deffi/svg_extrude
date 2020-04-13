@@ -1,1 +1,1 @@
-from .output_file import OutputFile
+from .output_writer import OutputWriter

@@ -55,8 +55,8 @@ class GroupNames:
         name = sanitize_identifier(group.color.display_name())
         self.group = f"group_{name}"
 
-# TODO rename OutputWriter?
-class OutputFile:
+
+class OutputWriter:
     def __init__(self, file: IOBase):
         self.scad_writer = ScadWriter(file)
         self._shape_names = factorydict(ShapeNames)

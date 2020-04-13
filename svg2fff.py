@@ -8,7 +8,7 @@ if path_3rdparty not in sys.path:
     sys.path.append(path_3rdparty)
 
 from svg2fff.model import Scene, ColorSet
-from svg2fff import OutputFile
+from svg2fff import OutputWriter
 from svg2fff.scad import Renderer as ScadRenderer
 from svg2fff import css
 
@@ -17,7 +17,7 @@ def write_scad_file(base_name, scene: Scene, height):
     file_name = f"{base_name}.scad"
     print(f"Writing to {file_name}")
     with open(file_name, "w") as file:
-        OutputFile(file).write(scene.shapes, scene.groups, height)
+        OutputWriter(file).write(scene.shapes, scene.groups, height)
 
 
 def render_file(base_name, format, scene, height):
@@ -25,7 +25,7 @@ def render_file(base_name, format, scene, height):
         file_name = f"{base_name}_{group.color.display_name()}.{format}"
         print(f"Rendering to {file_name}")
         with ScadRenderer.render_file(file_name) as scad_file:
-            OutputFile(scad_file).write(scene.shapes, [group], height)
+            OutputWriter(scad_file).write(scene.shapes, [group], height)
 
 
 def svg2fff(args):
