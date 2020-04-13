@@ -2,8 +2,7 @@ from typing import List, TextIO
 import re
 
 from svg2fff.model import Shape, Group
-from svg2fff.scad import Writer as ScadWriter
-from svg2fff.scad.types import Identifier
+from svg2fff.scad import Writer as ScadWriter, Identifier
 from svg2fff.util import with_remaining, FactoryDict
 
 # Identifiers are generated from SVG element IDs.
@@ -92,7 +91,8 @@ class OutputWriter:
             with self.scad_writer.define_module(names.clipped_shape):
                 with self.scad_writer.difference():
                     self.scad_writer.instance(names.shape)
-                    self.scad_writer.instances(self._shape_names[s].shape for s in remaining)
+                    for shape in remaining:
+                        self.scad_writer.instance(self._shape_names[shape].shape)
 
     def write_groups(self, groups: List[Group]):
         self.scad_writer.blank_line()

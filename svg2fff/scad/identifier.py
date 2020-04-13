@@ -1,0 +1,2 @@
+class Identifier(str):
+    pass

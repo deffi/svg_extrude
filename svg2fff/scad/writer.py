@@ -31,10 +31,6 @@ class Writer:
     def instance(self, name: Identifier) -> None:
         self.print(f"{render(name)} ();")
 
-    def instances(self, names: Iterable[Identifier]) -> None:
-        for name in names:
-            self.instance(name)
-
     @contextmanager
     def indented(self) -> Iterator[None]:
         self._depth += 1

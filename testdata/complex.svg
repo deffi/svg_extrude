@@ -103,7 +103,7 @@
     <path
        style="opacity:1;vector-effect:none;fill:#ffff88;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.66145831;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 21.166667,265.25 c -6.614584,3.96875 -6.614584,3.96875 -13.2291673,0 6.6145833,-3.96875 6.6145833,-3.96875 13.2291673,0 z"
-       id="eye"
+       id="eye_"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
        inkscape:label="#path833" />
