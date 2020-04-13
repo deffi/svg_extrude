@@ -26,7 +26,12 @@ def render(value) -> str:
     elif isinstance(value, Point):
         # OpenSCAD uses millimeters
         mm = 1e-3
-        return f"[{value.x / mm}, {value.y / mm}]"
+        x = value.x/mm
+        y = value.y/mm
+        # Round to nm to avoid rounding errors
+        x = round(x, 6)
+        y = round(y, 6)
+        return f"[{x}, {y}]"
 
     elif isinstance(value, Color):
         return f"\"#{value.html()}\""
