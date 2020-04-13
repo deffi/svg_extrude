@@ -29,9 +29,8 @@ class Shape:
         if fill:
             fill = Color.from_html(fill, None)
 
-        # 1 px is 1/96 inch; we use mm
-        # TODO use m, but we need to convert it to mm when writing the SCAD file.
-        px = 25.4 / 96
+        # 1 px (1/96 inch) in m
+        px = 25.4e-3 / 96
 
         def path(segment) -> Tuple[Point]:
             return tuple(Point(p.x*px, p.y*px) for p in filter_repetition(segment))
