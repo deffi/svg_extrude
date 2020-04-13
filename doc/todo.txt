@@ -46,3 +46,5 @@ Future work:
   * Allow configuring the OpenSCAD executable: PATH, environment variable,
     command line
   * Show a list of color replacements with maximum ΔE (JND ≈ 2.3)
+  * Scene.from_svg combines shape creation and scene creation
+  * Reading from SVG should not be a method of the model classes
