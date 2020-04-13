@@ -3,7 +3,7 @@ from typing import Optional
 import tinycss2 as css
 import tinycss2.ast
 
-from svg2fff.model.color import Color
+from svg2fff.model import Color, ColorSet
 
 
 def extract_value(style, name: str) -> Optional[str]:
@@ -15,9 +15,9 @@ def extract_value(style, name: str) -> Optional[str]:
                     return declaration.value[0].value
     return None
 
+
 # CSS colors from https://www.w3.org/TR/css-color-3/
-# TODO use ColorSet class (to be created)
-default_colors = {
+default_colors = ColorSet({
     Color.from_html("000000", "black"),
     Color.from_html("C0C0C0", "silver"),
     Color.from_html("808080", "gray"),
@@ -34,9 +34,9 @@ default_colors = {
     Color.from_html("0000FF", "blue"),
     Color.from_html("008080", "teal"),
     Color.from_html("00FFFF", "aqua"),
-}
+})
 
-colors = {
+colors = ColorSet({
     Color.from_html("f0f8ff", "aliceblue"),
     Color.from_html("faebd7", "antiquewhite"),
     Color.from_html("00ffff", "aqua"),
@@ -184,4 +184,4 @@ colors = {
     Color.from_html("f5f5f5", "whitesmoke"),
     Color.from_html("ffff00", "yellow"),
     Color.from_html("9acd32", "yellowgreen"),
-}
+})

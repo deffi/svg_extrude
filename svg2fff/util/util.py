@@ -43,3 +43,7 @@ def argmin(candidates: Iterable, target=lambda x: x):
             minimum_tgt = tgt
 
     return minimum_candidate
+
+
+def identity(x):
+    return x

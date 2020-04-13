@@ -34,6 +34,7 @@ def svg2fff(args):
         base_name = re.sub('.svg$', '', svg_file)
 
         # Create the colors
+        colors: ColorSet
         if   args.colors == "all":     colors = None
         elif args.colors == "basic":   colors = css.default_colors
         elif args.colors == "default": colors = css.colors

@@ -51,7 +51,7 @@ class Writer:
     @contextmanager
     def color(self, color) -> Iterator[None]:  # TODO type - depend on sfg2fff.model? If so, explicitly handle model classes in render() and use frozen dataclasses.
         # TODO not really an identifier
-        with self.block(f"color (\"#{render(Identifier(color.to_html()))}\")"):
+        with self.block(f"color (\"#{render(Identifier(color.html()))}\")"):
             yield
 
     @contextmanager
