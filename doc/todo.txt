@@ -1,4 +1,4 @@
-More unit tests
+More unit tests: util, others?
 
 Checks:
   * Code TODOs
@@ -38,7 +38,6 @@ Future work:
   * Layer for ignored elements (for comments)? Layer classes?
   * Merging groups?
   * Create Scad.Identifier which also checks validity
-  * Rounding of coordinates, because Inkscape values are often off by epsilon
   * Better handling of 3rdparty/cjlano_svg? Import explicitly (requires renaming
     3rdparty)? Move up? Use package that is in PyPI?
   * Proper error handling if the fill style is not a simple color

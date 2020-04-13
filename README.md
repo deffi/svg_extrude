@@ -40,6 +40,9 @@ to nonzero.
 
 SVG viewbox may not work as expected.
 
+All output coordinates are rounded to nanometers to avoid very long decimals due
+to floating point accuracy limitations.
+
 
 ## Slicer notes
 
@@ -50,4 +53,3 @@ option is off; 3MF objects are not
 
 Can't be used with elephant's foot compensation as that will
 be applied to each object individually.
- 
