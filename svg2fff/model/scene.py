@@ -23,7 +23,8 @@ class Scene:
     groups: Tuple[Group, ...]
 
     @classmethod
-    def from_svg(cls, file_name: str, *, precision: float, available_colors: Optional[ColorSet], snap: Optional[float]=None):
+    def from_svg(cls, file_name: str, *, precision: float, available_colors: Optional[ColorSet],
+                 snap: Optional[float] = None):
         # Read the SVG file
         svg_picture: svg.Svg = svg.parse(file_name)
 

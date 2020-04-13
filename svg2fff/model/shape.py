@@ -16,7 +16,7 @@ class Shape:
     polygon: Polygon
 
     @classmethod
-    def from_svg_path(cls, svg_path, precision: float, *, snap: Optional[float]=None) -> "Shape":
+    def from_svg_path(cls, svg_path, precision: float, *, snap: Optional[float] = None) -> "Shape":
         fill_rule = extract_value(svg_path.style, "fill-rule")
         if not (fill_rule is None or fill_rule == "evenodd"):
             logger.warning("%s: fill rule %s not supported. Using evenodd instead.", svg_path.id, fill_rule)
