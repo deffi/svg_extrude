@@ -98,11 +98,12 @@ class Color:
         fy = f(y/yn)
         fz = f(z/zn)
 
-        l = 116 * fy - 16
+        # PEP8 discourages l as a variable name.
+        l_ = 116 * fy - 16
         a = 500 * (fx - fy)
         b = 200 * (fy - fz)
 
-        return Lab(l, a, b)
+        return Lab(l_, a, b)
 
     ###############
     # Calculation #
