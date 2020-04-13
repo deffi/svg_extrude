@@ -20,7 +20,7 @@ def with_remaining(items: Sequence):
         yield items[index], items[index+1:]
 
 
-def groupby(items: Iterable, key_function) -> dict:
+def group_by(items: Iterable, key_function) -> dict:
     """Returns a dict where the keys are determined by calling key_function with
     an item and the values are lists of items that resulted in that key."""
     result = defaultdict(list)
@@ -29,7 +29,7 @@ def groupby(items: Iterable, key_function) -> dict:
     return result
 
 
-def argmin(candidates: Iterable, target=lambda x: x):
+def arg_min(candidates: Iterable, target=lambda x: x):
     # """Returns the value from candidates where the target function returns the
     # lowest value. The target function is called once for each candidate."""
 

@@ -1,12 +1,12 @@
 from itertools import count
-from svg2fff.util import factorydict
+from svg2fff.util import FactoryDict
 
 
 class Namespace:
-    def __init__(self, sanitze_identifier, reserved):
-        self._map = factorydict(self.build)
+    def __init__(self, sanitize_identifier, reserved):
+        self._map = FactoryDict(self.build)
         # Builtins::init and Builtins::keywordList.insert
-        self._sanitize_identifier = sanitze_identifier
+        self._sanitize_identifier = sanitize_identifier
         self._reserved = reserved
 
     def get(self, name: str) -> str:

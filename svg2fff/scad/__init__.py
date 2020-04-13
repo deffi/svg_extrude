@@ -1,6 +1,7 @@
 from .writer import Writer
 from .renderer import Renderer
 
+# noinspection SpellCheckingInspection
 reserved_words = {
     "abs", "acos", "asin", "assert", "assign", "atan", "atan2", "ceil", "child", "children", "chr",
     "circle", "color", "concat", "cos", "cross", "cube", "cylinder", "difference", "dxf_cross",

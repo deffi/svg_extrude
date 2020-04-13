@@ -20,6 +20,7 @@ class Renderer:
                 yield scad_file
 
             # Call OpenSCAD
+            # noinspection SpellCheckingInspection
             command = ["openscad", "-o", output_file_name, path]
             subprocess.run(command, capture_output=True, check=True)
         finally:

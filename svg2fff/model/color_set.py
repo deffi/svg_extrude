@@ -2,7 +2,7 @@ from typing import Dict, Optional
 import re
 
 from svg2fff.model import Color
-from svg2fff.util import argmin
+from svg2fff.util import arg_min
 
 
 def _parse_color(string: str, available: Dict[str, Color]):
@@ -41,7 +41,7 @@ class ColorSet(frozenset):
 
     @classmethod
     def parse(cls, string: str, available: Optional["ColorSet"] = None) -> "ColorSet":
-        """Parses a comma-sepearated list of colors.
+        """Parses a comma-separated list of colors.
 
         Simple color specification:
             "#FF0000" -> Color(1, 0, 0)
@@ -59,4 +59,4 @@ class ColorSet(frozenset):
         return cls(_parse_color(s, available.by_name) for s in string.split(","))
 
     def closest(self, color: Color) -> "Color":
-        return argmin(self, color.delta_e)
+        return arg_min(self, color.delta_e)

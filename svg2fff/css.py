@@ -17,6 +17,7 @@ def extract_value(style, name: str) -> Optional[str]:
 
 
 # CSS colors from https://www.w3.org/TR/css-color-3/
+# noinspection SpellCheckingInspection
 default_colors = ColorSet({
     Color.from_html("000000", "black"),
     Color.from_html("C0C0C0", "silver"),
@@ -36,6 +37,7 @@ default_colors = ColorSet({
     Color.from_html("00FFFF", "aqua"),
 })
 
+# noinspection SpellCheckingInspection
 colors = ColorSet({
     Color.from_html("f0f8ff", "aliceblue"),
     Color.from_html("faebd7", "antiquewhite"),
