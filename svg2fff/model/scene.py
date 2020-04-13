@@ -41,7 +41,7 @@ class Scene:
         if available_colors:
             color_mapping = available_colors.closest
         else:
-            color_mapping = identity
+            color_mapping = None
 
         # Group the shapes by color
         groups = tuple(Group.by_color(shapes, color_mapping=color_mapping))
