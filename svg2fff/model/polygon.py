@@ -6,7 +6,7 @@ from svg2fff.model import Point
 
 @dataclass(frozen=True)
 class Polygon:
-    paths: Tuple[Tuple[Point]]
+    paths: Tuple[Tuple[Point, ...], ...]
 
     def index_paths(self):
         """Returns points, index_paths"""

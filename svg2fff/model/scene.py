@@ -20,8 +20,8 @@ class Scene:
     shape C.
     """
 
-    shapes: Tuple[Shape]
-    groups: Tuple[Group]
+    shapes: Tuple[Shape, ...]
+    groups: Tuple[Group, ...]
 
     @classmethod
     def from_svg(cls, file_name: str, *, precision: float, available_colors: Optional[ColorSet]):

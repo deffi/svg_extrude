@@ -8,7 +8,7 @@ from svg2fff.util import group_by
 @dataclass(frozen=True)
 class Group:
     color: Color
-    shapes: Tuple[Shape]
+    shapes: Tuple[Shape, ...]
 
     @classmethod
     def by_color(cls, shapes: Iterable[Shape], *, color_mapping=lambda c: c) -> Generator["Group", None, None]:
