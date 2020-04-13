@@ -1,3 +1,3 @@
 from .factorydict import factorydict
-from .util import filter_repetition, with_remaining, groupby, closest
+from .util import filter_repetition, with_remaining, groupby, argmin
 from .namespace import Namespace

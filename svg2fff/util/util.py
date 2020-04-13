@@ -29,17 +29,17 @@ def groupby(items: Iterable, key_function) -> dict:
     return result
 
 
-def closest(candidates: Iterable, value, distance=lambda x, y: abs(x-y)):
-    """Returns the value from candidates that is closest to value, according to
-    the specified distance function. The distance function should be commutative
-    and is called once for each candidate."""
-    closest_candidate = None
-    closest_dist = None
+def argmin(candidates: Iterable, target=lambda x: x):
+    # """Returns the value from candidates where the target function returns the
+    # lowest value. The target function is called once for each candidate."""
+
+    minimum_candidate = None
+    minimum_tgt = None
 
     for candidate in candidates:
-        dist = distance(candidate, value)
-        if closest_dist is None or dist < closest_dist:
-            closest_candidate = candidate
-            closest_dist = dist
+        tgt = target(candidate)
+        if minimum_tgt is None or tgt < minimum_tgt:
+            minimum_candidate = candidate
+            minimum_tgt = tgt
 
-    return closest_candidate
+    return minimum_candidate

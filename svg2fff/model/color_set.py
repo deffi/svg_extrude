@@ -2,7 +2,7 @@ from typing import Dict, Optional
 import re
 
 from svg2fff.model import Color
-from svg2fff.util import closest
+from svg2fff.util import argmin
 
 
 def _parse_color(string: str, available: Dict[str, Color]):
@@ -59,4 +59,4 @@ class ColorSet(frozenset):
         return cls(_parse_color(s, available.by_name) for s in string.split(","))
 
     def closest(self, color: Color) -> "Color":
-        return closest(self, color, type(color).delta_e)
+        return argmin(self, color.delta_e)
