@@ -4,16 +4,20 @@ from os import path
 
 from svg2fff.model import Scene, Color, ColorSet, Shape, Group, Point
 
+file_name = path.join(path.dirname(__file__), "scene.svg")
+c1 = Color(1.0, 0.0, 0.2)
+c2 = Color(1.0, 0.2, 0.0)
+c3 = Color(1.0, 0.8, 0.0)
+red = Color(1.0, 0.0, 0.0)
+yel = Color(1.0, 1.0, 0.0)
+
+
 class SceneTest(unittest.TestCase):
     def test_from_svg(self):
-        scene = Scene.from_svg(path.join(path.dirname(__file__), "scene.svg"), precision=1, available_colors=None)
+        scene = Scene.from_svg(file_name, precision=1, available_colors=None)
 
         shapes: Dict[str, Shape]   = {shape.name: shape for shape in scene.shapes}
         groups: Dict[Color, Group] = {group.color: group for group in scene.groups}
-
-        c1 = Color(1.0, 0.0, 0.2)
-        c2 = Color(1.0, 0.2, 0.0)
-        c3 = Color(1.0, 0.8, 0.0)
 
         # Correct number of shapes
         self.assertEqual(3, len(shapes))
@@ -38,18 +42,11 @@ class SceneTest(unittest.TestCase):
         self.assertEqual({shapes["tre"]}, set(groups[c3].shapes))
 
     def test_from_svg_with_colors(self):
-        red = Color(1.0, 0.0, 0.0)
-        yel = Color(1.0, 1.0, 0.0)
         colors = ColorSet({red, yel})
-
-        scene = Scene.from_svg(path.join(path.dirname(__file__), "scene.svg"), precision=1, available_colors=colors)
+        scene = Scene.from_svg(file_name, precision=1, available_colors=colors)
 
         shapes: Dict[str, Shape]   = {shape.name: shape for shape in scene.shapes}
         groups: Dict[Color, Group] = {group.color: group for group in scene.groups}
-
-        c1 = Color(1.0, 0.0, 0.2)
-        c2 = Color(1.0, 0.2, 0.0)
-        c3 = Color(1.0, 0.8, 0.0)
 
         # Correct number of shapes
         self.assertEqual(3, len(shapes))
