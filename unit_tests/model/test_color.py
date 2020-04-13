@@ -1,6 +1,23 @@
 import unittest
 
 from svg2fff.model import Color
+from svg2fff.model.color import Xyz, Lab
+
+# Default colors
+red = Color(1, 0, 0, "red")
+yellow = Color(1, 1, 0, "yellow")
+green = Color(0, 1, 0, "green")
+cyan = Color(0, 1, 1, "cyan")
+blue = Color(0, 0, 1, "blue")
+magenta = Color(1, 0, 1, "magenta")
+
+# Default colors without names
+nred = Color(1, 0, 0)
+nyellow = Color(1, 1, 0)
+ngreen = Color(0, 1, 0)
+ncyan = Color(0, 1, 1)
+nblue = Color(0, 0, 1)
+nmagenta = Color(1, 0, 1)
 
 
 class ColorTest(unittest.TestCase):
@@ -11,62 +28,109 @@ class ColorTest(unittest.TestCase):
             msg = msg or f"\nExpected: {expected}\nActual:   {actual}"
             self.assertAlmostEqual(a, b, places, msg, delta)
 
-    def test_hsv(self):
-        self.assertEqual(Color.from_hsv(0/6, 1, 1, None).rgb(), (1.0, 0.0, 0.0))
-        self.assertEqual(Color.from_hsv(1/6, 1, 1, None).rgb(), (1.0, 1.0, 0.0))
-        self.assertEqual(Color.from_hsv(2/6, 1, 1, None).rgb(), (0.0, 1.0, 0.0))
-        self.assertEqual(Color.from_hsv(3/6, 1, 1, None).rgb(), (0.0, 1.0, 1.0))
-        self.assertEqual(Color.from_hsv(4/6, 1, 1, None).rgb(), (0.0, 0.0, 1.0))
-        self.assertEqual(Color.from_hsv(5/6, 1, 1, None).rgb(), (1.0, 0.0, 1.0))
+    def test_repr(self):
+        self.assertEqual("Color(r=1, g=0, b=0, name=None)", repr(Color(1, 0, 0)))
+        self.assertEqual("Color(r=0, g=1, b=0, name='green')", repr(Color(0, 1, 0, "green")))
 
-    def test_to_html(self):
-        self.assertEqual("000000", Color.from_rgb(0, 0,   0.000/255, None).to_html())
-        self.assertEqual("000000", Color.from_rgb(0, 0,   0.499/255, None).to_html())
-        self.assertEqual("000001", Color.from_rgb(0, 0,   0.501/255, None).to_html())
-        self.assertEqual("000001", Color.from_rgb(0, 0,   1.000/255, None).to_html())
-        self.assertEqual("000001", Color.from_rgb(0, 0,   1.499/255, None).to_html())
-        self.assertEqual("000002", Color.from_rgb(0, 0,   1.501/255, None).to_html())
-        self.assertEqual("0000FE", Color.from_rgb(0, 0, 254.499/255, None).to_html())
-        self.assertEqual("0000FF", Color.from_rgb(0, 0, 254.501/255, None).to_html())
-        self.assertEqual("0000FF", Color.from_rgb(0, 0, 255.000/255, None).to_html())
-        self.assertEqual("ABFA11", Color.from_rgb(0.671, 0.980, 0.067, None).to_html())
-        self.assertEqual("FFFFFF", Color.from_rgb(1, 1, 1, None).to_html())
+    def test_equality(self):
+        # Equality
+        self.assertEqual(Color(1, 0, 0, "red"), red)
+        self.assertEqual(Color(1, 0, 0), nred)
 
-    def test_to_xyz(self):
+        # Equality includes the name
+        self.assertNotEqual(red, nred)
+
+    def test_hashing(self):
+        colors = {red, green, nblue}
+
+        self.assertIn(red, colors)
+        self.assertNotIn(yellow, colors)
+        self.assertIn(green, colors)
+        self.assertIn(nblue, colors)
+
+        objects = {red: "fire", green: "grass", nblue: "sky"}
+
+        self.assertIn(red, colors)
+        self.assertNotIn(yellow, colors)
+        self.assertIn(green, colors)
+        self.assertIn(nblue, colors)
+
+        self.assertEqual("fire", objects[red])
+        self.assertEqual("grass", objects[green])
+        self.assertEqual("sky", objects[nblue])
+
+    def test_display_name(self):
+        self.assertEqual("red", red.display_name())                    # Yes name
+        self.assertEqual("FF0000", nred.display_name())                # No name
+        self.assertEqual("FF0000", Color(1, 0, 0, "").display_name())  # Empty name
+
+    def test_rgb(self):
+        self.assertEqual((1, 0, 0), red.rgb())
+        self.assertEqual((1, 0, 0), nred.rgb())
+
+    def test_from_html(self):
+        self.assertEqual(Color(      0,       0,       0), Color.from_html("000000"))
+        self.assertEqual(Color(      0,       0,   1/255), Color.from_html("000001"))
+        self.assertEqual(Color(      0,       0,   2/255), Color.from_html("000002"))
+        self.assertEqual(Color(      0,       0, 254/255), Color.from_html("0000FE"))
+        self.assertEqual(Color(      0,       0,       1), Color.from_html("0000FF"))
+        self.assertEqual(Color(171/255, 250/255,  17/255), Color.from_html("ABFA11"))
+        self.assertEqual(Color(      1,       1,       1), Color.from_html("FFFFFF"))
+
+    def test_html(self):
+        self.assertEqual("000000", Color(0    , 0    ,   0.000/255).html())
+        self.assertEqual("000000", Color(0    , 0    ,   0.499/255).html())
+        self.assertEqual("000001", Color(0    , 0    ,   0.501/255).html())
+        self.assertEqual("000001", Color(0    , 0    ,   1.000/255).html())
+        self.assertEqual("000001", Color(0    , 0    ,   1.499/255).html())
+        self.assertEqual("000002", Color(0    , 0    ,   1.501/255).html())
+        self.assertEqual("0000FE", Color(0    , 0    , 254.499/255).html())
+        self.assertEqual("0000FF", Color(0    , 0    , 254.501/255).html())
+        self.assertEqual("0000FF", Color(0    , 0    , 255.000/255).html())
+        self.assertEqual("ABFA11", Color(0.671, 0.980,   0.067    ).html())
+        self.assertEqual("FFFFFF", Color(1    , 1    ,   1        ).html())
+
+    def test_xyz(self):
         # Values from colormine (http://colormine.org/convert/rgb-to-xyz).
         
-        self.assertSequenceAlmostEqual((0.0000, 0.0000, 0.0000), Color.from_html("000000", None).xyz(), places=3)
-        self.assertSequenceAlmostEqual((0.9505, 1.0000, 1.0890), Color.from_html("FFFFFF", None).xyz(), places=3)
+        self.assertSequenceAlmostEqual(Xyz(0.0000, 0.0000, 0.0000), Color.from_html("000000").xyz(), places=3)
+        self.assertSequenceAlmostEqual(Xyz(0.9505, 1.0000, 1.0890), Color.from_html("FFFFFF").xyz(), places=3)
 
-        self.assertSequenceAlmostEqual((0.4124, 0.2126, 0.0193), Color.from_html("FF0000", None).xyz(), places=3)
-        self.assertSequenceAlmostEqual((0.3576, 0.7152, 0.1192), Color.from_html("00FF00", None).xyz(), places=3)
-        self.assertSequenceAlmostEqual((0.1805, 0.0722, 0.9505), Color.from_html("0000FF", None).xyz(), places=3)
+        self.assertSequenceAlmostEqual(Xyz(0.4124, 0.2126, 0.0193), Color.from_html("FF0000").xyz(), places=3)
+        self.assertSequenceAlmostEqual(Xyz(0.3576, 0.7152, 0.1192), Color.from_html("00FF00").xyz(), places=3)
+        self.assertSequenceAlmostEqual(Xyz(0.1805, 0.0722, 0.9505), Color.from_html("0000FF").xyz(), places=3)
 
-        self.assertSequenceAlmostEqual((0.3186, 0.2390, 0.0416), Color.from_html("d2691e", None).xyz(), places=3)
-        self.assertSequenceAlmostEqual((0.5028, 0.3702, 0.1208), Color.from_html("ff7f50", None).xyz(), places=3)
-        self.assertSequenceAlmostEqual((0.3058, 0.1604, 0.0576), Color.from_html("dc143c", None).xyz(), places=3)
+        self.assertSequenceAlmostEqual(Xyz(0.3186, 0.2390, 0.0416), Color.from_html("d2691e").xyz(), places=3)
+        self.assertSequenceAlmostEqual(Xyz(0.5028, 0.3702, 0.1208), Color.from_html("ff7f50").xyz(), places=3)
+        self.assertSequenceAlmostEqual(Xyz(0.3058, 0.1604, 0.0576), Color.from_html("dc143c").xyz(), places=3)
 
-    def test_to_lab(self):
+    def test_lab(self):
         # Values from the tested method, checked with colormine[1]. The values
         # are a bit off, but that may be due to different parameter choice. The
         # value for white (FFFFFF) is significantly off (colormine value: 100,
         # 0.005, -0.010). Further investigation may be in order.
         # [1] http://colormine.org/convert/rgb-to-lab
 
-        self.assertSequenceAlmostEqual((  0.000, 0.000,  0.000), Color.from_html("000000", None).lab(), places=3)
-        self.assertSequenceAlmostEqual((100.000, 0.414, -0.985), Color.from_html("FFFFFF", None).lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(  0.000, 0.000,  0.000), Color.from_html("000000").lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(100.000, 0.414, -0.985), Color.from_html("FFFFFF").lab(), places=3)
 
-        self.assertSequenceAlmostEqual((53.239,  80.404,   66.947), Color.from_html("FF0000", None).lab(), places=3)
-        self.assertSequenceAlmostEqual((87.735, -85.884,   82.713), Color.from_html("00FF00", None).lab(), places=3)
-        self.assertSequenceAlmostEqual((32.299,  79.430, -108.798), Color.from_html("0000FF", None).lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(53.239,  80.404,   66.947), Color.from_html("FF0000").lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(87.735, -85.884,   82.713), Color.from_html("00FF00").lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(32.299,  79.430, -108.798), Color.from_html("0000FF").lab(), places=3)
 
-        self.assertSequenceAlmostEqual((55.989, 37.338, 56.410), Color.from_html("d2691e", None).lab(), places=3)
-        self.assertSequenceAlmostEqual((67.294, 45.686, 47.020), Color.from_html("ff7f50", None).lab(), places=3)
-        self.assertSequenceAlmostEqual((47.035, 71.203, 33.228), Color.from_html("dc143c", None).lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(55.989, 37.338, 56.410), Color.from_html("d2691e").lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(67.294, 45.686, 47.020), Color.from_html("ff7f50").lab(), places=3)
+        self.assertSequenceAlmostEqual(Lab(47.035, 71.203, 33.228), Color.from_html("dc143c").lab(), places=3)
 
+    def test_delta_e(self):
+        colors = {red, yellow, green, Color.from_html("0FF1CE"), Color.from_html("BADA55")}
+
+        for c1 in colors:
+            for c2 in colors:
+                self.assertEqual(c1.delta_e(c2), c2.delta_e(c1))
 
     # Needs the colormath package, but note that that pulls in numpy
-    # def test_xyz(self):
+    # def test_xyz_colormath(self):
     #     from colormath.color_objects import sRGBColor
     #     from colormath.color_conversions import RGB_to_XYZ
     #
@@ -79,7 +143,7 @@ class ColorTest(unittest.TestCase):
     #         self.assertSequenceEqual(reference, color.xyz())
 
     # Needs the colormath package, but note that that pulls in numpy
-    # def test_lab(self):
+    # def test_lab_colormath(self):
     #     # For the 10°-observer, Colormath uses slightly rounded values for some
     #     # constants, so the values will be slightly off.
     #     observer = 2

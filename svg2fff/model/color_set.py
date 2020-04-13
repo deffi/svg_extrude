@@ -1,25 +1,11 @@
-from typing import Set, Dict
+from typing import Dict, Optional
 import re
 
 from svg2fff.model import Color
+from svg2fff.util import closest
 
 
-# TODO should be public and in Color? ColorSet(FrozenSet) as parameter.
 def _parse_color(string: str, available: Dict[str, Color]):
-    """Parses a single color, with optional name.
-
-    Simple color specification:
-        "#FF0000" -> Color(1, 0, 0, None)
-
-    With name:
-        "bright_red:#FF0000" -> Color(1, 0, 0, "bright_red")
-
-    Select from available colors (keeps the name):
-        "red" -> Color(1, 0, 0, "red")
-
-    Select from available colors (specifying a new name):
-      * "bright_red:red" -> Color(1, 0, 0, "bright_red")
-    """
     if ":" in string:
         name, spec = (s.strip() for s in string.split(":", 1))
     else:
@@ -29,15 +15,48 @@ def _parse_color(string: str, available: Dict[str, Color]):
         return Color.from_html(spec[1:], name)
     elif spec in available:
         if name:
-            return Color.from_rgb(*available[spec].rgb(), name)
+            return Color(*available[spec].rgb(), name)
         else:
             return available[spec]
     else:
         raise ValueError(f"Color specification not recognized: {spec!r}")
 
 
-def parse(string: str, available: Set[Color] = None) -> Set[Color]:
-    available = available or set()
-    available = { color.name: color for color in available }
+class ColorSet(frozenset):
+    def __new__(cls, seq=()):
+        return frozenset.__new__(cls, seq)
 
-    return { _parse_color(s, available) for s in string.split(",") }
+    def __init__(self, seq=()):
+        super().__init__()
+        self._by_name = None
+
+    @property
+    def by_name(self):
+        if self._by_name is None:
+            self._by_name = {color.name: color
+                             for color in self
+                             if color.name is not None}
+
+        return self._by_name
+
+    @classmethod
+    def parse(cls, string: str, available: Optional["ColorSet"] = None) -> "ColorSet":
+        """Parses a comma-sepearated list of colors.
+
+        Simple color specification:
+            "#FF0000" -> Color(1, 0, 0)
+
+        With name:
+            "bright_red:#FF0000" -> Color(1, 0, 0, "bright_red")
+
+        Select from available colors (keeps the name):
+            "red" -> Color(1, 0, 0, "red")
+
+        Select from available colors (specifying a new name):
+            "bright_red:red" -> Color(1, 0, 0, "bright_red")
+        """
+        available = available or ColorSet()
+        return cls(_parse_color(s, available.by_name) for s in string.split(","))
+
+    def closest(self, color: Color) -> "Color":
+        return closest(self, color, type(color).delta_e)
