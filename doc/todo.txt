@@ -1,4 +1,3 @@
-Freeze dataclasses where appropriate
 Clean up method order in classes
 
 Fix existing unit tests

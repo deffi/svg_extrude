@@ -7,7 +7,7 @@ from svg2fff.util import identity
 import cjlano_svg as svg
 
 
-@dataclass()
+@dataclass(frozen=True)
 class Scene:
     """Contains a list of shapes and a list of groups.
 
