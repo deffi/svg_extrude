@@ -2,6 +2,7 @@ import unittest
 
 from svg2fff.model import Point, Polygon
 
+
 class PolygonTest(unittest.TestCase):
     def test_index_paths(self):
         p = [Point(i, i) for i in range(10)]

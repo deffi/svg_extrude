@@ -2,7 +2,6 @@ from typing import Tuple, Optional
 from dataclasses import dataclass
 
 from svg2fff.model import Shape, Group, ColorSet
-from svg2fff.util import identity
 
 import cjlano_svg as svg
 

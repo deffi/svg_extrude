@@ -1,3 +1,4 @@
+from typing import Optional
 import argparse
 import re
 import sys
@@ -20,9 +21,9 @@ def write_scad_file(base_name, scene: Scene, height):
         OutputWriter(file).write(scene.shapes, scene.groups, height)
 
 
-def render_file(base_name, format, scene, height):
+def render_file(base_name, output_format, scene, height):
     for group in scene.groups:
-        file_name = f"{base_name}_{group.color.display_name()}.{format}"
+        file_name = f"{base_name}_{group.color.display_name()}.{output_format}"
         print(f"Rendering to {file_name}")
         with ScadRenderer().render_file(file_name) as scad_file:
             OutputWriter(scad_file).write(scene.shapes, [group], height)
@@ -34,7 +35,7 @@ def svg2fff(args):
         base_name = re.sub('.svg$', '', svg_file)
 
         # Create the colors
-        colors: ColorSet
+        colors: Optional[ColorSet]
         if   args.colors == "all":     colors = None
         elif args.colors == "basic":   colors = css.default_colors
         elif args.colors == "default": colors = css.colors
@@ -59,7 +60,7 @@ parser.add_argument("--height", help="Extrusion height (thickness)", type=float,
 parser.add_argument("--precision", help="Precision for approximating curves; smaller is more precise.", type=float, default=1)
 parser.add_argument("--colors", help="'default', 'all', 'basic', or comma-separated list of colors. " +
                                      "Colors can be specified by value (e. g. #4682b4) or CSS name (e. g. steelblue). " +
-                                    "Optionally, a name can be specified (e. g. my_blue:#4682b4 or my_blue:steelblue).",
+                                     "Optionally, a name can be specified (e. g. my_blue:#4682b4 or my_blue:steelblue).",
                     default="default")
 parser.add_argument("svg_files", nargs='+', help="SVG file name")
 svg2fff(parser.parse_args())
