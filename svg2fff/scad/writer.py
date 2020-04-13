@@ -2,7 +2,7 @@ from typing import Iterable, Iterator
 from contextlib import contextmanager
 from io import IOBase
 
-from svg2fff.model import Color
+from svg2fff.model import Color, Polygon
 from svg2fff.scad.util import Identifier
 from svg2fff.scad.util import render
 
@@ -26,13 +26,13 @@ class Writer:
         for line in text.splitlines():
             self.print(f"// {line}")
 
-    def assignment(self, name: str, value) -> None:
-        self.print(f"{name} = {render(value)};")
+    def assignment(self, name: Identifier, value) -> None:
+        self.print(f"{render(name)} = {render(value)};")
 
-    def instance(self, name: str) -> None:
-        self.print(f"{name} ();")
+    def instance(self, name: Identifier) -> None:
+        self.print(f"{render(name)} ();")
 
-    def instances(self, names: Iterable[str]) -> None:
+    def instances(self, names: Iterable[Identifier]) -> None:
         for name in names:
             self.instance(name)
 
@@ -55,7 +55,7 @@ class Writer:
             yield
 
     @contextmanager
-    def translate(self, vector) -> Iterator[None]:  # TODO class?
+    def translate(self, vector: Iterable[float]) -> Iterator[None]:
         with self.block(f"translate ({render(vector)})"):
             yield
 
@@ -65,8 +65,8 @@ class Writer:
             yield
 
     @contextmanager
-    def define_module(self, name: str) -> Iterator[None]:
-        with self.block(f"module {name} ()"):
+    def define_module(self, name: Identifier) -> Iterator[None]:
+        with self.block(f"module {render(name)} ()"):
             yield
 
     @contextmanager
@@ -84,16 +84,12 @@ class Writer:
         with self.block("intersection ()"):
             yield
 
-    def polygon(self, polygon, points, paths) -> None:  # TODO types
-        points = points or render(polygon.points)
-        short_paths = (paths is not None)
-        paths = paths or list(map(render, polygon.paths))
-
-        if short_paths:
-            self.print(f"polygon ({points}, {render(list(map(Identifier, paths)))});")
+    def polygon(self, points: Identifier, index_paths: Iterable[Identifier], *, short: bool) -> None:
+        if short:
+            self.print(f"polygon ({render(points)}, {render(index_paths)});")
         else:
-            self.print(f"polygon ({points}, [")
+            self.print(f"polygon ({render(points)}, [")
             with self.indented():
-                for path in paths:
-                    self.print(f"{render(path)},")
+                for index_path in index_paths:
+                    self.print(f"{render(index_path)},")
             self.print("]);")
