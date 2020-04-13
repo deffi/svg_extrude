@@ -1,5 +1,4 @@
 from numbers import Number
-import re
 
 from svg2fff.model import Point, Color
 from svg2fff.scad import StringLiteral, Identifier

@@ -91,8 +91,8 @@ class OutputWriter:
             with self.scad_writer.define_module(names.clipped_shape):
                 with self.scad_writer.difference():
                     self.scad_writer.instance(names.shape)
-                    for shape in remaining:
-                        self.scad_writer.instance(self._shape_names[shape].shape)
+                    for upper_shape in remaining:
+                        self.scad_writer.instance(self._shape_names[upper_shape].shape)
 
     def write_groups(self, groups: Iterable[Group]):
         self.scad_writer.blank_line()
@@ -114,7 +114,7 @@ class OutputWriter:
                 with self.scad_writer.extrude(thickness):
                     self.scad_writer.instance(self._group_names[group].group)
 
-    def write(self, shapes: Iterable[Shape], groups: Iterable[Group], thickness: float) -> None:
+    def write(self, shapes: Sequence[Shape], groups: Sequence[Group], thickness: float) -> None:
         self.scad_writer.comment("Written by svg2fff")
         self.write_points_and_paths(shapes)
         self.write_shapes(shapes)
