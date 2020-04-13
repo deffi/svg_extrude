@@ -67,8 +67,9 @@ class OutputWriter:
         self.scad_writer.comment("Points and paths for each shape")
 
         for shape in shapes:
-            self.scad_writer.assignment(self._shape_names[shape].points, shape.polygon.points)
-            for index, path in enumerate(shape.polygon.paths):
+            points, paths = shape.polygon.index_paths()
+            self.scad_writer.assignment(self._shape_names[shape].points, points)
+            for index, path in enumerate(paths):
                 self.scad_writer.assignment(self._shape_names[shape].paths[index], path)
 
     def write_shapes(self, shapes: List[Shape]):
