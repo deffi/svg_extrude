@@ -1,4 +1,4 @@
-from typing import List, TextIO
+from typing import Iterable, Sequence, TextIO
 import re
 
 from svg2fff.model import Shape, Group
@@ -62,7 +62,7 @@ class OutputWriter:
         self._shape_names = FactoryDict(ShapeNames)
         self._group_names = FactoryDict(GroupNames)
 
-    def write_points_and_paths(self, shapes: List[Shape]):
+    def write_points_and_paths(self, shapes: Iterable[Shape]):
         self.scad_writer.blank_line()
         self.scad_writer.comment("Points and paths for each shape")
 
@@ -72,7 +72,7 @@ class OutputWriter:
             for index, path in enumerate(paths):
                 self.scad_writer.assignment(self._shape_names[shape].paths[index], path)
 
-    def write_shapes(self, shapes: List[Shape]):
+    def write_shapes(self, shapes: Iterable[Shape]):
         self.scad_writer.blank_line()
         self.scad_writer.comment("Shapes")
 
@@ -82,7 +82,7 @@ class OutputWriter:
             with self.scad_writer.define_module(names.shape):
                 self.scad_writer.polygon(names.points, names.paths, short=True)
 
-    def write_clipped_shapes(self, shapes: List[Shape]):
+    def write_clipped_shapes(self, shapes: Sequence[Shape]):
         self.scad_writer.blank_line()
         self.scad_writer.comment("Clipped shapes")
 
@@ -94,7 +94,7 @@ class OutputWriter:
                     for shape in remaining:
                         self.scad_writer.instance(self._shape_names[shape].shape)
 
-    def write_groups(self, groups: List[Group]):
+    def write_groups(self, groups: Iterable[Group]):
         self.scad_writer.blank_line()
         self.scad_writer.comment("Groups")
 
@@ -105,7 +105,7 @@ class OutputWriter:
                     shape_names = self._shape_names[shape]
                     self.scad_writer.instance(shape_names.clipped_shape)
 
-    def instantiate_groups(self, groups: List[Group], thickness: float):
+    def instantiate_groups(self, groups: Iterable[Group], thickness: float):
         self.scad_writer.blank_line()
         self.scad_writer.comment("Extrude groups")
 
@@ -114,7 +114,7 @@ class OutputWriter:
                 with self.scad_writer.extrude(thickness):
                     self.scad_writer.instance(self._group_names[group].group)
 
-    def write(self, shapes: List[Shape], groups: List[Group], thickness: float) -> None:
+    def write(self, shapes: Iterable[Shape], groups: Iterable[Group], thickness: float) -> None:
         self.scad_writer.comment("Written by svg2fff")
         self.write_points_and_paths(shapes)
         self.write_shapes(shapes)
