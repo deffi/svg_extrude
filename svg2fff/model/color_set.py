@@ -24,9 +24,11 @@ def _parse_color(string: str, available: Dict[str, Color]):
 
 class ColorSet(frozenset):
     def __new__(cls, seq=()):
+        # PyCharm seems to misdiagnose this
+        # noinspection PyArgumentList
         return frozenset.__new__(cls, seq)
 
-    def __init__(self, seq=()):
+    def __init__(self, _=()):
         super().__init__()
         self._by_name = None
 

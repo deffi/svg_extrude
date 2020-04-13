@@ -1,4 +1,6 @@
 Code TODOs
+Unit tests
+Don't inherit Identifier from str
 
 Cleanup:
   * Clean up method order in classes

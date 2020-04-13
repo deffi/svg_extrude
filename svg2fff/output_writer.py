@@ -1,5 +1,4 @@
-from typing import List
-from io import IOBase
+from typing import List, TextIO
 import re
 
 from svg2fff.model import Shape, Group
@@ -59,7 +58,7 @@ class GroupNames:
 
 
 class OutputWriter:
-    def __init__(self, file: IOBase):
+    def __init__(self, file: TextIO):
         self.scad_writer = ScadWriter(file)
         self._shape_names = FactoryDict(ShapeNames)
         self._group_names = FactoryDict(GroupNames)

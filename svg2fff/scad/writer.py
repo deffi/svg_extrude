@@ -1,15 +1,14 @@
-from typing import Iterable, Iterator
+from typing import Iterable, Iterator, TextIO
 from contextlib import contextmanager
-from io import IOBase
 
-from svg2fff.model import Color, Polygon
+from svg2fff.model import Color
 from svg2fff.scad.util import Identifier
 from svg2fff.scad.util import render
 
 
 class Writer:
-    def __init__(self, file: IOBase, *, indent: str = "    ", depth: int = 0):
-        self._file: IOBase = file
+    def __init__(self, file: TextIO, *, indent: str = "    ", depth: int = 0):
+        self._file: TextIO = file
         self._indent: str = indent
         self._depth: int = depth
 

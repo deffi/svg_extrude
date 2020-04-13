@@ -1,6 +1,6 @@
 from collections import namedtuple
 from dataclasses import dataclass
-from typing import Tuple, Optional, List
+from typing import Tuple, Optional
 from math import sqrt
 
 Rgb = namedtuple("Rgb", ["r", "g", "b"])
@@ -28,9 +28,9 @@ class Color:
         else:
             return self.html()
 
-    ##############
-    ## Creation ##
-    ##############
+    ############
+    # Creation #
+    ############
 
     @classmethod
     def from_html(cls, value: str, name: Optional[str] = None) -> "Color":
@@ -42,11 +42,11 @@ class Color:
         elif len(value) == 7 and value[0] == "#":
             return cls.from_html(value[1:], name)
         else:
-            raise ValueError(f"Unrecognized HTML color: {html}")
+            raise ValueError(f"Unrecognized HTML color: {value}")
 
-    ################
-    ## Conversion ##
-    ################
+    ##############
+    # Conversion #
+    ##############
 
     def rgb(self) -> Tuple[float, float, float]:
         return Rgb(self.r, self.g, self.b)
@@ -98,15 +98,15 @@ class Color:
         fy = f(y/yn)
         fz = f(z/zn)
 
-        L = 116 * fy - 16
+        l = 116 * fy - 16
         a = 500 * (fx - fy)
         b = 200 * (fy - fz)
 
-        return Lab(L, a, b)
+        return Lab(l, a, b)
 
-    #################
-    ## Calculation ##
-    #################
+    ###############
+    # Calculation #
+    ###############
 
     def delta_e(self, other: "Color", observer=None) -> float:
         """Color distance ΔE according to CIE76"""

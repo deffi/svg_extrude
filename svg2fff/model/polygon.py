@@ -16,7 +16,7 @@ class Polygon:
         # Collect all of the points
         for path in self.paths:
             for point in path:
-                if not point in points:
+                if point not in points:
                     point_indices[point] = len(points)
                     points.append(point)
 

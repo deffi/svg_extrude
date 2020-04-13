@@ -11,7 +11,7 @@ class Renderer:
         pass
 
     @contextmanager
-    def render_file(output_file_name: str) -> Iterator[IOBase]:
+    def render_file(self, output_file_name: str) -> Iterator[IOBase]:
         # Create a temporary file
         handle, path = mkstemp(suffix=".scad")
 

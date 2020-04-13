@@ -24,7 +24,7 @@ def render_file(base_name, format, scene, height):
     for group in scene.groups:
         file_name = f"{base_name}_{group.color.display_name()}.{format}"
         print(f"Rendering to {file_name}")
-        with ScadRenderer.render_file(file_name) as scad_file:
+        with ScadRenderer().render_file(file_name) as scad_file:
             OutputWriter(scad_file).write(scene.shapes, [group], height)
 
 

@@ -1,6 +1,6 @@
 import logging
-from dataclasses import dataclass, field
-from typing import Iterable, Tuple
+from dataclasses import dataclass
+from typing import Tuple
 
 from svg2fff.model import Polygon, Point, Color
 from svg2fff.util import filter_repetition

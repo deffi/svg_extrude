@@ -56,7 +56,6 @@ def identifier_part(string: str) -> str:
     reserved word or consist only of digits.
     """
 
-
     # OpenSCAD does not seem to document the rules for identifiers, but looking
     # at its lexer.l, it seems that only latin letters, digits, and underscores
     # are allowed.
