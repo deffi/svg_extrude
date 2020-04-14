@@ -1,49 +1,63 @@
 More unit tests: util, others?
 
+When called without --stl, scad, 3mf, amf: show info and notes about writing
+
+Finish documentation
+
 Checks:
   * Code TODOs
   * Inspections
   * Run all unit tests
 
 Future work:
-  * Single 3MF file with multiple objects
-  * Output JSON
-    This allows further processing by other tools without parsing the SCAD file.
+  * Output file generation - 3MF:
+      * Single 3MF file with multiple objects
+      * Include 3MF thumbnail
+      * Change 3MF title from "OpenSCAD model" to filename + group color
+      * Colors in 3MF file, if possible
+  * Output file generation - others:
+      * Generate JSON. This allows further processing by other tools without
+        parsing the SCAD file.
+  * CLI:
+      * Show list of groups, each with number of shapes and maximum ΔE (JND ≈
+        2.3)
+      * Reading available colors from environment variable
+      * Reading available colors from JSON file (name and color, which can be a
+        named color (defining an alias))
+      * Allow configuring the OpenSCAD executable: PATH, environment variable,
+        command line
+  * Error handling:
+      * OpenSCAD not found
+      * Fill style is not a simple color
   * Operate without OpenSCAD
       * CSG difference
       * Triangulation
       * Output file (STL, 3MF, potentially others) generation
-  * Read SVG <desc> and/or <title> and write them as comments to the OpenSCAD
-    file. Also the original SVG element ID.
-  * Additional geometry on top of everything (configurable height), with
-    optional color selection (default: color of the back-most shape)
-    Use union of all shapes or a separate shape (or a layer?)
-  * Status message: groups, each with number of shapes and number of points
-    OTOH, that's not really relevant because in does not consider clipping.
-  * When using OpenSCAD for rendering, use OpenSCAD customizer to select groups
-    instead of writing different SCAD files? This would allow rendering from the
-    same file as written with --scad.
-  * In ScadFile, define colors like `red = "#ff0000";`
-  * Allow specifying the orgin, e. g. "bottom left" so it looks like in
-    inkscape.
-  * Do not subtract disjoint paths to reduce the number of difference CSG
-    operations.
-  * Configurable coordinate origin?
-  * Configurable flipping: x (default), y, none, both
-  * Reading available colors from JSON file (name and color, which can be a
-    named color (defining an alias))
-  * Reading available colors from environment variable
-  * Option: file and group names use numeric colors, even if a name is defined
-  * Consider using OpenSCAD primitives: cube, circle, text
-  * Layer for ignored elements (for comments)? Layer classes?
-  * Merging groups?
-  * Create Scad.Identifier which also checks validity
-  * Better handling of 3rdparty/cjlano_svg? Import explicitly (requires renaming
-    3rdparty)? Move up? Use package that is in PyPI?
-  * Proper error handling if the fill style is not a simple color
-  * We might be able to do outlines by minkowski-ing with a circle
-  * Allow configuring the OpenSCAD executable: PATH, environment variable,
-    command line
-  * Show a list of color replacements with maximum ΔE (JND ≈ 2.3)
-  * Scene.from_svg combines shape creation and scene creation
-  * Reading from SVG should not be a method of the model classes
+  * OpenSCAD:
+      * In OpenSCAD file, define colors like `red = "#ff0000";`
+      * Use OpenSCAD customizer to select groups instead of writing multiple
+        SCAD files? This would allow rendering from the same file as written
+        with --scad.
+      * Consider using OpenSCAD primitives: cube, circle, text
+  * Geometry:
+      * Allow specifying the orgin, e. g. "bottom left" so it looks like in
+        Inkscape.
+      * Do not subtract disjoint paths to reduce the number of difference CSG
+        operations.
+      * Configurable flipping: x (default), y, none, both
+      * We might be able to do outlines by minkowski-ing with a circle
+      * Additional geometry on top of everything (configurable height), with
+        optional color selection (default: color of the back-most shape)
+        Use union of all shapes? Separate shape? Separate layer? Convex hull?
+  * SVG file:
+      * Read SVG <desc> and/or <title> and write them as comments to the
+        OpenSCAD file. Also the original SVG element ID.
+      * Layer for ignored elements (for comments)? Layer classes?
+  * Implementation:
+      * Better handling of 3rdparty/cjlano_svg? Import explicitly (requires
+        renaming 3rdparty)? Move up? Use package that is in PyPI?
+      * Reading from SVG should not be a method of the model classes
+      * Scene.from_svg combines shape creation and scene creation
+  * Output:
+      * Option: file and group names use numeric colors, even if a name is
+        defined
