@@ -1,5 +1,3 @@
-More unit tests: util, others?
-
 When called without --stl, scad, 3mf, amf: show info and notes about writing
 
 Finish documentation

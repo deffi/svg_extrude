@@ -3,6 +3,7 @@ import unittest
 from svg2fff.scad import Identifier
 
 class IdentifierTest(unittest.TestCase):
+
     def test_is_valid(self):
         # Valid
         self.assertEqual(True, Identifier.is_valid("foo"))
@@ -25,6 +26,15 @@ class IdentifierTest(unittest.TestCase):
 
         # Digits only
         self.assertEqual(False, Identifier.is_valid("123"))
+
+    def test_identifier(self):
+        # Valid
+        foo = Identifier("foo")
+        self.assertEqual("foo", foo.value)
+
+        # Invalid
+        with self.assertRaises(ValueError):
+            Identifier("translate")
 
 
 if __name__ == '__main__':
