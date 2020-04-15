@@ -1,6 +1,15 @@
 When called without --stl, scad, 3mf, amf: show info and notes about writing
-
 Finish documentation
+Stacking:
+  * --stack (what) (height)
+  * (what) can be:
+      * all (union)
+      * "shape outer"
+      * "group lightcoral"
+  * Allow multiple stack options
+  * Open questions:
+      * Does it go into the groups? (that decides in which file it's rendered)
+      * What color does it get?
 
 Checks:
   * Code TODOs
