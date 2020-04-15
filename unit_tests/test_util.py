@@ -18,7 +18,7 @@ class TestUtil(unittest.TestCase):
             (4, []),
         ])
 
-    def test_groupby(self):
+    def test_group_by(self):
         self.assertEqual(group_by([1, 2, 3, 4, 5, 6, 10, 11, 12, 13], lambda x: x % 3),
                          {
                              0: [3, 6, 12],
