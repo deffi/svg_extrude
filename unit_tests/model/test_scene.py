@@ -1,6 +1,9 @@
+from contextlib import contextmanager
 import unittest
 from typing import Dict
 from os import path
+import io
+import sys
 
 from svg2fff.model import Scene, Color, ColorSet, Shape, Group, Point
 
@@ -12,9 +15,18 @@ red = Color(1.0, 0.0, 0.0)
 yel = Color(1.0, 1.0, 0.0)
 
 
+@contextmanager
+def no_stdout():
+    original_stdout = sys.stdout
+    sys.stdout = io.StringIO()
+    yield
+    sys.stdout = original_stdout
+
+
 class SceneTest(unittest.TestCase):
     def test_from_svg(self):
-        scene = Scene.from_svg(file_name, precision=1, available_colors=None, snap=1e-6)
+        with no_stdout():
+            scene = Scene.from_svg(file_name, precision=1, available_colors=None, snap=1e-6)
 
         shapes: Dict[str, Shape]   = {shape.name: shape for shape in scene.shapes}
         groups: Dict[Color, Group] = {group.color: group for group in scene.groups}
@@ -43,7 +55,8 @@ class SceneTest(unittest.TestCase):
 
     def test_from_svg_with_colors(self):
         colors = ColorSet({red, yel})
-        scene = Scene.from_svg(file_name, precision=1, available_colors=colors, snap=1e-6)
+        with no_stdout():
+            scene = Scene.from_svg(file_name, precision=1, available_colors=colors, snap=1e-6)
 
         shapes: Dict[str, Shape]   = {shape.name: shape for shape in scene.shapes}
         groups: Dict[Color, Group] = {group.color: group for group in scene.groups}
