@@ -1,15 +1,15 @@
 When called without --stl, scad, 3mf, amf: show info and notes about writing
+
 Finish documentation
-Stacking:
-  * --stack (what) (height)
-  * (what) can be:
-      * all (union)
-      * "shape outer"
-      * "group lightcoral"
-  * Allow multiple stack options
-  * Open questions:
-      * Does it go into the groups? (that decides in which file it's rendered)
-      * What color does it get?
+
+Overlays:
+  * Restrict to a specified shape or group
+  * Place in union with specified group
+
+Clean up svg2fff.py
+  * Factor out args interpretation
+  * Only execute when __main__
+  * Make args interpretation testable
 
 Checks:
   * Code TODOs
@@ -25,6 +25,7 @@ Future work:
   * Output file generation - others:
       * Generate JSON. This allows further processing by other tools without
         parsing the SCAD file.
+      * Output the individual SCAD files
   * CLI:
       * Show list of groups, each with number of shapes and maximum ΔE (JND ≈
         2.3)
@@ -51,11 +52,17 @@ Future work:
         Inkscape.
       * Do not subtract disjoint paths to reduce the number of difference CSG
         operations.
-      * Configurable flipping: x (default), y, none, both
       * We might be able to do outlines by minkowski-ing with a circle
-      * Additional geometry on top of everything (configurable height), with
-        optional color selection (default: color of the back-most shape)
-        Use union of all shapes? Separate shape? Separate layer? Convex hull?
+      * Additional geometry stacked on top of everything (configurable height),
+        with optional color selection (default: color of the back-most shape)
+        Use union of all shapes? Separate shape? Separate layer?
+      * Two-sided images: one set of groups, and then an independent set of
+        groups on top of that (potentially with a solid layer inbetween)
+        That would definitely be layers in the image (note that layers are not
+        a feature of SVG; inkscape uses groups with inkscape:groupmode="layer"
+        and inkscape:label="name").
+        Also: --from above and --from below (origin at upper left or lower left)
+
   * SVG file:
       * Read SVG <desc> and/or <title> and write them as comments to the
         OpenSCAD file. Also the original SVG element ID.

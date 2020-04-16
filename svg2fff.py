@@ -14,19 +14,29 @@ from svg2fff.scad import Renderer as ScadRenderer
 from svg2fff import css
 
 
-def write_scad_file(base_name, scene: Scene, height):
+def write_scad_file(base_name, scene: Scene, height, overlay_height):
     file_name = f"{base_name}.scad"
     print(f"Writing to {file_name}")
     with open(file_name, "w") as file:
-        OutputWriter(file).write(scene.shapes, scene.groups, height)
+        OutputWriter(file).write(scene.shapes, scene.groups, thickness=height,
+                                 overlay_thickness=overlay_height)
 
 
-def render_file(base_name, output_format, scene, height):
+def render_file(base_name, output_format, scene, height, overlay_height):
     for group in scene.groups:
         file_name = f"{base_name}_{group.color.display_name()}.{output_format}"
         print(f"Rendering to {file_name}")
         with ScadRenderer().render_file(file_name) as scad_file:
-            OutputWriter(scad_file).write(scene.shapes, [group], height)
+            OutputWriter(scad_file).write(scene.shapes, [group], thickness=height,
+                                          overlay_thickness=None)
+
+    # TODO code duplication
+    # TODO possible collision with color "overlay"
+    file_name = f"{base_name}_overlay.{output_format}"
+    print(f"Rendering to {file_name}")
+    with ScadRenderer().render_file(file_name) as scad_file:
+        OutputWriter(scad_file).write(scene.shapes, [], thickness=height,
+                                      overlay_thickness=overlay_height)
 
 
 def svg2fff(args):
@@ -45,10 +55,10 @@ def svg2fff(args):
         scene: Scene = Scene.from_svg(svg_file, precision=args.precision, available_colors=colors)
 
         # Write the output files
-        if args.scad:    write_scad_file(base_name, scene, args.height)
-        if args.stl:     render_file(base_name, "stl", scene, args.height)
-        if args.amf:     render_file(base_name, "amf", scene, args.height)
-        if args.threemf: render_file(base_name, "3mf", scene, args.height)
+        if args.scad:    write_scad_file(base_name, scene, args.height, args.overlay)
+        if args.stl:     render_file(base_name, "stl", scene, args.height, args.overlay)
+        if args.amf:     render_file(base_name, "amf", scene, args.height, args.overlay)
+        if args.threemf: render_file(base_name, "3mf", scene, args.height, args.overlay)
 
 
 parser = argparse.ArgumentParser(description="Generates 3D models (for 3D printing) from an SVG file.")
@@ -61,12 +71,14 @@ parser.add_argument("--amf", action="store_true",
 parser.add_argument("--3mf", action="store_true", dest="threemf",
                     help="Output 3MF files, one for each color")
 parser.add_argument("--height", type=float, default=0.2,
-                    help="Extrusion height (thickness)")
+                    help="Extrusion height (thickness) in mm")
 parser.add_argument("--precision", type=float, default=1,
                     help="Precision for approximating curves; smaller is more precise.")
 parser.add_argument("--colors", default="default",
                     help="'default', 'all', 'basic', or comma-separated list of colors. " 
                          "Colors can be specified by value (e. g. #4682b4) or CSS name (e. g. steelblue). "
                          "Optionally, a name can be specified (e. g. my_blue:#4682b4 or my_blue:steelblue).")
+parser.add_argument("--overlay", type=float, default=None,
+                    help="Height of the overlay layer in mm")
 parser.add_argument("svg_files", nargs='+', help="SVG file name")
 svg2fff(parser.parse_args())

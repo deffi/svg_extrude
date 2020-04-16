@@ -1,9 +1,10 @@
-from typing import Iterable, Sequence, TextIO
+from contextlib import contextmanager
+from typing import Iterable, Sequence, TextIO, Dict, Optional
 import re
 
 from svg2fff.model import Shape, Group
 from svg2fff.scad import Writer as ScadWriter, Identifier
-from svg2fff.util import with_remaining, FactoryDict
+from svg2fff.util import with_remaining, FactoryDict, conditional
 
 # Identifiers are generated from SVG element IDs.
 #   * First, the ID is sanitized. Invalid characters are replaced with an
@@ -40,6 +41,8 @@ def sanitize_identifier(identifier: str):
     return re.sub(r'[^a-zA-Z0-9]', replace, identifier)
 
 
+# TODO these should be wrappers around the respective object; that would
+# simplify the code
 class ShapeNames:
     def __init__(self, shape: Shape):
         name = sanitize_identifier(shape.name)
@@ -59,8 +62,13 @@ class GroupNames:
 class OutputWriter:
     def __init__(self, file: TextIO):
         self.scad_writer = ScadWriter(file)
-        self._shape_names = FactoryDict(ShapeNames)
-        self._group_names = FactoryDict(GroupNames)
+        self._shape_names: Dict[Shape, ShapeNames] = FactoryDict(ShapeNames)
+        self._group_names: Dict[Group, GroupNames] = FactoryDict(GroupNames)
+
+    @contextmanager
+    def at_height(self, offset: float):
+        with conditional(offset != 0, self.scad_writer.translate([0, 0, offset]), None):
+            yield
 
     def write_points_and_paths(self, shapes: Iterable[Shape]):
         self.scad_writer.blank_line()
@@ -105,19 +113,39 @@ class OutputWriter:
                     shape_names = self._shape_names[shape]
                     self.scad_writer.instance(shape_names.clipped_shape)
 
-    def instantiate_groups(self, groups: Iterable[Group], thickness: float):
+    def instantiate_groups(self, groups: Iterable[Group], *, height: float, offset: float):
         self.scad_writer.blank_line()
         self.scad_writer.comment("Extrude groups")
 
         for index, group in enumerate(groups):
-            with self.scad_writer.color(group.color):
-                with self.scad_writer.extrude(thickness):
-                    self.scad_writer.instance(self._group_names[group].group)
+            with self.at_height(offset):
+                with self.scad_writer.color(group.color):
+                    with self.scad_writer.extrude(height):
+                        self.scad_writer.instance(self._group_names[group].group)
 
-    def write(self, shapes: Sequence[Shape], groups: Sequence[Group], thickness: float) -> None:
+    def instantiate_overlay(self, shapes: Iterable[Shape], *, height: float, offset: float):
+        if height:
+            with self.at_height(offset):
+                with self.scad_writer.extrude(height):
+                    for shape in shapes:
+                        self.scad_writer.instance(self._shape_names[shape].shape)
+
+    def write(self, shapes: Sequence[Shape], groups: Sequence[Group], thickness: float,
+              overlay_thickness: Optional[float] = None) -> None:
+        """Note that we can't collect the shapes from the groups because their
+        order matters for clipping."""
+
+        # We always write all shapes, even if we don't end up using them.
+
+        # Write an introductory comment
         self.scad_writer.comment("Written by svg2fff")
+
+        # Write the definitions
         self.write_points_and_paths(shapes)
         self.write_shapes(shapes)
         self.write_clipped_shapes(shapes)
         self.write_groups(groups)
-        self.instantiate_groups(groups, thickness)
+
+        # Write the instantiations
+        self.instantiate_groups(groups, height=thickness, offset=0)
+        self.instantiate_overlay(shapes, height=overlay_thickness, offset=thickness)

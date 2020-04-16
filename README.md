@@ -20,8 +20,12 @@ Quick start:
 Useful options:
   * --height 0.2
   * --colors "red,yellow,green,blue,black,white"
-  
+  * --overlay 0.8
+
 See svg2fff -h for details.
+
+The overlay will span all shapes, have no color, and be rendered to an
+individual file (if individual files are produced).
 
 
 SVG file preparation
@@ -73,7 +77,9 @@ Procedure:
   * Configuration (advanced):
       * Print Settings -> Advanced -> Elephant foot compensation: 0 (advanced)
       * Print Settings -> Output options -> "Label objects": on (advanced)
-  * Setup: import the models individually
+  * Setup:
+      * Import the group models individually
+      * If you have an overlay, add it to the appropriate group as a part 
   * G-code post processing: insert M600 between objects:
         ; stop printing object foo id:0 copy 0
         M600
@@ -97,7 +103,9 @@ Alternative procedure:
 Notes:
   * STL and AMF objects are always centered on the print bed individually, even
     if the "auto-center parts" option is off. 3MF objects (whether in a single
-    file or in multiple files) are aligned according to their coordinates.
+    file or in multiple files) are aligned according to their coordinates. This
+    does not seem to be the case for the Z direction, where all object appear to
+    be dropped to the print bed.
   * Elephant's foot compensation cannot be used if there are multiple objects in
     the first layer because it will be applied to each object individually.
   * "Complete individual objects" cannot be used because the slicer will refuse

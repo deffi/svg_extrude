@@ -1,5 +1,8 @@
 from typing import Iterable, Generator, Sequence
+from contextlib import contextmanager
 from collections import defaultdict
+
+# TODO factor out util.iter?
 
 
 def filter_repetition(items: Sequence) -> Generator:
@@ -13,6 +16,7 @@ def filter_repetition(items: Sequence) -> Generator:
                 yield i
 
 
+# TODO rename to each_with_remaining
 def with_remaining(items: Sequence):
     """For each items, yields a tuple with (a) that item, and (b) a slice of the
     original sequence containing all items after that item."""
@@ -47,3 +51,13 @@ def arg_min(candidates: Iterable, target=lambda x: x):
 
 def identity(x):
     return x
+
+
+# TODO unit test and review
+@contextmanager
+def conditional(condition, generator, alternative):
+    if condition:
+        with generator as gen:
+            yield gen
+    else:
+        yield alternative
