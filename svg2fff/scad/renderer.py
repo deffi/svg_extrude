@@ -11,13 +11,17 @@ class Renderer:
         pass
 
     @contextmanager
-    def render_file(self, output_file_name: str) -> Iterator[IOBase]:
+    def render_file(self, output_file_name: str, *, verbose=False) -> Iterator[IOBase]:
         # Create a temporary file
         handle, path = mkstemp(suffix=".scad")
 
         try:
             with os.fdopen(handle, "w") as scad_file:
                 yield scad_file
+
+            if verbose:
+                with open(path, "r") as f:
+                    print(f.read())
 
             # Call OpenSCAD
             # noinspection SpellCheckingInspection
