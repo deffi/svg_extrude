@@ -78,3 +78,6 @@ Future work:
         defined
       * If the overlay has the same color as one of the groups, render it to a
         single model: PrusaSlicer may not print that color last
+  * Misc:
+      * When rounding to colors, not that some colors may duplicates (grey vs.
+        gray). Always use the same one.

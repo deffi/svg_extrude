@@ -84,7 +84,10 @@ Procedure:
         ; stop printing object foo id:0 copy 0
         M600
         ; printing object bar id:1 copy 0
-
+  * Notes: with this procedure, multiple objects must be used; multi-part
+    objects won't work because the parts will be sliced as one and the "Label
+    objects" function won't label the individual parts.
+  
 Alternative procedure:
   * Configuration:
       * Printer Settings -> General -> Extruders: match the number of models
@@ -111,3 +114,7 @@ Notes:
   * "Complete individual objects" cannot be used because the slicer will refuse
     to slice objects where the bounding boxes (expanded by the horizontal
     clearance) overlap, even if the objects are only a single layer high.
+  * PrusaSlicer insists on dropping all objects to the print surface. This means
+    that the only way to print with multiple objects (first procedure) is to
+    have the groups on the bed and the overlay (if any) as "part" of one of the
+    group objects. Future workaround: anchor geometry.
