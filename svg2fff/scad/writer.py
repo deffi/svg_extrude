@@ -55,6 +55,11 @@ class Writer:
             yield
 
     @contextmanager
+    def rotate(self, vector: Iterable[float]) -> Iterator[None]:
+        with self.block(f"rotate ({render(vector)})"):
+            yield
+
+    @contextmanager
     def extrude(self, thickness: float) -> Iterator[None]:
         with self.block(f"linear_extrude ({render(thickness)})"):
             yield
