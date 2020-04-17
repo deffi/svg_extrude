@@ -14,21 +14,23 @@ from svg2fff.scad import Renderer as ScadRenderer
 from svg2fff import css
 
 
-def write_scad_file(base_name, scene: Scene, height, overlay_height):
+def write_scad_file(base_name, scene: Scene, height, overlay_height, flip):
     file_name = f"{base_name}.scad"
     print(f"Writing to {file_name}")
     with open(file_name, "w") as file:
         OutputWriter(file).write(scene.shapes, scene.groups, thickness=height,
-                                 overlay_thickness=overlay_height)
+                                 overlay_thickness=overlay_height,
+                                 flip=flip)
 
 
-def render_file(base_name, output_format, scene, height, overlay_height):
+def render_file(base_name, output_format, scene, height, overlay_height, flip):
     for group in scene.groups:
         file_name = f"{base_name}_{group.color.display_name()}.{output_format}"
         print(f"Rendering to {file_name}")
         with ScadRenderer().render_file(file_name) as scad_file:
             OutputWriter(scad_file).write(scene.shapes, [group], thickness=height,
-                                          overlay_thickness=None)
+                                          overlay_thickness=None,
+                                          flip=flip)
 
     if overlay_height:
         # TODO code duplication
@@ -37,13 +39,18 @@ def render_file(base_name, output_format, scene, height, overlay_height):
         print(f"Rendering to {file_name}")
         with ScadRenderer().render_file(file_name) as scad_file:
             OutputWriter(scad_file).write(scene.shapes, [], thickness=height,
-                                          overlay_thickness=overlay_height)
-
+                                          overlay_thickness=overlay_height,
+                                          flip=flip)
 
 def svg2fff(args):
     for svg_file in args.svg_files:
         # Determine the base file name for the output
         base_name = re.sub('.svg$', '', svg_file)
+
+        if args.flip:
+            flip = args.height + args.overlay
+        else:
+            flip = None
 
         # Create the colors
         colors: Optional[ColorSet]
@@ -56,10 +63,10 @@ def svg2fff(args):
         scene: Scene = Scene.from_svg(svg_file, precision=args.precision, available_colors=colors)
 
         # Write the output files
-        if args.scad:    write_scad_file(base_name, scene, args.height, args.overlay)
-        if args.stl:     render_file(base_name, "stl", scene, args.height, args.overlay)
-        if args.amf:     render_file(base_name, "amf", scene, args.height, args.overlay)
-        if args.threemf: render_file(base_name, "3mf", scene, args.height, args.overlay)
+        if args.scad:    write_scad_file(base_name, scene, args.height, args.overlay, flip)
+        if args.stl:     render_file(base_name, "stl", scene, args.height, args.overlay, flip)
+        if args.amf:     render_file(base_name, "amf", scene, args.height, args.overlay, flip)
+        if args.threemf: render_file(base_name, "3mf", scene, args.height, args.overlay, flip)
 
 
 parser = argparse.ArgumentParser(description="Generates 3D models (for 3D printing) from an SVG file.")
@@ -81,5 +88,7 @@ parser.add_argument("--colors", default="default",
                          "Optionally, a name can be specified (e. g. my_blue:#4682b4 or my_blue:steelblue).")
 parser.add_argument("--overlay", type=float, default=None,
                     help="Height of the overlay layer in mm")
+parser.add_argument("--flip", action="store_true",
+                    help="Flip around the x axis (experimental, will be changed in future versions)")
 parser.add_argument("svg_files", nargs='+', help="SVG file name")
 svg2fff(parser.parse_args())

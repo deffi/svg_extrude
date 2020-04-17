@@ -130,8 +130,14 @@ class OutputWriter:
                     for shape in shapes:
                         self.scad_writer.instance(self._shape_names[shape].shape)
 
+    @contextmanager
+    def flip(self, total_height):
+        with self.scad_writer.translate([0, 0, total_height]):
+            with self.scad_writer.rotate([180, 0, 0]):
+                yield
+
     def write(self, shapes: Sequence[Shape], groups: Sequence[Group], thickness: float,
-              overlay_thickness: Optional[float] = None) -> None:
+              overlay_thickness: Optional[float] = None, *, flip: float) -> None:
         """Note that we can't collect the shapes from the groups because their
         order matters for clipping."""
 
@@ -147,5 +153,6 @@ class OutputWriter:
         self.write_groups(groups)
 
         # Write the instantiations
-        self.instantiate_groups(groups, height=thickness, offset=0)
-        self.instantiate_overlay(shapes, height=overlay_thickness, offset=thickness)
+        with conditional(flip is not None, self.flip(flip), None):
+            self.instantiate_groups(groups, height=thickness, offset=0)
+            self.instantiate_overlay(shapes, height=overlay_thickness, offset=thickness)
