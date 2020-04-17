@@ -26,6 +26,7 @@ Future work:
       * Generate JSON. This allows further processing by other tools without
         parsing the SCAD file.
       * Output the individual SCAD files
+      * SVG with replaced colors
   * CLI:
       * Show list of groups, each with number of shapes and maximum ΔE (JND ≈
         2.3)
@@ -75,3 +76,5 @@ Future work:
   * Output:
       * Option: file and group names use numeric colors, even if a name is
         defined
+      * If the overlay has the same color as one of the groups, render it to a
+        single model: PrusaSlicer may not print that color last
