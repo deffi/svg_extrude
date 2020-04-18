@@ -1,6 +1,6 @@
 import unittest
 
-from svg2fff.util import FactoryDict
+from svg_extrude.util import FactoryDict
 
 
 class FactoryDictTest(unittest.TestCase):

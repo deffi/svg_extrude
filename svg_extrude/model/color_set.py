@@ -1,8 +1,8 @@
 from typing import Dict, Optional
 import re
 
-from svg2fff.model import Color
-from svg2fff.util import arg_min
+from svg_extrude.model import Color
+from svg_extrude.util import arg_min
 
 
 def _parse_color(string: str, available: Dict[str, Color]):

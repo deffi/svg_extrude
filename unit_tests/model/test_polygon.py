@@ -1,6 +1,6 @@
 import unittest
 
-from svg2fff.model import Point, Polygon
+from svg_extrude.model import Point, Polygon
 
 
 class PolygonTest(unittest.TestCase):

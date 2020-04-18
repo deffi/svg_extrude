@@ -1,6 +1,6 @@
 import unittest
 
-from svg2fff.util import Namespace
+from svg_extrude.util import Namespace
 
 
 class NamespaceTest(unittest.TestCase):

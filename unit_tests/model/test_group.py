@@ -1,6 +1,6 @@
 import unittest
 
-from svg2fff.model import Group, Shape, Color, ColorSet
+from svg_extrude.model import Group, Shape, Color, ColorSet
 
 
 class GroupTest(unittest.TestCase):

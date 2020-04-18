@@ -1,9 +1,9 @@
 from typing import Iterable, Iterator, TextIO
 from contextlib import contextmanager
 
-from svg2fff.model import Color
-from svg2fff.scad.util import Identifier
-from svg2fff.scad.util import render
+from svg_extrude.model import Color
+from svg_extrude.scad.util import Identifier
+from svg_extrude.scad.util import render
 
 
 class Writer:

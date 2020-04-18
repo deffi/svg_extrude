@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Iterable, Tuple, Generator
 
-from svg2fff.model import Color, Shape
-from svg2fff.util import group_by, identity
+from svg_extrude.model import Color, Shape
+from svg_extrude.util import group_by, identity
 
 
 @dataclass(frozen=True)

@@ -5,7 +5,7 @@ from os import path
 import io
 import sys
 
-from svg2fff.model import Scene, Color, ColorSet, Shape, Group, Point
+from svg_extrude.model import Scene, Color, ColorSet, Shape, Group, Point
 
 file_name = path.join(path.dirname(__file__), "scene.svg")
 c1 = Color(1.0, 0.0, 0.2)

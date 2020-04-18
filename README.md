@@ -1,5 +1,5 @@
-svg2fff
-=======
+svg_extrude
+===========
 
 Creates 3D models (suitable for 3D printing) from an SVG file.
 
@@ -11,18 +11,24 @@ similar color from a given set of colors.
 OpenSCAD is used for 3D model generation.
 
 
+Prerequisites
+-------------
+
+tinycss2
+
+
 Invocation
 ----------
 
 Quick start:
-    svg2fff --3mf foo.svg
+    svg_extrude --3mf foo.svg
 
 Useful options:
   * --height 0.2
   * --colors "red,yellow,green,blue,black,white"
   * --overlay 0.8
 
-See svg2fff -h for details.
+See svg_extrude -h for details.
 
 The overlay will span all shapes, have no color, and be rendered to an
 individual file (if individual files are produced).

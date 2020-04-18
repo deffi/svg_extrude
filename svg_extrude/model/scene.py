@@ -2,7 +2,7 @@ import logging
 from typing import Tuple, Optional
 from dataclasses import dataclass
 
-from svg2fff.model import Shape, Group, ColorSet
+from svg_extrude.model import Shape, Group, ColorSet
 
 import cjlano_svg as svg
 

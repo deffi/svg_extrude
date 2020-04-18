@@ -1,6 +1,6 @@
 import unittest
 
-from svg2fff.model import Color, ColorSet
+from svg_extrude.model import Color, ColorSet
 
 # Default colors
 red = Color(1, 0, 0, "red")

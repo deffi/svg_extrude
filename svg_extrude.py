@@ -8,10 +8,10 @@ path_3rdparty = path.join(path.dirname(__file__), "3rdparty")
 if path_3rdparty not in sys.path:
     sys.path.append(path_3rdparty)
 
-from svg2fff.model import Scene, ColorSet
-from svg2fff import OutputWriter
-from svg2fff.scad import Renderer as ScadRenderer
-from svg2fff import css
+from svg_extrude.model import Scene, ColorSet
+from svg_extrude import OutputWriter
+from svg_extrude.scad import Renderer as ScadRenderer
+from svg_extrude import css
 
 
 def write_scad_file(base_name, scene: Scene, height, overlay_height, flip):
@@ -42,7 +42,7 @@ def render_file(base_name, output_format, scene, height, overlay_height, flip):
                                           overlay_thickness=overlay_height,
                                           flip=flip)
 
-def svg2fff(args):
+def svg_extrude(args):
     for svg_file in args.svg_files:
         # Determine the base file name for the output
         base_name = re.sub('.svg$', '', svg_file)
@@ -91,4 +91,4 @@ parser.add_argument("--overlay", type=float, default=None,
 parser.add_argument("--flip", action="store_true",
                     help="Flip around the x axis (experimental, will be changed in future versions)")
 parser.add_argument("svg_files", nargs='+', help="SVG file name")
-svg2fff(parser.parse_args())
+svg_extrude(parser.parse_args())

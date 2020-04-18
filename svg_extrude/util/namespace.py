@@ -1,5 +1,5 @@
 from itertools import count
-from svg2fff.util import FactoryDict
+from svg_extrude.util import FactoryDict
 
 
 class Namespace:

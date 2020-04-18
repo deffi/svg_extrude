@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Tuple
 
-from svg2fff.model import Point
+from svg_extrude.model import Point
 
 
 @dataclass(frozen=True)

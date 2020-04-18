@@ -1,6 +1,6 @@
 import unittest
 
-from svg2fff.util import filter_repetition, with_remaining, group_by, arg_min, identity
+from svg_extrude.util import filter_repetition, with_remaining, group_by, arg_min, identity
 
 
 class UtilTest(unittest.TestCase):

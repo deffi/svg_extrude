@@ -1,6 +1,6 @@
 import re
 
-from svg2fff.scad import reserved_words
+from svg_extrude.scad import reserved_words
 
 
 class Identifier:

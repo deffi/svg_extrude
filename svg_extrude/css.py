@@ -3,7 +3,7 @@ from typing import Optional
 import tinycss2 as css
 import tinycss2.ast
 
-from svg2fff.model import Color, ColorSet
+from svg_extrude.model import Color, ColorSet
 
 
 def extract_value(style: Optional[str], name: str) -> Optional[str]:

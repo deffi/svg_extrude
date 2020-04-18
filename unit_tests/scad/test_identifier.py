@@ -1,6 +1,6 @@
 import unittest
 
-from svg2fff.scad import Identifier
+from svg_extrude.scad import Identifier
 
 class IdentifierTest(unittest.TestCase):
 

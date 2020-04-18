@@ -1,8 +1,8 @@
 import unittest
 
-from svg2fff.model import Point, Color
-from svg2fff.scad import Identifier, StringLiteral
-from svg2fff.scad.util import render
+from svg_extrude.model import Point, Color
+from svg_extrude.scad import Identifier, StringLiteral
+from svg_extrude.scad.util import render
 
 
 class TestUtil(unittest.TestCase):

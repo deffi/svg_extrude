@@ -2,9 +2,9 @@ from contextlib import contextmanager
 from typing import Iterable, Sequence, TextIO, Dict, Optional
 import re
 
-from svg2fff.model import Shape, Group
-from svg2fff.scad import Writer as ScadWriter, Identifier
-from svg2fff.util import with_remaining, FactoryDict, conditional
+from svg_extrude.model import Shape, Group
+from svg_extrude.scad import Writer as ScadWriter, Identifier
+from svg_extrude.util import with_remaining, FactoryDict, conditional
 
 # Identifiers are generated from SVG element IDs.
 #   * First, the ID is sanitized. Invalid characters are replaced with an
@@ -144,7 +144,7 @@ class OutputWriter:
         # We always write all shapes, even if we don't end up using them.
 
         # Write an introductory comment
-        self.scad_writer.comment("Written by svg2fff")
+        self.scad_writer.comment("Written by svg_extrude")
 
         # Write the definitions
         self.write_points_and_paths(shapes)

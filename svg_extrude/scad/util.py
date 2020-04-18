@@ -1,7 +1,7 @@
 from numbers import Number
 
-from svg2fff.model import Point, Color
-from svg2fff.scad import StringLiteral, Identifier
+from svg_extrude.model import Point, Color
+from svg_extrude.scad import StringLiteral, Identifier
 
 
 def render(value) -> str:
