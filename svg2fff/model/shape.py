@@ -25,7 +25,9 @@ class Shape:
         if not (stroke is None or stroke == "none"):
             logger.warning("%s: stroked paths are not supported. Ignoring stroke.", svg_path.id)
 
-        fill = extract_value(svg_path.style, "fill")
+        # If there is no style or no fill property, use black (SVG 1.1, section
+        # 11.3)
+        fill = extract_value(svg_path.style, "fill") or "#000000"
         if fill:
             fill = Color.from_html(fill, None)
 

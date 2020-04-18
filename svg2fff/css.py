@@ -6,7 +6,10 @@ import tinycss2.ast
 from svg2fff.model import Color, ColorSet
 
 
-def extract_value(style, name: str) -> Optional[str]:
+def extract_value(style: Optional[str], name: str) -> Optional[str]:
+    if style is None:
+        return None
+
     declarations = css.parse_declaration_list(style)
     for declaration in declarations:
         if isinstance(declaration, css.ast.Declaration):

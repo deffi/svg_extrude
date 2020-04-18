@@ -1,9 +1,12 @@
+import logging
 from typing import Tuple, Optional
 from dataclasses import dataclass
 
 from svg2fff.model import Shape, Group, ColorSet
 
 import cjlano_svg as svg
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
