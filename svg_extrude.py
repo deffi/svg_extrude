@@ -87,8 +87,8 @@ parser.add_argument("--colors", default="default",
                          "Colors can be specified by value (e. g. #4682b4) or CSS name (e. g. steelblue). "
                          "Optionally, a name can be specified (e. g. my_blue:#4682b4 or my_blue:steelblue).")
 parser.add_argument("--overlay", type=float, default=None,
-                    help="Height of the overlay layer in mm")
+                    help="Height of the overlay layer in mm (experimental!)")
 parser.add_argument("--flip", action="store_true",
-                    help="Flip around the x axis (experimental, will be changed in future versions)")
+                    help="Flip around the x axis (experimental!)")
 parser.add_argument("svg_files", nargs='+', help="SVG file name")
 svg_extrude(parser.parse_args())

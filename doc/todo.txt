@@ -1,7 +1,8 @@
+Show info:
+  * Shapes with number of points?
+  * Color groups with number of shapes and total number of points?
 
-When called without --stl, scad, 3mf, amf: show info and notes about writing
-
-Finish documentation
+Make --3mf default
 
 Overlays:
   * Restrict to a specified shape or group

@@ -62,6 +62,8 @@ class ColorSetTest(unittest.TestCase):
         self.assertEqual({red, yellow, grass, sky},
                          ColorSet.parse("red , yellow, grass :green ,sky: blue", available=available))
 
+        # TODO mixed: red, yellow:#cccc00, green:lime, #0000dd
+
     def test_closest(self):
         available = ColorSet({red, yellow, green})
 
