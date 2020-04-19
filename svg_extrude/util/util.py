@@ -52,7 +52,8 @@ def identity(x):
     return x
 
 
-# TODO unit test and review
+# TODO implement with nullcontext?
+# TODO rename to conditional_context
 @contextmanager
 def conditional(condition, generator, alternative):
     if condition:

@@ -1,6 +1,7 @@
+from contextlib import contextmanager
 import unittest
 
-from svg_extrude.util import filter_repetition, each_with_remaining, group_by, arg_min, identity
+from svg_extrude.util import filter_repetition, each_with_remaining, group_by, arg_min, identity, conditional
 
 
 class UtilTest(unittest.TestCase):
@@ -45,6 +46,27 @@ class UtilTest(unittest.TestCase):
     def test_identity(self):
         for x in [0, 1, "", "1", None, identity, UtilTest]:
             self.assertIs(x, identity(x))
+
+    def test_conditional(self):
+        @contextmanager
+        def wrapped(x):
+            yield [x]
+
+        a = 1
+        with wrapped(a) as b:
+            self.assertEqual([1], b)
+
+            with wrapped(b) as c:
+                self.assertEqual([1], b)
+                self.assertEqual([[1]], c)
+
+            with conditional(True, wrapped(b), b) as c:
+                self.assertEqual([1], b)
+                self.assertEqual([[1]], c)
+
+            with conditional(False, wrapped(b), "something") as c:
+                self.assertEqual([1], b)
+                self.assertEqual("something", c)
 
 
 if __name__ == '__main__':
