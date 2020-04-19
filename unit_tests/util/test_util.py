@@ -60,7 +60,7 @@ class UtilTest(unittest.TestCase):
                 self.assertEqual([1], b)
                 self.assertEqual([[1]], c)
 
-            with conditional(True, wrapped(b), b) as c:
+            with conditional(True, wrapped(b), "something") as c:
                 self.assertEqual([1], b)
                 self.assertEqual([[1]], c)
 

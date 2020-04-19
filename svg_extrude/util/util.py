@@ -1,5 +1,5 @@
 from typing import Iterable, Generator, Sequence
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from collections import defaultdict
 
 # TODO factor out util.iter?
@@ -52,12 +52,9 @@ def identity(x):
     return x
 
 
-# TODO implement with nullcontext?
 # TODO rename to conditional_context
-@contextmanager
-def conditional(condition, generator, alternative):
+def conditional(condition, context_manager, alternative_enter_result):
     if condition:
-        with generator as gen:
-            yield gen
+        return context_manager
     else:
-        yield alternative
+        return nullcontext(alternative_enter_result)
