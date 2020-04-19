@@ -1,31 +1,21 @@
 Try github action
 
-Show info:
-  * Shapes with number of points?
-  * Color groups with number of shapes and total number of points?
-
-Make --3mf default
-
-Overlays:
-  * Restrict to a specified shape or group
-  * Place in union with specified group
-
-Clean up svg_extrude.py
-  * Factor out args interpretation
-  * Only execute when __main__
-  * Make args interpretation testable
-
 Checks:
   * Code TODOs
   * Inspections
   * Run all unit tests
 
 Future work:
+  * Clean up svg_extrude.py
+      * Factor out args interpretation
+      * Only execute when __main__
+      * Make args interpretation testable
   * Output file generation - 3MF:
       * Single 3MF file with multiple objects
       * Include 3MF thumbnail
       * Change 3MF title from "OpenSCAD model" to filename + group color
       * Colors in 3MF file, if possible
+      * Make --3mf default
   * Output file generation - others:
       * Generate JSON. This allows further processing by other tools without
         parsing the SCAD file.
@@ -84,6 +74,12 @@ Future work:
         single model: PrusaSlicer may not print that color last
       * Overlay generation is ugly
       * Overlay: possible collision with a color named "overlay"
+  * Overlays:
+      * Restrict to a specified shape or group
+      * Place in union with specified group
+  * Show more info:
+      * Shapes with number of points?
+      * Color groups with number of shapes and total number of points?
   * Misc:
       * When rounding to colors, not that some colors may duplicates (grey vs.
         gray). Always use the same one.
