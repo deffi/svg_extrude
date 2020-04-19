@@ -54,15 +54,23 @@ class ColorSetTest(unittest.TestCase):
 
     def test_parse_multi(self):
         # Simple and simple with name
-        self.assertEqual({nred, nyellow, green, blue},
-                         ColorSet.parse("#FF0000 , #FFFF00, green :#00FF00 ,blue: #0000FF"))
+        self.assertSetEqual({nred, nyellow, green, blue},
+                            ColorSet.parse("#FF0000 , #FFFF00, green :#00FF00 ,blue: #0000FF"))
 
         # By reference
         available = ColorSet({red, yellow, green, blue})
-        self.assertEqual({red, yellow, grass, sky},
-                         ColorSet.parse("red , yellow, grass :green ,sky: blue", available=available))
+        self.assertSetEqual({red, yellow, grass, sky},
+                            ColorSet.parse("red , yellow, grass :green ,sky: blue", available=available))
 
-        # TODO mixed: red, yellow:#cccc00, green:lime, #0000dd
+        # Mixed
+        available = ColorSet({red, yellow, green, blue})
+        self.assertSetEqual({red, Color(0.8, 0.8, 0, "yellow"), Color(0, 0, 0.2)},
+                            ColorSet.parse("red, yellow:#cccc00, #000033", available=available))
+
+        # Swap colors
+        available = ColorSet({red, yellow, green, blue})
+        self.assertSetEqual({Color(1, 1, 0, "red"), Color(1, 0, 0, "yellow")},
+                            ColorSet.parse("red:yellow, yellow:red", available=available))
 
     def test_closest(self):
         available = ColorSet({red, yellow, green})
