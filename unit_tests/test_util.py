@@ -1,6 +1,6 @@
 import unittest
 
-from svg_extrude.util import filter_repetition, with_remaining, group_by
+from svg_extrude.util import filter_repetition, each_with_remaining, group_by
 
 
 class TestUtil(unittest.TestCase):
@@ -10,8 +10,8 @@ class TestUtil(unittest.TestCase):
         self.assertEqual(list(filter_repetition(values)), [1, 2, 3, 4, 3])
 
     def test_with_remaining(self):
-        self.assertEqual(list(with_remaining([])), [])
-        self.assertEqual(list(with_remaining([1, 2, 3, 4])), [
+        self.assertEqual(list(each_with_remaining([])), [])
+        self.assertEqual(list(each_with_remaining([1, 2, 3, 4])), [
             (1, [2, 3, 4]),
             (2, [3, 4]),
             (3, [4]),

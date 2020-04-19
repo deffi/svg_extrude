@@ -4,7 +4,7 @@ import re
 
 from svg_extrude.model import Shape, Group
 from svg_extrude.scad import Writer as ScadWriter, Identifier
-from svg_extrude.util import with_remaining, FactoryDict, conditional
+from svg_extrude.util import each_with_remaining, FactoryDict, conditional
 
 # Identifiers are generated from SVG element IDs.
 #   * First, the ID is sanitized. Invalid characters are replaced with an
@@ -94,7 +94,7 @@ class OutputWriter:
         self.scad_writer.blank_line()
         self.scad_writer.comment("Clipped shapes")
 
-        for shape, remaining in with_remaining(shapes):
+        for shape, remaining in each_with_remaining(shapes):
             names = self._shape_names[shape]
             with self.scad_writer.define_module(names.clipped_shape):
                 with self.scad_writer.difference():

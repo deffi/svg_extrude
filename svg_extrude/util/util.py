@@ -16,8 +16,7 @@ def filter_repetition(items: Sequence) -> Generator:
                 yield i
 
 
-# TODO rename to each_with_remaining
-def with_remaining(items: Sequence):
+def each_with_remaining(items: Sequence):
     """For each items, yields a tuple with (a) that item, and (b) a slice of the
     original sequence containing all items after that item."""
     for index in range(len(items)):
