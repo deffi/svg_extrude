@@ -10,7 +10,7 @@ from svg_extrude.model import Scene, ColorSet
 from svg_extrude import OutputWriter
 from svg_extrude.scad import Renderer as ScadRenderer
 from svg_extrude import css
-from svg_extrude.util.text import count
+from svg_extrude.util.text import pluralize
 
 
 def write_scad_file(base_name, scene: Scene, height, overlay_height, flip):
@@ -49,7 +49,7 @@ def show_info(scene: Scene):
         table.append({
             "prefix": "   ",
             "name": f"{name}:",
-            "shape_count": f"{count(shape_count, 'shape', 'shapes')},",
+            "shape_count": f"{pluralize(shape_count, 'shape', 'shapes')},",
             "max_delta_e": f"max ΔE =",
             "max_delta_e_value": f"{max_delta_e:.2f}"
         })
