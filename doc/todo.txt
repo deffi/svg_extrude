@@ -1,9 +1,4 @@
-Better handling of cjlano_svg:
-  * Rename 3rdparty to lib
-  * Import explicitly
-  * Remove path hack in svg_extrude.py
-  * (Remove source dir in IDE)
-  * Run pytest from command line
+Run pytest from command line
 
 Filter "No handler for element" messages
 

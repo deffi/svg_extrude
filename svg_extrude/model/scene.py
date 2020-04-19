@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from svg_extrude.model import Shape, Group, ColorSet
 
-import cjlano_svg as svg
+from libs import cjlano_svg as svg
 
 logger = logging.getLogger(__name__)
 

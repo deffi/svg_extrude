@@ -2,7 +2,7 @@ import logging
 from dataclasses import dataclass
 from typing import Tuple, Optional
 
-import cjlano_svg
+from libs import cjlano_svg
 
 from svg_extrude.model import Polygon, Point, Color
 from svg_extrude.util import filter_repetition
