@@ -4,10 +4,6 @@ import re
 import sys
 from os import path
 
-path_3rdparty = path.join(path.dirname(__file__), "3rdparty")
-if path_3rdparty not in sys.path:
-    sys.path.append(path_3rdparty)
-
 import rapidtables as rt
 
 from svg_extrude.model import Scene, ColorSet
