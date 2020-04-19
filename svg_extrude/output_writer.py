@@ -4,7 +4,9 @@ import re
 
 from svg_extrude.model import Shape, Group
 from svg_extrude.scad import Writer as ScadWriter, Identifier
-from svg_extrude.util import each_with_remaining, FactoryDict, conditional_context
+from svg_extrude.util import FactoryDict
+from svg_extrude.util.iter import each_with_remaining
+from svg_extrude.util.context import conditional_context
 
 # Identifiers are generated from SVG element IDs.
 #   * First, the ID is sanitized. Invalid characters are replaced with an

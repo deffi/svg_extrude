@@ -1,6 +1,7 @@
 import unittest
 
-from svg_extrude.util import filter_repetition, each_with_remaining, group_by
+from svg_extrude.util import group_by
+from svg_extrude.util.iter import filter_repetition, each_with_remaining
 
 
 class TestUtil(unittest.TestCase):

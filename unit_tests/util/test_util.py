@@ -1,29 +1,9 @@
-from contextlib import contextmanager
 import unittest
 
-from svg_extrude.util import filter_repetition, each_with_remaining, group_by, arg_min, identity, conditional_context
+from svg_extrude.util import group_by, arg_min, identity
 
 
 class UtilTest(unittest.TestCase):
-    def test_filter_repetition(self):
-        # Empty
-        self.assertEqual([], list(filter_repetition([])))
-
-        # List
-        self.assertEqual([1, 2, 3, 4, 3, 4, 5],
-                         list(filter_repetition([1, 2, 3, 3, 3, 3, 4, 3, 4, 4, 5])))
-
-    def test_with_remaining(self):
-        # Empty
-        self.assertEqual([], list(each_with_remaining([])))
-
-        # List
-        self.assertEqual([(11, [22, 44, 33]), (22, [44, 33]), (44, [33]), (33, [])],
-                         list(each_with_remaining([11, 22, 44, 33])))
-
-        # String
-        self.assertEqual([("f", "red"), ("r", "ed"), ("e", "d"), ("d", "")],
-                         list(each_with_remaining("fred")))
 
     def test_group_by(self):
         self.assertEqual(dict(), group_by([], len))
@@ -47,26 +27,6 @@ class UtilTest(unittest.TestCase):
         for x in [0, 1, "", "1", None, identity, UtilTest]:
             self.assertIs(x, identity(x))
 
-    def test_conditional_context(self):
-        @contextmanager
-        def wrapped(x):
-            yield [x]
-
-        a = 1
-        with wrapped(a) as b:
-            self.assertEqual([1], b)
-
-            with wrapped(b) as c:
-                self.assertEqual([1], b)
-                self.assertEqual([[1]], c)
-
-            with conditional_context(True, wrapped(b), "something") as c:
-                self.assertEqual([1], b)
-                self.assertEqual([[1]], c)
-
-            with conditional_context(False, wrapped(b), "something") as c:
-                self.assertEqual([1], b)
-                self.assertEqual("something", c)
 
 
 if __name__ == '__main__':
