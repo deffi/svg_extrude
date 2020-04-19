@@ -4,7 +4,7 @@ import re
 
 from svg_extrude.model import Shape, Group
 from svg_extrude.scad import Writer as ScadWriter, Identifier
-from svg_extrude.util import each_with_remaining, FactoryDict, conditional
+from svg_extrude.util import each_with_remaining, FactoryDict, conditional_context
 
 # Identifiers are generated from SVG element IDs.
 #   * First, the ID is sanitized. Invalid characters are replaced with an
@@ -67,7 +67,7 @@ class OutputWriter:
 
     @contextmanager
     def at_height(self, offset: float):
-        with conditional(offset != 0, self.scad_writer.translate([0, 0, offset]), None):
+        with conditional_context(offset != 0, self.scad_writer.translate([0, 0, offset]), None):
             yield
 
     def write_points_and_paths(self, shapes: Iterable[Shape]):
@@ -153,6 +153,6 @@ class OutputWriter:
         self.write_groups(groups)
 
         # Write the instantiations
-        with conditional(flip is not None, self.flip(flip), None):
+        with conditional_context(flip is not None, self.flip(flip), None):
             self.instantiate_groups(groups, height=thickness, offset=0)
             self.instantiate_overlay(shapes, height=overlay_thickness, offset=thickness)

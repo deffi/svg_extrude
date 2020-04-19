@@ -52,8 +52,7 @@ def identity(x):
     return x
 
 
-# TODO rename to conditional_context
-def conditional(condition, context_manager, alternative_enter_result):
+def conditional_context(condition, context_manager, alternative_enter_result):
     if condition:
         return context_manager
     else:
