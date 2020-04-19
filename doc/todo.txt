@@ -1,3 +1,14 @@
+Better handling of cjlano_svg:
+  * Rename 3rdparty to lib
+  * Import explicitly
+  * Remove path hack in svg_extrude.py
+  * (Remove source dir in IDE)
+  * Run pytest from command line
+
+Filter "No handler for element" messages
+
+Try github action
+
 Show info:
   * Shapes with number of points?
   * Color groups with number of shapes and total number of points?
@@ -73,8 +84,6 @@ Future work:
         OpenSCAD file. Also the original SVG element ID.
       * Layer for ignored elements (for comments)? Layer classes?
   * Implementation:
-      * Better handling of 3rdparty/cjlano_svg? Import explicitly (requires
-        renaming 3rdparty)? Move up? Use package that is in PyPI?
       * Reading from SVG should not be a method of the model classes
       * Scene.from_svg combines shape creation and scene creation
   * Output:

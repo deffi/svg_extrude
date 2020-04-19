@@ -12,6 +12,7 @@ from svg_extrude.model import Scene, ColorSet
 from svg_extrude import OutputWriter
 from svg_extrude.scad import Renderer as ScadRenderer
 from svg_extrude import css
+from svg_extrude.util.text import count
 
 
 def write_scad_file(base_name, scene: Scene, height, overlay_height, flip):
@@ -42,6 +43,16 @@ def render_file(base_name, output_format, scene, height, overlay_height, flip):
                                           overlay_thickness=overlay_height,
                                           flip=flip)
 
+
+def show_info(scene: Scene):
+    print("Groups:")
+    for group in scene.groups:
+        name = group.color.display_name()
+        shape_count = len(group.shapes)
+        max_delta_e = max(shape.color.delta_e(group.color) for shape in group.shapes)
+        print(f"    {name}: {count(shape_count, 'shape', 'shapes')}, max ΔE {max_delta_e:.2f}")
+
+
 def svg_extrude(args):
     for svg_file in args.svg_files:
         # Determine the base file name for the output
@@ -61,6 +72,7 @@ def svg_extrude(args):
 
         # Read the scene from the SVG file
         scene: Scene = Scene.from_svg(svg_file, precision=args.precision, available_colors=colors)
+        show_info(scene)
 
         # Write the output files
         if args.scad:    write_scad_file(base_name, scene, args.height, args.overlay, flip)
