@@ -8,6 +8,8 @@ path_3rdparty = path.join(path.dirname(__file__), "3rdparty")
 if path_3rdparty not in sys.path:
     sys.path.append(path_3rdparty)
 
+import rapidtables as rt
+
 from svg_extrude.model import Scene, ColorSet
 from svg_extrude import OutputWriter
 from svg_extrude.scad import Renderer as ScadRenderer
@@ -45,12 +47,21 @@ def render_file(base_name, output_format, scene, height, overlay_height, flip):
 
 
 def show_info(scene: Scene):
-    print("Groups:")
+    table = []
     for group in scene.groups:
         name = group.color.display_name()
         shape_count = len(group.shapes)
         max_delta_e = max(shape.color.delta_e(group.color) for shape in group.shapes)
-        print(f"    {name}: {count(shape_count, 'shape', 'shapes')}, max ΔE {max_delta_e:.2f}")
+        table.append({
+            "prefix": "   ",
+            "name": f"{name}:",
+            "shape_count": f"{count(shape_count, 'shape', 'shapes')},",
+            "max_delta_e": f"max ΔE =",
+            "max_delta_e_value": f"{max_delta_e:.2f}"
+        })
+
+    print("Groups:")
+    print(rt.format_table(table, generate_header=False, separator=" "))
 
 
 def svg_extrude(args):

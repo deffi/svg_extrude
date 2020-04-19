@@ -12,7 +12,8 @@ Quick start
 
 Prerequisites:
   * Python >= 3.7
-  * tinycss2
+      * tinycss2
+      * rapidtables
   * OpenSCAD (in the search path) 
 
 Usage: `svg_extrude --3mf foo.svg`\
