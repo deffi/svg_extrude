@@ -32,8 +32,6 @@ def render_file(base_name, output_format, scene, height, overlay_height, flip):
                                           flip=flip)
 
     if overlay_height:
-        # TODO code duplication
-        # TODO possible collision with color "overlay"
         file_name = f"{base_name}_overlay.{output_format}"
         print(f"Rendering to {file_name}")
         with ScadRenderer().render_file(file_name) as scad_file:

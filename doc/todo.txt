@@ -82,6 +82,8 @@ Future work:
         defined
       * If the overlay has the same color as one of the groups, render it to a
         single model: PrusaSlicer may not print that color last
+      * Overlay generation is ugly
+      * Overlay: possible collision with a color named "overlay"
   * Misc:
       * When rounding to colors, not that some colors may duplicates (grey vs.
         gray). Always use the same one.

@@ -43,8 +43,6 @@ def sanitize_identifier(identifier: str):
     return re.sub(r'[^a-zA-Z0-9]', replace, identifier)
 
 
-# TODO these should be wrappers around the respective object; that would
-# simplify the code
 class ShapeNames:
     def __init__(self, shape: Shape):
         name = sanitize_identifier(shape.name)
