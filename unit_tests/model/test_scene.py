@@ -1,9 +1,8 @@
-from contextlib import contextmanager
+from contextlib import redirect_stdout
 import unittest
 from typing import Dict
 from os import path
 import io
-import sys
 
 from svg_extrude.model import Scene, Color, ColorSet, Shape, Group, Point
 
@@ -15,12 +14,8 @@ red = Color(1.0, 0.0, 0.0)
 yel = Color(1.0, 1.0, 0.0)
 
 
-@contextmanager
 def no_stdout():
-    original_stdout = sys.stdout
-    sys.stdout = io.StringIO()
-    yield
-    sys.stdout = original_stdout
+    return redirect_stdout(io.StringIO())
 
 
 class SceneTest(unittest.TestCase):
