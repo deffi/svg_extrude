@@ -87,6 +87,28 @@ class ColorSetTest(unittest.TestCase):
         self.assertEqual(yellow, available.closest(Color(1.0, 0.9, 0.0)))
         self.assertEqual(yellow, available.closest(Color(1.0, 1.0, 0.0, "sun")))
 
+    def test_duplicate_name(self):
+        # If colors is constructed with a set, the result of this test might not
+        # be deterministic.
+
+        red1 = Color(1.0, 0, 0, "red")
+        red2 = Color(0.5, 0, 0, "red")
+
+        colors = ColorSet([red1, red2])
+        self.assertEqual(red1, colors.by_name["red"])
+
+    # Iteration order is not guaranteed
+    # def test_initialize(self):
+    #     # If colors is constructed with a set, the result of this test might not
+    #     # be deterministic.
+    #
+    #     grey = Color(0.5, 0.5, 0.5, "grey")
+    #     gray = Color(0.5, 0.5, 0.5, "gray")
+    #
+    #     colors = ColorSet([grey, gray])
+    #     self.assertEqual(grey, colors.closest(grey))
+
+
 
 if __name__ == '__main__':
     unittest.main()
