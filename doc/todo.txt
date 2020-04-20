@@ -80,6 +80,3 @@ Future work:
   * Show more info:
       * Shapes with number of points?
       * Color groups with number of shapes and total number of points?
-  * Misc:
-      * When rounding to colors, not that some colors may duplicates (grey vs.
-        gray). Always use the same one.
