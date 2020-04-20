@@ -1,13 +1,14 @@
-# From http://code.activestate.com/recipes/576694/. MIT license.
+# Adapted from http://code.activestate.com/recipes/576694/. MIT license.
 
-import collections
+import collections.abc
 
-class OrderedSet(collections.MutableSet):
+
+class OrderedSet(collections.abc.MutableSet):
 
     def __init__(self, iterable=None):
-        self.end = end = [] 
-        end += [None, end, end]         # sentinel node for doubly linked list
-        self.map = {}                   # key --> [key, prev, next]
+        self.end = end = []
+        end += [None, end, end]  # sentinel node for doubly linked list
+        self.map = {}  # key --> [key, prev, next]
         if iterable is not None:
             self |= iterable
 
@@ -24,7 +25,7 @@ class OrderedSet(collections.MutableSet):
             curr[2] = end[1] = self.map[key] = [key, curr, end]
 
     def discard(self, key):
-        if key in self.map:        
+        if key in self.map:
             key, prev, next = self.map.pop(key)
             prev[2] = next
             next[1] = prev
@@ -50,6 +51,9 @@ class OrderedSet(collections.MutableSet):
         self.discard(key)
         return key
 
+    def difference(self, other):
+        return self - other
+
     def __repr__(self):
         if not self:
             return '%s()' % (self.__class__.__name__,)
@@ -60,7 +64,7 @@ class OrderedSet(collections.MutableSet):
             return len(self) == len(other) and list(self) == list(other)
         return set(self) == set(other)
 
-            
+
 if __name__ == '__main__':
     s = OrderedSet('abracadaba')
     t = OrderedSet('simsalabim')

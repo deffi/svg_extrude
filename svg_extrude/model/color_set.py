@@ -3,7 +3,7 @@ from collections import OrderedDict
 import re
 
 from svg_extrude.model import Color
-from svg_extrude.util import arg_min
+from svg_extrude.util import arg_min, OrderedSet
 
 
 def _parse_color(string: str, available: Dict[str, Color]):
@@ -23,14 +23,9 @@ def _parse_color(string: str, available: Dict[str, Color]):
         raise ValueError(f"Color specification not recognized: {spec!r}")
 
 
-class ColorSet(frozenset):
-    def __new__(cls, colors: Iterable = ()):
-        # PyCharm seems to misdiagnose this
-        # noinspection PyArgumentList
-        return frozenset.__new__(cls, colors)
-
+class ColorSet(OrderedSet):
     def __init__(self, colors: Iterable = ()):
-        super().__init__()
+        super().__init__(colors)
         # Reverse the colors so in case of duplicate names, the first definition
         # wins.
         self._by_name = OrderedDict((color.name, color)
