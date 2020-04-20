@@ -4,12 +4,12 @@ import collections.abc
 
 
 class OrderedSet(collections.abc.MutableSet):
-
     def __init__(self, iterable=None):
         self.end = end = []
         end += [None, end, end]  # sentinel node for doubly linked list
         self.map = {}  # key --> [key, prev, next]
         if iterable is not None:
+            # noinspection PyMethodFirstArgAssignment
             self |= iterable
 
     def __len__(self):
@@ -26,9 +26,9 @@ class OrderedSet(collections.abc.MutableSet):
 
     def discard(self, key):
         if key in self.map:
-            key, prev, next = self.map.pop(key)
-            prev[2] = next
-            next[1] = prev
+            key, prev, next_ = self.map.pop(key)
+            prev[2] = next_
+            next_[1] = prev
 
     def __iter__(self):
         end = self.end
@@ -66,7 +66,9 @@ class OrderedSet(collections.abc.MutableSet):
 
 
 if __name__ == '__main__':
+    # noinspection SpellCheckingInspection
     s = OrderedSet('abracadaba')
+    # noinspection SpellCheckingInspection
     t = OrderedSet('simsalabim')
     print(s | t)
     print(s & t)
