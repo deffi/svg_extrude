@@ -1,4 +1,5 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, Iterable
+from collections import OrderedDict
 import re
 
 from svg_extrude.model import Color
@@ -23,22 +24,21 @@ def _parse_color(string: str, available: Dict[str, Color]):
 
 
 class ColorSet(frozenset):
-    def __new__(cls, seq=()):
+    def __new__(cls, colors: Iterable = ()):
         # PyCharm seems to misdiagnose this
         # noinspection PyArgumentList
-        return frozenset.__new__(cls, seq)
+        return frozenset.__new__(cls, colors)
 
-    def __init__(self, _=()):
+    def __init__(self, colors: Iterable = ()):
         super().__init__()
-        self._by_name = None
+        # Reverse the colors so in case of duplicate names, the first definition
+        # wins.
+        self._by_name = OrderedDict((color.name, color)
+                                    for color in reversed(list(colors))
+                                    if color.name is not None)
 
     @property
     def by_name(self):
-        if self._by_name is None:
-            self._by_name = {color.name: color
-                             for color in self
-                             if color.name is not None}
-
         return self._by_name
 
     @classmethod
