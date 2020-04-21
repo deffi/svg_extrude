@@ -1,4 +1,9 @@
-Try github action
+CI:
+  * Use different Python versions and OSes
+  * Coverage?
+
+More badges?
+
 
 Checks:
   * Code TODOs
