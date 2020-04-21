@@ -1,4 +1,5 @@
 ![Unit tests](https://github.com/deffi/svg_extrude/workflows/Unit%20tests/badge.svg)
+![License](https://img.shields.io/github/license/deffi/svg_extrude?color=green)
 
 svg_extrude
 ===========
