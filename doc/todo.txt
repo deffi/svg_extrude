@@ -64,6 +64,7 @@ Future work:
       * Read SVG <desc> and/or <title> and write them as comments to the
         OpenSCAD file. Also the original SVG element ID.
       * Layer for ignored elements (for comments)? Layer classes?
+      * Use svgpathtools?
   * Implementation:
       * Reading from SVG should not be a method of the model classes
       * Scene.from_svg combines shape creation and scene creation
