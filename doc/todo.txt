@@ -1,6 +1,7 @@
 CI:
   * Use different Python versions and OSes
-  * Coverage?
+  * Travis-CI?
+  * Coverage? Coverall?
 
 More badges?
 
