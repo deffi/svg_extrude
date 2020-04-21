@@ -1,3 +1,5 @@
+![Unit tests](https://github.com/deffi/svg_extrude/workflows/Unit%20tests/badge.svg)
+
 svg_extrude
 ===========
 
