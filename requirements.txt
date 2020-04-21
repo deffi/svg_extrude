@@ -1,2 +1,2 @@
-rapidtables==0.1.11
-tinycss2==1.0.2
+rapidtables
+tinycss2
