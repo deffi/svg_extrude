@@ -1,6 +1,6 @@
 import argparse
 import re
-from typing import Optional, List
+from typing import Optional
 
 import rapidtables as rt
 
