@@ -28,6 +28,5 @@ class UtilTest(unittest.TestCase):
             self.assertIs(x, identity(x))
 
 
-
 if __name__ == '__main__':
     unittest.main()

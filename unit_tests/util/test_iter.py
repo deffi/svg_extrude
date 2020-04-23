@@ -2,6 +2,7 @@ import unittest
 
 from svg_extrude.util.iter import filter_repetition, each_with_remaining
 
+
 class IterText(unittest.TestCase):
     def test_filter_repetition(self):
         # Empty

@@ -35,9 +35,12 @@ class SceneTest(unittest.TestCase):
         self.assertEqual(c2, shapes["two"].color)
         self.assertEqual(c3, shapes["tre"].color)
         # Each shape: correct points
-        self.assertEqual((Point(0.00, 0.01), Point(0.01, 0.01), Point(0.01, 0.00), Point(0.00, 0.00), Point(0.00, 0.01)), shapes["one"].polygon.paths[0])
-        self.assertEqual((Point(0.01, 0.01), Point(0.02, 0.01), Point(0.02, 0.00), Point(0.01, 0.00), Point(0.01, 0.01)), shapes["two"].polygon.paths[0])
-        self.assertEqual((Point(0.02, 0.00), Point(0.02, 0.01), Point(0.03, 0.01), Point(0.03, 0.00), Point(0.02, 0.00)), shapes["tre"].polygon.paths[0])
+        self.assertEqual((Point(0.00, 0.01), Point(0.01, 0.01), Point(0.01, 0.00), Point(0.00, 0.00), Point(0.00, 0.01)),
+                         shapes["one"].polygon.paths[0])
+        self.assertEqual((Point(0.01, 0.01), Point(0.02, 0.01), Point(0.02, 0.00), Point(0.01, 0.00), Point(0.01, 0.01)),
+                         shapes["two"].polygon.paths[0])
+        self.assertEqual((Point(0.02, 0.00), Point(0.02, 0.01), Point(0.03, 0.01), Point(0.03, 0.00), Point(0.02, 0.00)),
+                         shapes["tre"].polygon.paths[0])
 
         # Correct number of groups
         self.assertEqual(3, len(groups))

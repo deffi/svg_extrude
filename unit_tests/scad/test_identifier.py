@@ -2,6 +2,7 @@ import unittest
 
 from svg_extrude.scad import Identifier
 
+
 class IdentifierTest(unittest.TestCase):
 
     def test_is_valid(self):
