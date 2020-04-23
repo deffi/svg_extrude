@@ -1,11 +1,3 @@
-CI:
-  * Use different Python versions and OSes
-  * Travis-CI?
-  * Coverage? Coverall?
-
-More badges?
-
-
 Checks:
   * Code TODOs
   * Inspections
