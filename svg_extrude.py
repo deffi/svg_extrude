@@ -72,10 +72,7 @@ def svg_extrude(args):
         # Determine the base file name for the output
         base_name = re.sub('.svg$', '', svg_file)
 
-        if args.flip:
-            flip = args.height + args.overlay
-        else:
-            flip = None
+        flip = args.height + (args.overlay or 0) if args.flip else None
 
         # Read the scene from the SVG file
         scene: Scene = Scene.from_svg(svg_file, precision=args.precision, available_colors=args.colors)
