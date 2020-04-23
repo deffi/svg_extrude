@@ -1,9 +1,9 @@
-from typing import Iterator
-from contextlib import contextmanager
-from tempfile import mkstemp
 import os
 import subprocess
+from contextlib import contextmanager
 from io import IOBase
+from tempfile import mkstemp
+from typing import Iterator
 
 
 class Renderer:

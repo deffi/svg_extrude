@@ -1,7 +1,7 @@
 from collections import namedtuple
 from dataclasses import dataclass
-from typing import Tuple, Optional
 from math import sqrt
+from typing import Tuple, Optional
 
 Rgb = namedtuple("Rgb", ["r", "g", "b"])
 Xyz = namedtuple("Xyz", ["x", "y", "z"])

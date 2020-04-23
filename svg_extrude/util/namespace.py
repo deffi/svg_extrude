@@ -1,4 +1,5 @@
 from itertools import count
+
 from svg_extrude.util import FactoryDict
 
 

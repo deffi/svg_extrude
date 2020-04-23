@@ -1,5 +1,5 @@
-from typing import Iterable
 from collections import defaultdict
+from typing import Iterable
 
 
 def group_by(items: Iterable, key_function) -> dict:

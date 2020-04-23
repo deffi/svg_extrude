@@ -1,6 +1,6 @@
-from typing import Dict, Optional, Iterable
-from collections import OrderedDict
 import re
+from collections import OrderedDict
+from typing import Dict, Optional, Iterable
 
 from svg_extrude.model import Color
 from svg_extrude.util import arg_min, OrderedSet

@@ -1,10 +1,10 @@
 import logging
-from typing import Tuple, Optional
 from dataclasses import dataclass
-
-from svg_extrude.model import Shape, Group, ColorSet
+from typing import Tuple, Optional
 
 from libs import cjlano_svg as svg
+
+from svg_extrude.model import Shape, Group, ColorSet
 
 logger = logging.getLogger(__name__)
 

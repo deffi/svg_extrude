@@ -1,5 +1,5 @@
-from typing import Iterable, Iterator, TextIO
 from contextlib import contextmanager
+from typing import Iterable, Iterator, TextIO
 
 from svg_extrude.model import Color
 from svg_extrude.scad.util import Identifier

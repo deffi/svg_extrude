@@ -4,9 +4,9 @@ from typing import Tuple, Optional
 
 from libs import cjlano_svg
 
+from svg_extrude.css import extract_value
 from svg_extrude.model import Polygon, Point, Color
 from svg_extrude.util.iter import filter_repetition
-from svg_extrude.css import extract_value
 
 logger = logging.getLogger(__name__)
 
