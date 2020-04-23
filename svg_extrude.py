@@ -1,8 +1,6 @@
-from typing import Optional
 import argparse
 import re
-import sys
-from os import path
+from typing import Optional, List
 
 import rapidtables as rt
 
@@ -58,6 +56,17 @@ def show_info(scene: Scene):
     print(rt.format_table(table, generate_header=False, separator=" "))
 
 
+def create_colors(value: str) -> Optional[ColorSet]:
+    if value == "all":
+        return None
+    elif value == "basic":
+        return css.default_colors
+    elif value == "default":
+        return css.colors
+    else:
+        return ColorSet.parse(value, available=css.colors)
+
+
 def svg_extrude(args):
     for svg_file in args.svg_files:
         # Determine the base file name for the output
@@ -68,15 +77,8 @@ def svg_extrude(args):
         else:
             flip = None
 
-        # Create the colors
-        colors: Optional[ColorSet]
-        if   args.colors == "all":     colors = None
-        elif args.colors == "basic":   colors = css.default_colors
-        elif args.colors == "default": colors = css.colors
-        else: colors = ColorSet.parse(args.colors, available=css.colors)
-
         # Read the scene from the SVG file
-        scene: Scene = Scene.from_svg(svg_file, precision=args.precision, available_colors=colors)
+        scene: Scene = Scene.from_svg(svg_file, precision=args.precision, available_colors=args.colors)
         show_info(scene)
 
         # Write the output files
@@ -99,7 +101,7 @@ parser.add_argument("--height", type=float, default=0.2,
                     help="Extrusion height (thickness) in mm")
 parser.add_argument("--precision", type=float, default=1,
                     help="Precision for approximating curves; smaller is more precise.")
-parser.add_argument("--colors", default="default",
+parser.add_argument("--colors", default="default", type=create_colors,
                     help="'default', 'all', 'basic', or comma-separated list of colors. " 
                          "Colors can be specified by value (e. g. #4682b4) or CSS name (e. g. steelblue). "
                          "Optionally, a name can be specified (e. g. my_blue:#4682b4 or my_blue:steelblue).")
