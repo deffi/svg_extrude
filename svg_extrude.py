@@ -107,4 +107,6 @@ parser.add_argument("--overlay", type=float, default=None,
 parser.add_argument("--flip", action="store_true",
                     help="Flip around the x axis (experimental!)")
 parser.add_argument("svg_files", nargs='+', help="SVG file name")
-svg_extrude(parser.parse_args())
+
+if __name__ == "__main__":
+    svg_extrude(parser.parse_args())

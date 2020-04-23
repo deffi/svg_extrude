@@ -4,10 +4,6 @@ Checks:
   * Run all unit tests
 
 Future work:
-  * Clean up svg_extrude.py
-      * Factor out args interpretation
-      * Only execute when __main__
-      * Make args interpretation testable
   * Output file generation - 3MF:
       * Single 3MF file with multiple objects
       * Include 3MF thumbnail
