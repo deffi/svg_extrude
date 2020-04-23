@@ -30,6 +30,12 @@ class FactoryDictTest(unittest.TestCase):
         # And we can get it
         self.assertEqual(9, fd.get(3, "nope"))
 
+    def test_no_factory(self):
+        fd = FactoryDict()
+
+        with self.assertRaises(KeyError):
+            fd[0]
+
 
 if __name__ == '__main__':
     unittest.main()

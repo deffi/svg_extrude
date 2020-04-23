@@ -77,6 +77,12 @@ class ColorTest(unittest.TestCase):
         self.assertEqual(Color(171/255, 250/255,  17/255), Color.from_html("ABFA11"))
         self.assertEqual(Color(      1,       1,       1), Color.from_html("FFFFFF"))
 
+        self.assertEqual(Color.from_html("ABFA11"), Color.from_html("#ABFA11"))
+
+        for value in "", "FF", "ABC", "#ABC", "#ABCDE", "ABCDEFA":
+            with self.assertRaises(ValueError):
+                Color.from_html(value)
+
     def test_html(self):
         self.assertEqual("000000", Color(0    , 0    ,   0.000/255).html())
         self.assertEqual("000000", Color(0    , 0    ,   0.499/255).html())
