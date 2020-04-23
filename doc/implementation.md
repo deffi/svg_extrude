@@ -1,6 +1,8 @@
 Implementation notes
 ====================
 
+Python requirements: 3.7 for dataclasses
+
 Directory structure
 -------------------
 
