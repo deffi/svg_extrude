@@ -13,7 +13,8 @@ Future work:
   * Output file generation - others:
       * Generate JSON. This allows further processing by other tools without
         parsing the SCAD file.
-      * Output the individual SCAD files
+      * Remove .amf, we might want to operate without OpenSCAD some day. So we
+        may want to restrict the output formats.
       * SVG with replaced colors
   * CLI:
       * Show list of groups, each with number of shapes and maximum ΔE (JND ≈
