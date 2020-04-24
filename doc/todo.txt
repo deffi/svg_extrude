@@ -32,9 +32,6 @@ Future work:
       * Output file (STL, 3MF, potentially others) generation
   * OpenSCAD:
       * In OpenSCAD file, define colors like `red = "#ff0000";`
-      * Use OpenSCAD "-D foo=bar" to select groups instead of writing multiple
-        SCAD files. This allows rendering from the same file as written
-        with --scad.
       * Consider using OpenSCAD primitives: cube, circle, text
   * Geometry:
       * Allow specifying the orgin, e. g. "bottom left" so it looks like in

@@ -21,11 +21,17 @@ def write_scad_file(base_name, scene: Scene, height, overlay_height, flip):
 
 
 def render_file(base_name, output_format, scene, height, overlay_height, flip):
+    # TODO only write a single SCAD file
+    # TODO if an SCAD file is selected for output, re-use that (do use a
+    # temporary file if no SCAD file is selected - we don't want to overwrite
+    # anything in this case).
     for group in scene.groups:
         file_name = f"{base_name}_{group.color.display_name()}.{output_format}"
         print(f"Rendering to {file_name}")
-        with ScadRenderer().render_file(file_name) as scad_file:
-            OutputWriter(scad_file).write(scene.shapes, [group], thickness=height,
+        # TOOD use identifier
+        defines = {"selection": f'"{group.color.display_name()}"'}
+        with ScadRenderer().render_file(file_name, defines=defines) as scad_file:
+            OutputWriter(scad_file).write(scene.shapes, scene.groups, thickness=height,
                                           overlay_thickness=None,
                                           flip=flip)
 

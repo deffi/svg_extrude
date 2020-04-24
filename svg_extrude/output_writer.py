@@ -131,6 +131,7 @@ class OutputWriter:
         self.scad_writer.blank_line()
         self.scad_writer.comment("Instantiate solids")
 
+        # TODO make configurable
         variable = Identifier("selection")
         self.scad_writer.assignment(variable, RawCode('""'))
 
