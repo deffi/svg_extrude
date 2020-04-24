@@ -3,7 +3,8 @@ from contextlib import contextmanager
 from typing import Iterable, Sequence, TextIO, Dict, Optional
 
 from svg_extrude.model import Shape, Group
-from svg_extrude.scad import Writer as ScadWriter, Identifier
+from svg_extrude.scad import Writer as ScadWriter, Identifier, RawCode
+from svg_extrude.scad.util import render as render_scad
 from svg_extrude.util import FactoryDict
 from svg_extrude.util.context import conditional_context
 from svg_extrude.util.iter import each_with_remaining
@@ -57,6 +58,7 @@ class ShapeNames:
 class GroupNames:
     def __init__(self, group: Group):
         name = sanitize_identifier(group.color.display_name())
+        self.name = name
         self.group = Identifier(f"group_{name}")
         self.solid = Identifier(f"solid_{name}")
 
@@ -129,9 +131,14 @@ class OutputWriter:
         self.scad_writer.blank_line()
         self.scad_writer.comment("Instantiate solids")
 
+        variable = Identifier("selection")
+        self.scad_writer.assignment(variable, RawCode('""'))
+
         for index, group in enumerate(groups):
-            with self.at_height(offset):
-                self.scad_writer.instance(self._group_names[group].solid)
+            condition = RawCode(f"{render_scad(variable)} == \"\" || {render_scad(variable)} == \"{self._group_names[group].name}\"")
+            with self.scad_writer.if_block(condition):
+                with self.at_height(offset):
+                    self.scad_writer.instance(self._group_names[group].solid)
 
     def instantiate_overlay(self, shapes: Iterable[Shape], *, height: float, offset: float):
         if height:

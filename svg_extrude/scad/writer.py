@@ -2,7 +2,7 @@ from contextlib import contextmanager
 from typing import Iterable, Iterator, TextIO
 
 from svg_extrude.model import Color
-from svg_extrude.scad.util import Identifier
+from svg_extrude.scad.util import Identifier, RawCode
 from svg_extrude.scad.util import render
 
 
@@ -82,6 +82,11 @@ class Writer:
     @contextmanager
     def intersection(self) -> Iterator[None]:
         with self.block("intersection ()"):
+            yield
+
+    @contextmanager
+    def if_block(self, condition: RawCode):
+        with self.block(f"if ({render(condition)})"):
             yield
 
     def polygon(self, points: Identifier, index_paths: Iterable[Identifier], *, short: bool) -> None:

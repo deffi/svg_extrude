@@ -1,7 +1,7 @@
 from numbers import Number
 
 from svg_extrude.model import Point, Color
-from svg_extrude.scad import StringLiteral, Identifier
+from svg_extrude.scad import StringLiteral, Identifier, RawCode
 
 
 def render(value) -> str:
@@ -42,11 +42,14 @@ def render(value) -> str:
     elif isinstance(value, Identifier):
         return value.value
 
+    elif isinstance(value, RawCode):
+        return value.code
+
     elif isinstance(value, StringLiteral):
         raise NotImplementedError("String escaping not implemented")
 
     elif isinstance(value, str):
-        raise ValueError("Interpretation of str value is ambiguous. Use Identifier or StringLiteral class.")
+        raise ValueError("Interpretation of str value is ambiguous. Use Identifier, StringLiteral, or Raw class.")
 
     else:
         raise ValueError(f"Don't know how to render {value!r}")
