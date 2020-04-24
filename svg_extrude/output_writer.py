@@ -58,6 +58,7 @@ class GroupNames:
     def __init__(self, group: Group):
         name = sanitize_identifier(group.color.display_name())
         self.group = Identifier(f"group_{name}")
+        self.solid = Identifier(f"solid_{name}")
 
 
 class OutputWriter:
@@ -114,15 +115,23 @@ class OutputWriter:
                     shape_names = self._shape_names[shape]
                     self.scad_writer.instance(shape_names.clipped_shape)
 
-    def instantiate_groups(self, groups: Iterable[Group], *, height: float, offset: float):
+    def write_solids(self, groups: Iterable[Group], height: float):
         self.scad_writer.blank_line()
-        self.scad_writer.comment("Extrude groups")
+        self.scad_writer.comment("Solids")
 
         for index, group in enumerate(groups):
-            with self.at_height(offset):
+            with self.scad_writer.define_module(self._group_names[group].solid):
                 with self.scad_writer.color(group.color):
                     with self.scad_writer.extrude(height):
                         self.scad_writer.instance(self._group_names[group].group)
+
+    def instantiate_groups(self, groups: Iterable[Group], *, height: float, offset: float):
+        self.scad_writer.blank_line()
+        self.scad_writer.comment("Instantiate solids")
+
+        for index, group in enumerate(groups):
+            with self.at_height(offset):
+                self.scad_writer.instance(self._group_names[group].solid)
 
     def instantiate_overlay(self, shapes: Iterable[Shape], *, height: float, offset: float):
         if height:
@@ -152,6 +161,7 @@ class OutputWriter:
         self.write_shapes(shapes)
         self.write_clipped_shapes(shapes)
         self.write_groups(groups)
+        self.write_solids(groups, height=thickness)
 
         # Write the instantiations
         with conditional_context(flip is not None, self.flip(flip), None):
