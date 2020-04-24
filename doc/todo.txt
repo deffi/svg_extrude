@@ -41,7 +41,6 @@ Future work:
         Inkscape.
       * Do not subtract disjoint paths to reduce the number of difference CSG
         operations.
-      * We might be able to do outlines by minkowski-ing with a circle
       * Additional geometry stacked on top of everything (configurable height),
         with optional color selection (default: color of the back-most shape)
         Use union of all shapes? Separate shape? Separate layer?
@@ -75,3 +74,17 @@ Future work:
   * Show more info:
       * Shapes with number of points?
       * Color groups with number of shapes and total number of points?
+  * Outlines:
+      * Example:
+            difference() {
+                offset(delta=0.3) shape_x();
+                offset(delta=-0.3) shape_x();
+            }
+      * stroke-linejoin:
+          * round: r=width/2
+          * miter: delta=width/2
+          * bevel: delta=wdith/2, chamfer=true
+      * Layout:
+          * Below: offset out (stroke color)
+          * Above: offset in (fill color)
+          * Special case: no fill

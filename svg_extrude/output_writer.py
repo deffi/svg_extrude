@@ -125,7 +125,7 @@ class OutputWriter:
                     with self.scad_writer.extrude(height):
                         self.scad_writer.instance(self._group_names[group].group)
 
-    def instantiate_groups(self, groups: Iterable[Group], *, height: float, offset: float):
+    def instantiate_groups(self, groups: Iterable[Group], *, offset: float):
         self.scad_writer.blank_line()
         self.scad_writer.comment("Instantiate solids")
 
@@ -165,5 +165,5 @@ class OutputWriter:
 
         # Write the instantiations
         with conditional_context(flip is not None, self.flip(flip), None):
-            self.instantiate_groups(groups, height=thickness, offset=0)
+            self.instantiate_groups(groups, offset=0)
             self.instantiate_overlay(shapes, height=overlay_thickness, offset=thickness)
