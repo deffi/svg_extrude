@@ -26,10 +26,11 @@ Future work:
   * Error handling:
       * OpenSCAD not found
       * Fill style is not a simple color
-  * Operate without OpenSCAD
-      * CSG difference
+  * Operate without OpenSCAD. Need:
+      * CSG difference, union
       * Triangulation
       * Output file (STL, 3MF, potentially others) generation
+      * Stroking
   * OpenSCAD:
       * In OpenSCAD file, define colors like `red = "#ff0000";`
       * Consider using OpenSCAD primitives: cube, circle, text
@@ -38,22 +39,12 @@ Future work:
         Inkscape.
       * Do not subtract disjoint paths to reduce the number of difference CSG
         operations.
-      * Additional geometry stacked on top of everything (configurable height),
-        with optional color selection (default: color of the back-most shape)
-        Use union of all shapes? Separate shape? Separate layer?
-      * Two-sided images: one set of groups, and then an independent set of
-        groups on top of that (potentially with a solid layer inbetween)
-        That would definitely be layers in the image (note that layers are not
-        a feature of SVG; inkscape uses groups with inkscape:groupmode="layer"
-        and inkscape:label="name").
-        Also: --from above and --from below (origin at upper left or lower left)
 
   * SVG file:
       * Seems like paths without id are valid; use a Namespace and add
         force_disambiguation so we don't end up with path and path_...
       * Read SVG <desc> and/or <title> and write them as comments to the
         OpenSCAD file. Also the original SVG element ID.
-      * Layer for ignored elements (for comments)? Layer classes?
       * Use svgpathtools?
   * Implementation:
       * Reading from SVG should not be a method of the model classes
@@ -61,13 +52,6 @@ Future work:
   * Output:
       * Option: file and group names use numeric colors, even if a name is
         defined
-      * If the overlay has the same color as one of the groups, render it to a
-        single model: PrusaSlicer may not print that color last
-      * Overlay generation is ugly
-      * Overlay: possible collision with a color named "overlay"
-  * Overlays:
-      * Restrict to a specified shape or group
-      * Place in union with specified group
   * Show more info:
       * Shapes with number of points?
       * Color groups with number of shapes and total number of points?
@@ -85,3 +69,33 @@ Future work:
           * Below: offset out (stroke color)
           * Above: offset in (fill color)
           * Special case: no fill
+  * Layers:
+      * All shapes from a layer start at the same height and have the same thickness
+      * By default, layers are taken from inkscape layers
+      * --from above and --from below (default) selects layer order
+          * Could select default origin: upper left for below and lower left for
+            above. That way, it would always be in +x +y
+      * --overlay adds a layer behind (in the SVG: below)
+      * Open questions:
+          * How do we specify the layer height?
+          * How do we specify a layer that encomasses all geometry below? How do we
+            specify its color?
+          * Do we output separate models for each layer of merge same-color objects
+            for all layers?
+          * We probably want to use XML properties. How do we specify a version?
+          * For --overlay, what color do we use? Or do we skip the color and use
+            "overlay" as the name (beware name collisions!)
+          * What if we're not using inkscape? SVG has no layers, only groups. Layers
+            are not a feature of SVG; inkscape uses groups with inkscape:groupmode=
+            "layer" and inkscape:label="name").
+          * Can we "comment out" a layer?  for ignored elements (for comments)?
+              * Useful for: commentary; test prints
+              * --ignore-layer?
+              * By layer name? By attribute? By class?
+  * Old overlays (partly obsoleted by layers):
+      * Restrict to a specified shape or group
+      * Place in union with specified group
+      * If the overlay has the same color as one of the groups, render it to a
+        single model: PrusaSlicer may not print that color last
+      * Overlay generation is ugly
+      * Overlay: possible collision with a color named "overlay"
